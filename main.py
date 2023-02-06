@@ -794,7 +794,7 @@ async def pool(interaction: discord.Interaction):
     embed.description = \
         f'**X7 Finance Lending Pool:**\n\n' \
         f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
-        f'To contribute to the Lending Pool:' \
+        f'To contribute to the Lending Pool:\n' \
         '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
         '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
         '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
