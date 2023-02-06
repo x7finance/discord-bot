@@ -1112,7 +1112,7 @@ async def x7d(interaction: discord.Interaction):
         '**X7D Info**\n\n' \
         f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
         f'Holders: {x7dholders}\n\n' \
-        f'To receive X7D.\n\n' \
+        f'To receive X7D:\n\n' \
         '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
         '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
         '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
