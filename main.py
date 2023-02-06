@@ -794,8 +794,14 @@ async def pool(interaction: discord.Interaction):
     embed.description = \
         f'**X7 Finance Lending Pool:**\n\n' \
         f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
-        f'To contribute to the Lending Pool, transfer or interact with the Lending Pool Reserve contract ' \
-        f'NOT The X7D Contract\n\n' \
+        f'To contribute to the Lending Pool:' \
+        '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+        '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
+        '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+        '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+        'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
+        'Note:\n' \
+        'Do not interact directly with the X7D contract\n\n' \
         f'{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
@@ -1106,8 +1112,14 @@ async def x7d(interaction: discord.Interaction):
         '**X7D Info**\n\n' \
         f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
         f'Holders: {x7dholders}\n\n' \
-        f'**X7D Contract**\n`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-        f'To Mint X7D, transfer or interact with the Lending Pool Reserve contract NOT the X7D Contract\n\n' \
+        f'To receive X7D.\n\n' \
+        '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+        '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
+        '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+        '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+        'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
+        'Note:\n' \
+        'Do not interact directly with the X7D contract\n\n' \
         f'`{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
