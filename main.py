@@ -12,17 +12,18 @@ import random
 import variables
 
 
-class PersistantViewBot(commands.Bot):
+class PersitentViewBot(commands.Bot):
     def __init__(self):
+        self.role = 1016664143220179077
         intents = discord.Intents().all()
         super().__init__(command_prefix=commands.when_mentioned_or('/'), intents=intents)
-        self.role = 1016664143220179077
 
     async def setup_hook(self) -> None:
         self.add_view(Button())
 
 
-client = PersistantViewBot()
+client = PersitentViewBot()
+
 embed = discord.Embed(colour=7419530)
 embed.set_footer(text="Trust no one, Trust code. Long live Defi")
 thumb = discord.File('X7whitelogo.png')
