@@ -1264,7 +1264,7 @@ async def snapshot(interaction: discord.Interaction):
         f'share of tokens. We will set prices and payouts to ensure that there will be no incentive to exit an ' \
         f'Ethereum X7 Token position in order to gain an "early" L1 or L2 ecosystem X7 token position. On the ' \
         f'contrary, the more tokens held on Ethereum, the greater the reward will be when the tokens and ecosystem ' \
-        f'are released on other chains.{quote}'
+        f'are released on other chains.\n\nThese airdrop snapshots will occur just prior to the token launch\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
