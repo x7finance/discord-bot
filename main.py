@@ -205,7 +205,7 @@ async def nft(interaction: discord.Interaction):
         f'> LP Fee Discounts while trading on X7 DEX\n\n' \
         f'**Borrowing Maxi**\n{items.borrowprice}\n> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
         f'**Magister**\n50 ETH\n> 25% discount on x7100 tax\n' \
-        f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n*Pioneer*\n' \
+        f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n**Pioneer**\n' \
         f' > 6% of profits that come into the X7 Treasury Splitter are now being allocated to the reward ' \
         f'pool. Each X7 Pioneer NFT grants you a proportional share of this pool\n\n' \
         f'https://x7.finance/x/nft/mint\n\n{quote}'
@@ -1108,7 +1108,6 @@ async def x7d(interaction: discord.Interaction):
     damount = float(x7ddata["result"][0]["balance"])
     x7damount = str(damount / 10 ** 18)
     x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
-
     embed.description = \
         '**X7D Info**\n\n' \
         f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
@@ -1243,6 +1242,31 @@ async def giveaway(interaction: discord.Interaction):
             f'\n\n{quote}' \
             % (days[0], hours[0], minutes[0], seconds[0])
     await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Multichain rollout")
+async def snapshot(interaction: discord.Interaction):
+    quoteresponse = requests.get(items.quoteapi)
+    quotedata = quoteresponse.json()
+    quoteraw = (random.choice(quotedata))
+    quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+    embed.description = \
+        f'**X7 Finance NFT Information**\n\nThe rollout of the Ecosystem Contracts on BNB Smart Chain, Polygon ' \
+        f'(MATIC), Arbitrum, and Optimism has begun.\n\n' \
+        f'In order to deploy the X7 ecosystem more than 30 contracts need to be deployed from unique deployer ' \
+        f'addresses per chain. After being deployed many require careful initial configuration. We are moving through' \
+        f' a very long checklist and will be double checking these deployments very carefully. Each contract should ' \
+        f'have the exact same address on all 5 chains. We expect this may take 1-2 days to fully complete, but do ' \
+        f'enjoy watching the on chain progress.\n\nWe will go live with Xchange, borrowing, lending, revenue ' \
+        f'splitting, and profit splitting on other chains as soon as we can in concert with the full release on ' \
+        f'Ethereum.\n\nThe tokens however will not go live until we have built up a sufficient amount of initial ' \
+        f'liquidity for the tokens on any particular chain.\n\nWhen the tokens do go live all X7 token holders on ' \
+        f'Ethereum will be airdropped vested tokens and/or be given an opportunity to take a cash payout for their ' \
+        f'share of tokens. We will set prices and payouts to ensure that there will be no incentive to exit an ' \
+        f'Ethereum X7 Token position in order to gain an "early" L1 or L2 ecosystem X7 token position. On the ' \
+        f'contrary, the more tokens held on Ethereum, the greater the reward will be when the tokens and ecosystem ' \
+        f'are released on other chains.{quote}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
 
 
 # MOD COMMANDS
