@@ -198,7 +198,7 @@ async def nft(interaction: discord.Interaction):
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     embed.description = \
-        f'**X7 Finance NFT Information**\n\n**Ecosystem Maxi**\n{items.ecoprice}\n> 25% discount on x7100 tax\n' \
+        f'**X7 Finance NFT Information (ETH)**\n\n**Ecosystem Maxi**\n{items.ecoprice}\n> 25% discount on x7100 tax\n' \
         f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n**Liquidity Maxi**\n{items.liqprice}\n' \
         f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
         f'> 15 % discount on X7DAO tax\n\n**Dex Maxi**\n{items.dexprice}\n' \
@@ -252,7 +252,7 @@ async def treasury(interaction: discord.Interaction):
     comx7dprice = comx7d * ethvalue
     comtotal = comx7rprice + comdollar + comx7ddollar
     embed.description = \
-        f'**X7 Finance Treasury Info**\n\n' \
+        f'**X7 Finance Treasury Info (ETH)**\n\n' \
         f'Pioneer Pool:\n{pioneeramount[:4]}ETH (${"{:0,.0f}".format(pioneerdollar)})\n\n' \
         f'[Developer Wallet:]({items.etheraddress}{items.devmulti})\n' \
         f'{devamount[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
@@ -289,14 +289,14 @@ async def x7dao(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7daoholders = x7daoholdersdata["holdersCount"]
     if amountraw == "500000":
         amount = round(float(amountraw) * float(daoprice), 2)
-        embed.description = f'{amountraw} X7DAO Currently Costs:\n\n${amount}\n\nHolding {amountraw} X7DAO Tokens ' \
+        embed.description = f'{amountraw} X7DAO (ETH) Currently Costs:\n\n${amount}\n\nHolding {amountraw} X7DAO Tokens ' \
                             f'will earn you the right to make proposals on X7 DAO dApp\n\n{quote}'
     if amountraw:
         amount = round(float(amountraw)*float(daoprice), 2)
-        embed.description = f'{amountraw} X7DAO Currently Costs:\n\n${amount} '
+        embed.description = f'{amountraw} X7DAO (ETH) Currently Costs:\n\n${amount} '
     if not amountraw:
         embed.description =\
-            f'**X7DAO info**\n\n' \
+            f'**X7DAO (ETH) Info**\n\n' \
             f'X7DAO Price: ${cgx7daoprice["x7dao"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7daoprice["x7dao"]["usd_24h_change"],1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(daoprice*items.supply)}\n' \
@@ -338,11 +338,11 @@ async def x7r(interaction: discord.Interaction, amountraw: Optional[str] = None)
     x7rholders = x7rholdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7rprice), 2)
-        embed.description = f'{amountraw} X7R Currently Costs:\n\n${"{:0,.0f}".format(amount)}' \
+        embed.description = f'{amountraw} X7R (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)}' \
                             f'{quote}'
     if not amountraw:
         embed.description =\
-            f'**X7R Info**\n\n' \
+            f'**X7R (ETH) Info**\n\n' \
             f'X7R Price: ${cgx7rprice["x7r"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7rprice["x7r"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7rprice*items.supply)}\n' \
@@ -377,10 +377,10 @@ async def x7101(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7101holders = x7101holdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7101price), 2)
-        embed.description = f'{amountraw} X7101 Currently Costs:\n\n${"{:0,.0f}".format(amount)} '
+        embed.description = f'{amountraw} X7101 (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)} '
     if not amountraw:
         embed.description =\
-            f'**X7101 Info**\n\n' \
+            f'**X7101 (ETH) Info**\n\n' \
             f'X7101 Price: ${cgx7101price["x7101"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7101price["x7101"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7101price * items.supply)}\n' \
@@ -411,11 +411,11 @@ async def x7102(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7102holders = x7102holdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7102price), 2)
-        embed.description = f'{amountraw} X7102 Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
+        embed.description = f'{amountraw} X7102 (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
                             f'{quote}'
     if not amountraw:
         embed.description = \
-            f'**X7102 Info**\n\n' \
+            f'**X7102 (ETH) Info**\n\n' \
             f'X7102 Price: ${cgx7102price["x7102"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7102price["x7102"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7102price*items.supply)}\n' \
@@ -446,11 +446,11 @@ async def x7103(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7103holders = x7103holdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7103price), 2)
-        embed.description = f'{amountraw} X7103 Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
+        embed.description = f'{amountraw} X7103 (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
                             f'{quote}'
     if not amountraw:
         embed.description = \
-            f'**X7103 Info**\n\n' \
+            f'**X7103 (ETH) Info**\n\n' \
             f'X7103 Price: ${cgx7103price["x7103"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7103price["x7103"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7103price * items.supply)}\n' \
@@ -481,11 +481,11 @@ async def x7104(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7104holders = x7104holdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7104price), 2)
-        embed.description = f'{amountraw} X7104 Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
+        embed.description = f'{amountraw} X7104 (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
                             f'{quote}'
     if not amountraw:
         embed.description = \
-            f'**X7104 Info**\n\n' \
+            f'**X7104 (ETH) Info**\n\n' \
             f'X7104 Price: ${cgx7104price["x7104"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7104price["x7104"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7104price * items.supply)}\n' \
@@ -516,11 +516,11 @@ async def x7105(interaction: discord.Interaction, amountraw: Optional[str] = Non
     x7105holders = x7105holdersdata["holdersCount"]
     if amountraw:
         amount = round(float(amountraw)*float(x7105price), 2)
-        embed.description = f'{amountraw} X7105 Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
+        embed.description = f'{amountraw} X7105 (ETH) Currently Costs:\n\n${"{:0,.0f}".format(amount)}\n\n' \
                             f'{quote}'
     if not amountraw:
         embed.description = \
-            f'**X7105 Info**\n\n' \
+            f'**X7105 (ETH) Info**\n\n' \
             f'X7105 Price: ${cgx7105price["x7105"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7105price["x7105"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap:  ${"{:0,.0f}".format(x7105price * items.supply)}\n' \
@@ -561,7 +561,7 @@ async def chart(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = '**X7 Finance chart links**\n\nUse ``/x7tokenname`` for all other details\n\n' \
+    embed.description = '**X7 Finance Chart links (ETH)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                         f'[X7R - Rewards Token]({items.dextools}{items.x7rpair})\n' \
                         f'[X7DAO - Governance Token]({items.dextools}{items.x7daopair})\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
@@ -585,7 +585,7 @@ async def buyevenly(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = '**Buy all X7 Finance constellation tokens evenly**\n\n' \
+    embed.description = '**Buy all X7 Finance constellation tokens evenly (ETH)**\n\n' \
                         'Simply connect to https://dapp.x7community.space/ via metamask mobile or desktop and ' \
                         'navigate to Buy X7 Constellation tokens equally\' and enter your desired Eth amount\n\n' \
                         'Alternatively you can interact with the follow contract and follow the steps below:\n\n' \
@@ -686,7 +686,7 @@ async def burn(interaction: discord.Interaction):
     burndata["result"] = int(burndata["result"][:-18])
     result = round(((burndata["result"] / items.supply) * 100), 6)
     embed.description = \
-        f'\n\n**X7R Tokens Burn Info**:\n\n' \
+        f'\n\n**X7R Tokens Burn Info (ETH)**:\n\n' \
         f'{"{:,}".format(burndata["result"])}\n' \
         f'{result}% of Supply\n\n' \
         f'[Etherscan]({items.ethertoken}{items.x7rca}?a={items.dead})\n\n{quote}'
@@ -715,7 +715,7 @@ async def mcap(interaction: discord.Interaction):
     cgx7105price = (cg.get_price(ids='x7105', vs_currencies='usd'))
     x7105price = (cgx7105price["x7105"]["usd"]) * items.supply
     embed.description = \
-        f'**X7 Finance Market Cap Info**\n\n' \
+        f'**X7 Finance Market Cap Info (ETH)**\n\n' \
         f'X7R:          ${"{:0,.0f}".format(x7rprice)}\n' \
         f'X7DAO:     ${"{:0,.0f}".format(x7daoprice)}\n' \
         f'X7101:       ${"{:0,.0f}".format(x7101price)}\n' \
@@ -793,7 +793,7 @@ async def pool(interaction: discord.Interaction):
     pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
     pooldollar = str(pooldollarraw)
     embed.description = \
-        f'**X7 Finance Lending Pool:**\n\n' \
+        f'**X7 Finance Lending Pool Info (ETH)**\n\n' \
         f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
         f'To contribute to the Lending Pool:\n' \
         '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
@@ -840,7 +840,7 @@ async def tax(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = f'**X7 Finance token tax info**\n\n' \
+    embed.description = f'**X7 Finance Token Tax Info**\n\n' \
                         f'X7R: 6%\nX7DAO: 6%\n' \
                         f'X7101-X7105: 2%\n\n' \
                         f'**Tax with NFTs**\n' \
@@ -856,7 +856,7 @@ async def opensea(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = '**X7 Finance Opensea links**\n\n' \
+    embed.description = '**X7 Finance Opensea links (ETH)**\n\n' \
                         '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi)\n' \
                         '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi)\n' \
                         '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi)\n' \
@@ -981,7 +981,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         ethembed.set_thumbnail(url=tokenlogo)
         eththumb = discord.File('X7whitelogo.png')
         ethembed.description = \
-            f'**{symbol} price (from CoinGecko)**\n\n' \
+            f'**{symbol} price**\n\n' \
             f'Eth Price:\n${ethdata["result"]["ethusd"]}\n' \
             f'24 Hour Change: {round(eth["ethereum"]["usd_24h_change"], 1)}%\n' \
             f'Market Cap: ${"{:0,.0f}".format(eth["ethereum"]["usd_market_cap"])}\n\n' \
@@ -1000,7 +1000,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         embed = discord.Embed(colour=7419530)
         embed.set_footer(text="Trust no one, Trust code. Long live Defi")
         embed.set_thumbnail(url='attachment://X7whitelogo.png')
-        embed.description = f'**X7 Finance Token Prices (from CoinGecko)**\n\n' \
+        embed.description = f'**X7 Finance Token Prices  (ETH)**\n\n' \
                             f'X7R:      ${cgtogetherprice["x7r"]["usd"]}\n' \
                             f'24 Hour Change: {round(cgtogetherprice["x7r"]["usd_24h_change"], 1)}%\n\n' \
                             f'X7DAO:  ${cgtogetherprice["x7dao"]["usd"]}\n' \
@@ -1015,7 +1015,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         embed = discord.Embed(colour=7419530)
         embed.set_footer(text="Trust no one, Trust code. Long live Defi")
         embed.set_thumbnail(url=tokenlogo)
-        embed.description = f'**{symbol} price (from CoinGecko)**\n\n' \
+        embed.description = f'**{symbol} price**\n\n' \
                             f'Price:      ${tokenprice[tokenid]["usd"]}\n' \
                             f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n' \
                             f'Market Cap: ${"{:0,.0f}".format(tokenprice[tokenid]["usd_market_cap"])}\n\n' \
@@ -1037,7 +1037,7 @@ async def holders(interaction: discord.Interaction):
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
     x7daoholders = x7daoholdersdata["holdersCount"]
-    embed.description = '**X7 Finance Token Holders**\n\n' \
+    embed.description = '**X7 Finance Token Holders (ETH)**\n\n' \
                         f'X7R Holders: {x7rholders}\n' \
                         f'X7DAO Holders: {x7daoholders}\n\n' \
                         f'{quote}'
@@ -1109,7 +1109,7 @@ async def x7d(interaction: discord.Interaction):
     x7damount = str(damount / 10 ** 18)
     x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
     embed.description = \
-        '**X7D Info**\n\n' \
+        '**X7D Info (ETH)**\n\n' \
         f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
         f'Holders: {x7dholders}\n\n' \
         f'To receive X7D:\n\n' \
@@ -1119,7 +1119,8 @@ async def x7d(interaction: discord.Interaction):
         '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
         'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
         'Note:\n' \
-        'Do not interact directly with the X7D contract\n\n' \
+        'Do not interact directly with the X7D contract\n' \
+        'Do not send from CEX\n\n' \
         f'`{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
