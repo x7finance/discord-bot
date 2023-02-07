@@ -213,57 +213,145 @@ async def nft(interaction: discord.Interaction):
 
 
 @client.tree.command(description="X7 Treasury Info")
-async def treasury(interaction: discord.Interaction):
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
+    if chain.value == 'eth':
+        cg = CoinGeckoAPI()
+        cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
                                include_24hr_vol='true', include_last_updated_at="true"))
-    x7rprice = (cgx7rprice["x7r"]["usd"])
-    treasuryurl = \
-        items.ethbalanceapi + items.devmulti + ',' + items.commulti + ',' + items.pioneerca + '&tag=latest' + keys.ether
-    treasuryresponse = requests.get(treasuryurl)
-    treasurydata = treasuryresponse.json()
-    dev = float(treasurydata["result"][0]["balance"])
-    devamount = str(dev / 10 ** 18)
-    com = float(treasurydata["result"][1]["balance"])
-    comamount = str(com / 10 ** 18)
-    pioneer = float(treasurydata["result"][2]["balance"])
-    pioneeramount = str(pioneer / 10 ** 18)
-    ethurl = items.ethpriceapi + keys.ether
-    ethresponse = requests.get(ethurl)
-    ethdata = ethresponse.json()
-    ethvalue = float(ethdata["result"]["ethusd"])
-    devdollar = float(devamount) * float(ethvalue) / 1 ** 18
-    comdollar = float(comamount) * float(ethvalue) / 1 ** 18
-    pioneerdollar = float(pioneeramount) * float(ethvalue) / 1 ** 18
-    comx7rurl = items.tokenbalanceapi + items.x7rca + '&address=' + items.commulti + '&tag=latest' + keys.ether
-    comx7rresponse = requests.get(comx7rurl)
-    comx7rdata = comx7rresponse.json()
-    comx7r = int(comx7rdata["result"][:-18])
-    comx7rprice = comx7r * x7rprice
-    comx7durl = items.tokenbalanceapi + items.x7dca + '&address=' + items.commulti + '&tag=latest' + keys.ether
-    comx7dresponse = requests.get(comx7durl)
-    comx7ddata = comx7dresponse.json()
-    comx7d = int(comx7ddata["result"][:-18])
-    comx7ddollar = float(comamount) * float(ethvalue) / 1 ** 18
-    comx7dprice = comx7d * ethvalue
-    comtotal = comx7rprice + comdollar + comx7ddollar
-    embed.description = \
-        f'**X7 Finance Treasury Info (ETH)**\n\n' \
-        f'Pioneer Pool:\n{pioneeramount[:4]}ETH (${"{:0,.0f}".format(pioneerdollar)})\n\n' \
-        f'[Developer Wallet:]({items.etheraddress}{items.devmulti})\n' \
-        f'{devamount[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
-        f'[Community Wallet:]({items.etheraddress}{items.commulti})\n' \
-        f'{comamount[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n' \
-        f'{comx7r} X7R (${"{:0,.0f}".format(comx7rprice)})\n' \
-        f'{comx7d} X7D (${"{:0,.0f}".format(comx7dprice)})\n' \
-        f'Total: (${"{:0,.0f}".format(comtotal)})\n\n' \
-        f'[Treasury Splitter Contract]({items.etheraddress}{items.tsplitterca})\n\n' \
-        f'{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        x7rprice = (cgx7rprice["x7r"]["usd"])
+        treasuryurl = \
+            items.ethbalanceapieth + items.devmultieth + ',' + items.commultieth + ',' + items.pioneerca + '&tag=latest' + keys.ether
+        treasuryresponse = requests.get(treasuryurl)
+        treasurydata = treasuryresponse.json()
+        dev = float(treasurydata["result"][0]["balance"])
+        devamount = str(dev / 10 ** 18)
+        com = float(treasurydata["result"][1]["balance"])
+        comamount = str(com / 10 ** 18)
+        pioneer = float(treasurydata["result"][2]["balance"])
+        pioneeramount = str(pioneer / 10 ** 18)
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        devdollar = float(devamount) * float(ethvalue) / 1 ** 18
+        comdollar = float(comamount) * float(ethvalue) / 1 ** 18
+        pioneerdollar = float(pioneeramount) * float(ethvalue) / 1 ** 18
+        comx7rurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.commultieth + '&tag=latest' + keys.ether
+        comx7rresponse = requests.get(comx7rurl)
+        comx7rdata = comx7rresponse.json()
+        comx7r = int(comx7rdata["result"][:-18])
+        comx7rprice = comx7r * x7rprice
+        comx7durl = items.tokenbalanceapieth + items.x7dca + '&address=' + items.commultieth + '&tag=latest' + keys.ether
+        comx7dresponse = requests.get(comx7durl)
+        comx7ddata = comx7dresponse.json()
+        comx7d = int(comx7ddata["result"][:-18])
+        comx7ddollar = float(comamount) * float(ethvalue) / 1 ** 18
+        comx7dprice = comx7d * ethvalue
+        comtotal = comx7rprice + comdollar + comx7ddollar
+        embed.description = \
+            f'**X7 Finance Treasury Info (ETH)**\n\n' \
+            f'Pioneer Pool:\n{pioneeramount[:4]}ETH (${"{:0,.0f}".format(pioneerdollar)})\n\n' \
+            f'[Developer Wallet:]({items.etheraddress}{items.devmultieth})\n' \
+            f'{devamount[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
+            f'[Community Wallet:]({items.etheraddress}{items.commultieth})\n' \
+            f'{comamount[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n' \
+            f'{comx7r} X7R (${"{:0,.0f}".format(comx7rprice)})\n' \
+            f'{comx7d} X7D (${"{:0,.0f}".format(comx7dprice)})\n' \
+            f'Total: (${"{:0,.0f}".format(comtotal)})\n\n' \
+            f'[Treasury Splitter Contract]({items.etheraddress}{items.tsplitterca})\n\n' \
+            f'{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        treasuryurl = items.bnbbalanceapi + items.devmultibsc + ',' + items.commultibsc + '&tag=latest' + keys.bsc
+        treasuryresponse = requests.get(treasuryurl)
+        treasurydata = treasuryresponse.json()
+        dev = float(treasurydata["result"][0]["balance"])
+        devamount = str(dev / 10 ** 18)
+        com = float(treasurydata["result"][1]["balance"])
+        comamount = str(com / 10 ** 18)
+        ethurl = items.bnbpriceapi + keys.bsc
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        devdollar = float(devamount) * float(ethvalue) / 1 ** 18
+        comdollar = float(comamount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7 Finance Treasury (BSC)**\n\n' \
+            f'Developer Wallet:\n{devamount[:4]}BNB (${"{:0,.0f}".format(devdollar)})\n\n' \
+            f'Community Wallet:\n{comamount[:4]}BNB (${"{:0,.0f}".format(comdollar)})\n\n' \
+            f'[Treasury Splitter Contract]({items.bscaddress}{items.tsplitterca})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        treasuryurl = items.ethbalanceapiarb + items.devmultiarb + ',' + items.commultiarb + '&tag=latest' + keys.arb
+        treasuryresponse = requests.get(treasuryurl)
+        treasurydata = treasuryresponse.json()
+        dev = float(treasurydata["result"][0]["balance"])
+        devamount = str(dev / 10 ** 18)
+        com = float(treasurydata["result"][1]["balance"])
+        comamount = str(com / 10 ** 18)
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        devdollar = float(devamount) * float(ethvalue) / 1 ** 18
+        comdollar = float(comamount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7 Finance Treasury (ARB)**\n\n' \
+            f'Developer Wallet:\n{devamount[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
+            f'Community Wallet:\n{comamount[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n\n' \
+            f'[Treasury Splitter Contract]({items.arbaddress}{items.tsplitterca})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "opti":
+        treasuryurl = items.ethbalanceapiopti + items.devmultiopti + ',' + items.commultiopti + '&tag=latest' + keys.opti
+        treasuryresponse = requests.get(treasuryurl)
+        treasurydata = treasuryresponse.json()
+        dev = float(treasurydata["result"][0]["balance"])
+        devamount = str(dev / 10 ** 18)
+        com = float(treasurydata["result"][1]["balance"])
+        comamount = str(com / 10 ** 18)
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        devdollar = float(devamount) * float(ethvalue) / 1 ** 18
+        comdollar = float(comamount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7 Finance Treasury (OPTIMISM)**\n\n' \
+            f'Developer Wallet:\n{devamount[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
+            f'Community Wallet:\n{comamount[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n\n' \
+            f'[Treasury Splitter Contract]({items.optiaddress}{items.tsplitterca})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        treasuryurl = items.maticbalanceapi + items.devmultipoly + ',' + items.commultipoly + '&tag=latest' + keys.poly
+        treasuryresponse = requests.get(treasuryurl)
+        treasurydata = treasuryresponse.json()
+        dev = float(treasurydata["result"][0]["balance"])
+        devamount = str(dev / 10 ** 18)
+        com = float(treasurydata["result"][1]["balance"])
+        comamount = str(com / 10 ** 18)
+        ethurl = items.maticpriceapi + keys.poly
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["maticusd"])
+        devdollar = float(devamount) * float(ethvalue) / 1 ** 18
+        comdollar = float(comamount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7 Finance Treasury (POLYGON)**\n\n' \
+            f'Developer Wallet:\n{devamount[:4]}MATIC (${"{:0,.0f}".format(devdollar)})\n\n' \
+            f'Community Wallet:\n{comamount[:4]}MATIC (${"{:0,.0f}".format(comdollar)})\n\n' \
+            f'[Treasury Splitter Contract]({items.polyaddress}{items.tsplitterca})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7DAO info, use /x7dao followed by amount to convert to $")
@@ -278,7 +366,7 @@ async def x7dao(interaction: discord.Interaction, amountraw: Optional[str] = Non
     cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
                                  include_24hr_vol='true', include_last_updated_at="true"))
     daoprice = (cgx7daoprice["x7dao"]["usd"])
-    uniurl = items.tokenbalanceapi + items.x7daoca + '&address=' + items.x7daopair + '&tag=latest' + keys.ether
+    uniurl = items.tokenbalanceapieth + items.x7daoca + '&address=' + items.x7daopair + '&tag=latest' + keys.ether
     uniresponse = requests.get(uniurl)
     unidata = uniresponse.json()
     unidata["result"] = int(unidata["result"][:-18])
@@ -305,7 +393,7 @@ async def x7dao(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult,2)}% of Supply\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7daoca})\n' \
-            f'[Chart]({items.dextools}{items.x7daopair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7daopair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -322,12 +410,12 @@ async def x7r(interaction: discord.Interaction, amountraw: Optional[str] = None)
     cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
                                include_24hr_vol='true', include_last_updated_at="true"))
     x7rprice = (cgx7rprice["x7r"]["usd"])
-    burnurl = items.tokenbalanceapi + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
+    burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
     burnresponse = requests.get(burnurl)
     burndata = burnresponse.json()
     burndata["result"] = int(burndata["result"][:-18])
     burnresult = round(((burndata["result"] / items.supply) * 100), 6)
-    uniurl = items.tokenbalanceapi + items.x7rca + '&address=' + items.x7rpair + '&tag=latest' + keys.ether
+    uniurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.x7rpair + '&tag=latest' + keys.ether
     uniresponse = requests.get(uniurl)
     unidata = uniresponse.json()
     unidata["result"] = int(unidata["result"][:-18])
@@ -354,7 +442,7 @@ async def x7r(interaction: discord.Interaction, amountraw: Optional[str] = None)
             f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult, 2)}% of Supply\n\n' \
             f'Contract Address:\n`{items.x7rca}\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7rca})\n' \
-            f'[Chart]({items.dextools}{items.x7rpair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7rpair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -388,7 +476,7 @@ async def x7101(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Holders: {x7101holders}\n\n' \
             f'Contract Address:\n`{items.x7101ca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7101ca})\n' \
-            f'[Chart]({items.dextools}{items.x7101pair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7101pair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -423,7 +511,7 @@ async def x7102(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Holders: {x7102holders}\n\n' \
             f'Contract Address:\n`{items.x7102ca}\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7102ca})\n' \
-            f'[Chart]({items.dextools}{items.x7102pair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7102pair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -458,7 +546,7 @@ async def x7103(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Holders: {x7103holders}\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7103ca})\n' \
-            f'[Chart]({items.dextools}{items.x7103pair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7103pair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -493,7 +581,7 @@ async def x7104(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Holders: {x7104holders}\n\n' \
             f'Contract Address:\n`{items.x7104ca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7104ca})\n' \
-            f'[Chart]({items.dextools}{items.x7104pair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7104pair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -528,7 +616,7 @@ async def x7105(interaction: discord.Interaction, amountraw: Optional[str] = Non
             f'Holders: {x7105holders}\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7105ca})\n' \
-            f'[Chart]({items.dextools}{items.x7105pair})\n' \
+            f'[Chart]({items.dextoolseth}{items.x7105pair})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
     await interaction.response.send_message(embed=embed, file=thumb)
 
@@ -562,8 +650,8 @@ async def chart(interaction: discord.Interaction):
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     embed.description = '**X7 Finance Chart links (ETH)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
-                        f'[X7R - Rewards Token]({items.dextools}{items.x7rpair})\n' \
-                        f'[X7DAO - Governance Token]({items.dextools}{items.x7daopair})\n\n{quote}'
+                        f'[X7R - Rewards Token]({items.dextoolseth}{items.x7rpair})\n' \
+                        f'[X7DAO - Governance Token]({items.dextoolseth}{items.x7daopair})\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -636,7 +724,7 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["ethusd"])
-        pioneerethurl = items.ethbalanceapi + items.pioneerca + '&tag=latest' + keys.ether
+        pioneerethurl = items.ethbalanceapieth + items.pioneerca + '&tag=latest' + keys.ether
         pioneerethresponse = requests.get(pioneerethurl)
         pioneerethdata = pioneerethresponse.json()
         pioneerth = float(pioneerethdata["result"][0]["balance"])
@@ -680,7 +768,7 @@ async def burn(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    burnurl = items.tokenbalanceapi + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
+    burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
     burnresponse = requests.get(burnurl)
     burndata = burnresponse.json()
     burndata["result"] = int(burndata["result"][:-18])
@@ -785,7 +873,7 @@ async def pool(interaction: discord.Interaction):
     ethresponse = requests.get(ethurl)
     ethdata = ethresponse.json()
     ethvalue = float(ethdata["result"]["ethusd"])
-    poolurl = items.ethbalanceapi + items.lpreserveca + '&tag=latest' + keys.ether
+    poolurl = items.ethbalanceapieth + items.lpreserveca + '&tag=latest' + keys.ether
     poolresponse = requests.get(poolurl)
     pooldata = poolresponse.json()
     dev = float(pooldata["result"][0]["balance"])
@@ -1102,7 +1190,7 @@ async def x7d(interaction: discord.Interaction):
     ethresponse = requests.get(ethurl)
     ethdata = ethresponse.json()
     ethvalue = float(ethdata["result"]["ethusd"])
-    x7durl = items.ethbalanceapi + items.lpreserveca + '&tag' + keys.ether
+    x7durl = items.ethbalanceapieth + items.lpreserveca + '&tag' + keys.ether
     x7dresponse = requests.get(x7durl)
     x7ddata = x7dresponse.json()
     damount = float(x7ddata["result"][0]["balance"])
