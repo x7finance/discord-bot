@@ -1040,7 +1040,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'**X7 Finance Lending Pool Info (ETH)**\n\n' \
             f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
             f'To contribute to the Lending Pool:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1067,7 +1067,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'**X7 Finance Lending Pool Info (BSC)**\n\n' \
             f'{poolamount[:4]}BNB (${pooldollar[:8]})\n\n' \
             f'To contribute to the Lending Pool:\n\n' \
-            '1. Send BNB (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send BNB (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1094,7 +1094,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'**X7 Finance Lending Pool Info (POLYGON)**\n\n' \
             f'{poolamount[:4]}MATIC (${pooldollar[:8]})\n\n' \
             f'To contribute to the Lending Pool:\n\n' \
-            '1. Send MATIC (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send MATIC (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1121,7 +1121,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'**X7 Finance Lending Pool Info (ARB)**\n\n' \
             f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
             f'To contribute to the Lending Pool:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1148,7 +1148,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'**X7 Finance Lending Pool Info (OPTIMISM)**\n\n' \
             f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
             f'To contribute to the Lending Pool:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1630,17 +1630,32 @@ async def loans(interaction: discord.Interaction, loan_type: app_commands.Choice
         embed.description =\
             f'{items.ill001name}\n\n' \
             f'{items.ill001terms}\n\n' \
-            f'{items.etheraddress}{items.ill001ca}\n\n{quote}'
+            f'[Ethereum]({items.etheraddress}{items.ill001ca})\n' \
+            f'[BSC]({items.bscaddress}{items.ill001ca})\n' \
+            f'[Polygon]({items.polyaddress}{items.ill001ca})\n' \
+            f'[Arbitrum]({items.arbaddress}{items.ill001ca})\n' \
+            f'[Optimism]({items.etheraddress}{items.ill001ca})\n\n' \
+            f'{quote}'
     if loan_type.value == "x7ill002":
         embed.description = \
             f'{items.ill002name}\n\n' \
             f'{items.ill002terms}\n\n' \
-            f'{items.etheraddress}{items.ill002ca}\n\n{quote}'
+            f'[Ethereum]({items.etheraddress}{items.ill002ca})\n' \
+            f'[BSC]({items.bscaddress}{items.ill002ca})\n' \
+            f'[Polygon]({items.polyaddress}{items.ill002ca})\n' \
+            f'[Arbitrum]({items.arbaddress}{items.ill002ca})\n' \
+            f'[Optimism]({items.etheraddress}{items.ill002ca})\n\n' \
+            f'{quote}'
     if loan_type.value == "x7ill003":
         embed.description = \
             f'{items.ill003name}\n\n' \
             f'{items.ill003terms}\n\n' \
-            f'{items.etheraddress}{items.ill003ca}\n\n{quote}'
+            f'[Ethereum]({items.etheraddress}{items.ill003ca})\n' \
+            f'[BSC]({items.bscaddress}{items.ill003ca})\n' \
+            f'[Polygon]({items.polyaddress}{items.ill003ca})\n' \
+            f'[Arbitrum]({items.arbaddress}{items.ill003ca})\n' \
+            f'[Optimism]({items.etheraddress}{items.ill003ca})\n\n' \
+            f'{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
