@@ -358,7 +358,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7DAO info, use /x7dao followed by amount to convert to $")
+@client.tree.command(description="X7DAO Info, use /x7dao followed by amount to convert to $")
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7dao(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -403,7 +403,7 @@ async def x7dao(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7R info, use /x7r followed by amount to convert to $')
+@client.tree.command(description='X7R Info, use /x7r followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7r(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -452,7 +452,7 @@ async def x7r(interaction: discord.Interaction, amountraw: Optional[str] = None)
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7101 info, use /x7101 followed by amount to convert to $')
+@client.tree.command(description='X7101 Info, use /x7101 followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7101(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -486,7 +486,7 @@ async def x7101(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7102 info, use /x7102 followed by amount to convert to $')
+@client.tree.command(description='X7102 Info, use /x7102 followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7102(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -521,7 +521,7 @@ async def x7102(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7103 info, use /x7103 followed by amount to convert to $')
+@client.tree.command(description='X7103 Info, use /x7103 followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7103(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -556,7 +556,7 @@ async def x7103(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7104 info, use /x7104 followed by amount to convert to $')
+@client.tree.command(description='X7104 Info, use /x7104 followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7104(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -591,7 +591,7 @@ async def x7104(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description='X7105 info, use /x7105 followed by amount to convert to $')
+@client.tree.command(description='X7105 Info, use /x7105 followed by amount to convert to $')
 @app_commands.rename(amountraw='amount')
 @app_commands.describe(amountraw='Amount of tokens to convert to $')
 async def x7105(interaction: discord.Interaction, amountraw: Optional[str] = None):
@@ -626,7 +626,7 @@ async def x7105(interaction: discord.Interaction, amountraw: Optional[str] = Non
     await interaction.response.send_message(embed=embed, file=thumb)
 
 
-@client.tree.command(description="X7 Finance whitepaper links")
+@client.tree.command(description="X7 Finance Whitepaper links")
 async def wp(interaction: discord.Interaction):
     embed.description = \
         '**X7 Finance Whitepaper Links**\n\n' \
@@ -636,7 +636,7 @@ async def wp(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance buy links")
+@client.tree.command(description="X7 Finance Buy links")
 async def buy(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -648,7 +648,7 @@ async def buy(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance chart links")
+@client.tree.command(description="X7 Finance Chart links")
 async def chart(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -660,7 +660,7 @@ async def chart(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance token contract info")
+@client.tree.command(description="X7 Finance Token contract info")
 async def contract(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -672,7 +672,7 @@ async def contract(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="A guide to buying all constellation tokens evenly")
+@client.tree.command(description="A Guide to buying all constellation tokens evenly")
 async def buyevenly(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -767,23 +767,79 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7R token burn info")
-async def burn(interaction: discord.Interaction):
+@client.tree.command(description="X7R Token burn info")
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
-    burnresponse = requests.get(burnurl)
-    burndata = burnresponse.json()
-    burndata["result"] = int(burndata["result"][:-18])
-    result = round(((burndata["result"] / items.supply) * 100), 6)
-    embed.description = \
-        f'\n\n**X7R Tokens Burn Info (ETH)**:\n\n' \
-        f'{"{:,}".format(burndata["result"])}\n' \
-        f'{result}% of Supply\n\n' \
-        f'[Etherscan]({items.ethertoken}{items.x7rca}?a={items.dead})\n\n{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "eth":
+        burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
+        burnresponse = requests.get(burnurl)
+        burndata = burnresponse.json()
+        burndata["result"] = int(burndata["result"][:-18])
+        result = round(((burndata["result"] / items.supply) * 100), 6)
+        embed.description = \
+            f'\n\n**X7R Tokens Burn Info (ETH)**:\n\n' \
+            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{result}% of Supply\n\n' \
+            f'[Etherscan]({items.ethertoken}{items.x7rca}?a={items.dead})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        burnurl = items.tokenbalanceapibsc + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.bsc
+        burnresponse = requests.get(burnurl)
+        burndata = burnresponse.json()
+        burndata["result"] = int(burndata["result"][:-18])
+        result = round(((burndata["result"] / items.supply) * 100), 6)
+        embed.description = \
+            f'\n\n**X7R Tokens Burn Info (BSC)**:\n\n' \
+            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{result}% of Supply\n\n' \
+            f'[BSCscan]({items.bsctoken}{items.x7rca}?a={items.dead})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        burnurl = items.tokenbalanceapiarb + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.arb
+        burnresponse = requests.get(burnurl)
+        burndata = burnresponse.json()
+        burndata["result"] = int(burndata["result"][:-18])
+        result = round(((burndata["result"] / items.supply) * 100), 6)
+        embed.description = \
+            f'\n\n**X7R Tokens Burn Info (ARBITRUM)**:\n\n' \
+            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{result}% of Supply\n\n' \
+            f'[Arbiscan]({items.arbtoken}{items.x7rca}?a={items.dead})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "opti":
+        burnurl = items.tokenbalanceapiopti + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.opti
+        burnresponse = requests.get(burnurl)
+        burndata = burnresponse.json()
+        burndata["result"] = int(burndata["result"][:-18])
+        result = round(((burndata["result"] / items.supply) * 100), 6)
+        embed.description = \
+            f'\n\n**X7R Tokens Burn Info (OPTIMISM)**:\n\n' \
+            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{result}% of Supply\n\n' \
+            f'[Optimism.Etherscan]({items.optitoken}{items.x7rca}?a={items.dead})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        burnurl = items.tokenbalanceapipoly + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.poly
+        burnresponse = requests.get(burnurl)
+        burndata = burnresponse.json()
+        burndata["result"] = int(burndata["result"][:-18])
+        result = round(((burndata["result"] / items.supply) * 100), 6)
+        embed.description = \
+            f'\n\n**X7R Tokens Burn Info (POLYGON)**:\n\n' \
+            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{result}% of Supply\n\n' \
+            f'[Polygonscan]({items.polytoken}{items.x7rca}?a={items.dead})\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="Market Cap Info")
@@ -868,7 +924,7 @@ async def roadmap(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance lending pool info")
+@client.tree.command(description="X7 Finance Lending pool info")
 @app_commands.choices(chain=[
     app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance", value="bsc"),
@@ -904,6 +960,8 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
             'Note:\n' \
             'Do not interact directly with the X7D contract\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n' \
             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'bsc':
@@ -929,6 +987,8 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             'You will receive X7D in your wallet which has a 1:1 price X7D:BNB\n\n' \
             'Note:\n' \
             'Do not interact directly with the X7D contract\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'poly':
@@ -954,6 +1014,8 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             'You will receive X7D in your wallet which has a 1:1 price X7D:MATIC\n\n' \
             'Note:\n' \
             'Do not interact directly with the X7D contract\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'arb':
@@ -979,6 +1041,8 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
             'Note:\n' \
             'Do not interact directly with the X7D contract\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'opti':
@@ -1004,11 +1068,13 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
             'Note:\n' \
             'Do not interact directly with the X7D contract\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.optiaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.optiaddress}{items.x7dca})\n\n' \
             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance token listing links")
+@client.tree.command(description="X7 Finance Token listing links")
 async def listings(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -1035,7 +1101,7 @@ async def listings(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance token tax info")
+@client.tree.command(description="X7 Finance Token tax info")
 async def tax(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
@@ -1140,7 +1206,7 @@ async def quote(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 Finance token price info")
+@client.tree.command(description="X7 Finance Token price info")
 @app_commands.describe(coin='Coin Name')
 async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
     basetokenurl = 'https://api.coingecko.com/api/v3/search?query='
@@ -1322,7 +1388,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
             f'Holders: {x7dholders}\n\n' \
             f'To receive X7D:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
             '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
             '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
@@ -1330,6 +1396,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             'Note:\n' \
             'Do not interact directly with the X7D contract\n' \
             'Do not send from CEX\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n'\
+            f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n'\
             f'`{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
@@ -1355,6 +1423,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             'Note:\n' \
             'Do not interact directly with the X7D contract\n' \
             'Do not send from CEX\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'`{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
@@ -1380,6 +1450,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             'Note:\n' \
             'Do not interact directly with the X7D contract\n' \
             'Do not send from CEX\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'`{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
@@ -1405,6 +1477,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             'Note:\n' \
             'Do not interact directly with the X7D contract\n' \
             'Do not send from CEX\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'`{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
@@ -1430,6 +1504,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             'Note:\n' \
             'Do not interact directly with the X7D contract\n' \
             'Do not send from CEX\n\n' \
+            f'[X7 Lending Pool Reserve Contract]({items.optiaddress}{items.lpreserveca})\n' \
+            f'[X7D Contract]({items.optiaddress}{items.x7dca})\n\n' \
             f'`{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
