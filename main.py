@@ -1290,40 +1290,148 @@ async def fg(interaction: discord.Interaction):
 
 
 @client.tree.command(description="X7D Token Info")
-async def x7d(interaction: discord.Interaction):
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    x7dholdersurl = items.holdersapi + items.x7dca + keys.holders
-    x7dholdersresponse = requests.get(x7dholdersurl)
-    x7dholdersdata = x7dholdersresponse.json()
-    x7dholders = x7dholdersdata["holdersCount"]
-    ethurl = items.ethpriceapi + keys.ether
-    ethresponse = requests.get(ethurl)
-    ethdata = ethresponse.json()
-    ethvalue = float(ethdata["result"]["ethusd"])
-    x7durl = items.ethbalanceapieth + items.lpreserveca + '&tag' + keys.ether
-    x7dresponse = requests.get(x7durl)
-    x7ddata = x7dresponse.json()
-    damount = float(x7ddata["result"][0]["balance"])
-    x7damount = str(damount / 10 ** 18)
-    x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
-    embed.description = \
-        '**X7D Info (ETH)**\n\n' \
-        f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
-        f'Holders: {x7dholders}\n\n' \
-        f'To receive X7D:\n\n' \
-        '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
-        '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n' \
-        '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-        '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-        'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
-        'Note:\n' \
-        'Do not interact directly with the X7D contract\n' \
-        'Do not send from CEX\n\n' \
-        f'`{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "eth":
+        x7dholdersurl = items.holdersapi + items.x7dca + keys.holders
+        x7dholdersresponse = requests.get(x7dholdersurl)
+        x7dholdersdata = x7dholdersresponse.json()
+        x7dholders = x7dholdersdata["holdersCount"]
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        x7durl = items.ethbalanceapieth + items.lpreserveca + '&tag' + keys.ether
+        x7dresponse = requests.get(x7durl)
+        x7ddata = x7dresponse.json()
+        damount = float(x7ddata["result"][0]["balance"])
+        x7damount = str(damount / 10 ** 18)
+        x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7D Info (ETH)**\n\n' \
+            f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
+            f'Holders: {x7dholders}\n\n' \
+            f'To receive X7D:\n\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
+            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
+            'Note:\n' \
+            'Do not interact directly with the X7D contract\n' \
+            'Do not send from CEX\n\n' \
+            f'`{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        ethurl = items.bnbpriceapi + keys.bsc
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        x7durl = items.bnbbalanceapi + items.lpreserveca + '&tag' + keys.bsc
+        x7dresponse = requests.get(x7durl)
+        x7ddata = x7dresponse.json()
+        damount = float(x7ddata["result"][0]["balance"])
+        x7damount = str(damount / 10 ** 18)
+        x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7D Info (BSC)**\n\n' \
+            f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
+            f'To receive X7D:\n\n' \
+            '1. Send BNB (Not Swap) to the Lending Pool Contract:\n' \
+            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
+            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+            'You will receive X7D in your wallet which has a 1:1 price X7D:BNB\n\n' \
+            'Note:\n' \
+            'Do not interact directly with the X7D contract\n' \
+            'Do not send from CEX\n\n' \
+            f'`{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        ethurl = items.maticpriceapi + keys.poly
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["maticusd"])
+        x7durl = items.maticbalanceapi + items.lpreserveca + '&tag' + keys.poly
+        x7dresponse = requests.get(x7durl)
+        x7ddata = x7dresponse.json()
+        damount = float(x7ddata["result"][0]["balance"])
+        x7damount = str(damount / 10 ** 18)
+        x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7D Info (POLYGON)**\n\n' \
+            f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
+            f'To receive X7D:\n\n' \
+            '1. Send MATIC (Not Swap) to the Lending Pool Contract:\n' \
+            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
+            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+            'You will receive X7D in your wallet which has a 1:1 price X7D:MATIC\n\n' \
+            'Note:\n' \
+            'Do not interact directly with the X7D contract\n' \
+            'Do not send from CEX\n\n' \
+            f'`{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        x7durl = items.ethbalanceapiarb + items.lpreserveca + '&tag' + keys.arb
+        x7dresponse = requests.get(x7durl)
+        x7ddata = x7dresponse.json()
+        damount = float(x7ddata["result"][0]["balance"])
+        x7damount = str(damount / 10 ** 18)
+        x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7D Info (ETH)**\n\n' \
+            f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
+            f'To receive X7D:\n\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
+            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
+            'Note:\n' \
+            'Do not interact directly with the X7D contract\n' \
+            'Do not send from CEX\n\n' \
+            f'`{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "opti":
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        x7durl = items.ethbalanceapiopti + items.lpreserveca + '&tag' + keys.opti
+        x7dresponse = requests.get(x7durl)
+        x7ddata = x7dresponse.json()
+        damount = float(x7ddata["result"][0]["balance"])
+        x7damount = str(damount / 10 ** 18)
+        x7ddollar = float(x7damount) * float(ethvalue) / 1 ** 18
+        embed.description = \
+            '**X7D Info (OPTIMISM)**\n\n' \
+            f'Supply: {x7damount[:4]}ETH (${"{:0,.0f}".format(x7ddollar)})\n' \
+            f'To receive X7D:\n\n' \
+            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
+            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
+            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
+            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
+            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
+            'Note:\n' \
+            'Do not interact directly with the X7D contract\n' \
+            'Do not send from CEX\n\n' \
+            f'`{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Loan Term Info")
