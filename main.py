@@ -192,24 +192,111 @@ async def rules(interaction: discord.Interaction, rule_number: app_commands.Choi
 
 
 @client.tree.command(description="X7 NFT info")
-async def nft(interaction: discord.Interaction):
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = \
-        f'**X7 Finance NFT Information (ETH)**\n\n**Ecosystem Maxi**\n{items.ecoprice}\n> 25% discount on x7100 tax\n' \
-        f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n**Liquidity Maxi**\n{items.liqprice}\n' \
-        f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
-        f'> 15 % discount on X7DAO tax\n\n**Dex Maxi**\n{items.dexprice}\n' \
-        f'> LP Fee Discounts while trading on X7 DEX\n\n' \
-        f'**Borrowing Maxi**\n{items.borrowprice}\n> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
-        f'**Magister**\n50 ETH\n> 25% discount on x7100 tax\n' \
-        f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n**Pioneer**\n' \
-        f' > 6% of profits that come into the X7 Treasury Splitter are now being allocated to the reward ' \
-        f'pool. Each X7 Pioneer NFT grants you a proportional share of this pool\n\n' \
-        f'https://x7.finance/x/nft/mint\n\n{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "eth":
+        embed.description = \
+            f'**X7 Finance NFT Information (ETH)**\n\n' \
+            f'[**Ecosystem Maxi**]({items.ethertoken}{items.ecoca})\n{items.ecopriceeth}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'[**Liquidity Maxi**]({items.ethertoken}{items.liqca})\n{items.liqpriceeth}\n' \
+            f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
+            f'> 15 % discount on X7DAO tax\n\n' \
+            f'[**DEX Maxi**]({items.ethertoken}{items.dexca})\n{items.dexpriceeth}\n' \
+            f'> LP Fee Discounts while trading on X7 DEX\n\n' \
+            f'[**Borrowing Maxi**]({items.ethertoken}{items.borrowca})\n{items.borrowpriceeth}\n' \
+            f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
+            f'[**Magister**]({items.ethertoken}{items.magisterca})\n{items.magisterpriceeth}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'[**Pioneer**]({items.ethertoken}{items.pioneerca})\n' \
+            f' > 6% of profits that come into the X7 Treasury Splitter are now being allocated to the reward ' \
+            f'pool. Each X7 Pioneer NFT grants you a proportional share of this pool\n\n' \
+            f'https://x7.finance/x/nft/mint\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        embed.description = \
+            f'**X7 Finance NFT Information (BSC)**\n\n' \
+            f'[**Ecosystem Maxi**]({items.bsctoken}{items.ecoca})\n{items.ecopricebsc}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'[**Liquidity Maxi**]({items.bsctoken}{items.liqca})\n{items.liqpricebsc}\n' \
+            f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
+            f'> 15 % discount on X7DAO tax\n\n' \
+            f'[**DEX Maxi**]({items.bsctoken}{items.dexca})\n{items.dexpricebsc}\n' \
+            f'> LP Fee Discounts while trading on X7 DEX\n\n' \
+            f'[**Borrowing Maxi**]({items.bsctoken}{items.borrowca})\n{items.borrowpricebsc}\n' \
+            f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
+            f'[**Magister**]({items.bsctoken}{items.magisterca})\n{items.magisterpricebsc}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'https://x7.finance/x/nft/mint\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        embed.description = \
+            f'**X7 Finance NFT Information (POLYGON)**\n\n' \
+            f'[**Ecosystem Maxi**]({items.polytoken}{items.ecoca})\n{items.ecopricepoly}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'[**Liquidity Maxi**]({items.polytoken}{items.liqca})\n{items.liqpricepoly}\n' \
+            f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
+            f'> 15 % discount on X7DAO tax\n\n' \
+            f'[**DEX Maxi**]({items.polytoken}{items.dexca})\n{items.dexpricepoly}\n' \
+            f'> LP Fee Discounts while trading on X7 DEX\n\n' \
+            f'[**Borrowing Maxi**]({items.polytoken}{items.borrowca})\n{items.borrowpricepoly}\n' \
+            f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
+            f'[**Magister**]({items.polytoken}{items.magisterca})\n{items.magisterpricepoly}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'https://x7.finance/x/nft/mint\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        embed.description = \
+            f'**X7 Finance NFT Information (ARBITRUM)**\n\n' \
+            f'[**Ecosystem Maxi**]({items.arbtoken}{items.ecoca})\n{items.ecopricearb}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'[**Liquidity Maxi**]({items.arbtoken}{items.liqca})\n{items.liqpricearb}\n' \
+            f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
+            f'> 15 % discount on X7DAO tax\n\n' \
+            f'[**DEX Maxi**]({items.arbtoken}{items.dexca})\n{items.dexpricearb}\n' \
+            f'> LP Fee Discounts while trading on X7 DEX\n\n' \
+            f'[**Borrowing Maxi**]({items.arbtoken}{items.borrowca})\n{items.borrowpricearb}\n' \
+            f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
+            f'[**Magister**]({items.arbtoken}{items.magisterca})\n{items.magisterpricearb}\n' \
+            f'> 25% discount on x7100 tax\n' \
+            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'https://x7.finance/x/nft/mint\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+        if chain.value == "opti":
+            embed.description = \
+                f'**X7 Finance NFT Information (OPTIMUM)**\n\n' \
+                f'[**Ecosystem Maxi**]({items.optitoken}{items.ecoca})\n{items.ecopriceopti}\n' \
+                f'> 25% discount on x7100 tax\n' \
+                f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+                f'[**Liquidity Maxi**]({items.optitoken}{items.liqca})\n{items.liqpriceopti}\n' \
+                f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
+                f'> 15 % discount on X7DAO tax\n\n' \
+                f'[**DEX Maxi**]({items.optitoken}{items.dexca})\n{items.dexpriceopti}\n' \
+                f'> LP Fee Discounts while trading on X7 DEX\n\n' \
+                f'[**Borrowing Maxi**]({items.optitoken}{items.borrowca})\n{items.borrowpriceopti}\n' \
+                f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
+                f'[**Magister**]({items.optitoken}{items.magisterca})\n{items.magisterpriceopti}\n' \
+                f'> 25% discount on x7100 tax\n' \
+                f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+                f'https://x7.finance/x/nft/mint\n\n{quote}'
+            await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Treasury Info")

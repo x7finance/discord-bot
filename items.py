@@ -106,11 +106,44 @@ x7104pair = '0x7d0d7c088233cbc08ee2400b96d10bf24c40e93a'
 x7105pair = '0x6d9d1b6b4d53f090639ae8d9e9c83b796da694ee'
 
 # NFTs
-ecoprice = '0.1 ETH - 500 Supply'
-liqprice = '0.5ETH - 250 Supply'
-dexprice = '0.5 ETH - 150 Supply'
-borrowprice = '1 ETH - 100 Supply'
-magisterprice = '50 Eth'
+# ETH
+ecopriceeth = '0.1 ETH - 500 Supply'
+liqpriceeth = '0.5ETH - 250 Supply'
+dexpriceeth = '0.5 ETH - 150 Supply'
+borrowpriceeth = '1 ETH - 100 Supply'
+magisterpriceeth = '50 Eth'
+
+# ARB
+ecopricearb = '0.1 ETH - 500 Supply'
+liqpricearb = '0.5ETH - 250 Supply'
+dexpricearb = '0.5 ETH - 150 Supply'
+borrowpricearb = '1 ETH - 100 Supply'
+magisterpricearb = '50 Eth'
+
+# OPTI
+ecopriceopti = '0.1 ETH - 500 Supply'
+liqpriceopti = '0.5ETH - 250 Supply'
+dexpriceopti = '0.5 ETH - 150 Supply'
+borrowpriceopti = '1 ETH - 100 Supply'
+magisterpriceopti = '50 Eth'
+
+# BSC
+ecopricebsc = '0.1 ETH - 500 Supply'
+liqpricebsc = '0.5ETH - 250 Supply'
+dexpricebsc = '0.5 ETH - 150 Supply'
+borrowpricebsc = '1 ETH - 100 Supply'
+magisterpricebsc = '50 Eth'
+
+# POLY
+ecopricepoly = '0.1 ETH - 500 Supply'
+liqpricepoly = '0.5ETH - 250 Supply'
+dexpricepoly = '0.5 ETH - 150 Supply'
+borrowpricepoly = '1 ETH - 100 Supply'
+magisterpricepoly = '50 Eth'
+
+
+
+
 
 # LINKS
 website = 'https://x7.finance'
