@@ -63,8 +63,13 @@ rdaca = '0x712bC6ddcd97A776B2482531058C629456B93eda'
 daodaca = '0x7da05D75f51056f3B83b43F397668Cf6A5051cDa'
 timelockca = '0x7000F4Cddca46FB77196466C3833Be4E89ab810C'
 esplitterca = '0x70001BA1BA4d85739E7B6A7C646B8aba5ed6c888'
-xchangedis = '0x7de8ab0dd777561ce98b7ef413f6fd564e89c1da'
-lendingdis = '0x74001e463b3c7dc95d96a1fdbe621678c24d47da'
+xchangedisca = '0x7de8ab0dd777561ce98b7ef413f6fd564e89c1da'
+lendingdisca = '0x74001e463b3c7dc95d96a1fdbe621678c24d47da'
+
+# LIQ LOCKS
+daoliq = "0x7da0aaD0f0b1Af993Df722567B045105fbbf510C"
+x7rliq = "0x7125c4105d728359Cd3073d567f366926f5cA10C"
+consliq = "0x71009A7eE233Af8fb42EeE5DbE61ea92Ea55b10c"
 
 # WALLETS
 devmultieth = '0x5CF4288Bf373BBe17f76948E39Baf33B9f6ac2e0'
@@ -95,51 +100,91 @@ arbaddress = 'https://arbiscan.io/address/'
 optitoken = 'https://optimistic.etherscan.io/token/'
 optiaddress = 'https://optimistic.etherscan.io/address/'
 dextoolseth = 'https://www.dextools.io/app/ether/pair-explorer/'
+dextoolsbsc = 'https://www.dextools.io/app/bnb/pair-explorer/'
+dextoolspoly = 'https://www.dextools.io/app/polygon/pair-explorer/'
+dextoolsarb = 'https://www.dextools.io/app/arbitrum/pair-explorer/'
+dextoolsopti = 'https://www.dextools.io/app/optimism/pair-explorer/'
 
 # PAIRS
-x7rpair = '0x6139240a5907e4ce74673257c320ea366c521aea'
-x7daopair = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
-x7101pair = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
-x7102pair = '0x49c838c60170c36e90cfa6021a57f2268dda3254'
-x7103pair = '0xcecf54edc42c5c9f6ee10cb1efcc23e49f7d5a5d'
-x7104pair = '0x7d0d7c088233cbc08ee2400b96d10bf24c40e93a'
-x7105pair = '0x6d9d1b6b4d53f090639ae8d9e9c83b796da694ee'
+# ETH
+x7rpaireth = '0x6139240a5907e4ce74673257c320ea366c521aea'
+x7daopaireth = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
+x7101paireth = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
+x7102paireth = '0x49c838c60170c36e90cfa6021a57f2268dda3254'
+x7103paireth = '0xcecf54edc42c5c9f6ee10cb1efcc23e49f7d5a5d'
+x7104paireth = '0x7d0d7c088233cbc08ee2400b96d10bf24c40e93a'
+x7105paireth = '0x6d9d1b6b4d53f090639ae8d9e9c83b796da694ee'
 
+# BSC
+x7rpairbsc = ''
+x7daopairbsc = ''
+x7101pairbsc = ''
+x7102pairbsc = ''
+x7103pairbsc = ''
+x7104pairbsc = ''
+x7105pairbsc = ''
+
+# ARB
+x7rpairarb = ''
+x7daopairarb = ''
+x7101pairarb = ''
+x7102pairarb = ''
+x7103pairarb = ''
+x7104pairarb = ''
+x7105pairarb = ''
+
+# OPTI
+x7rpairopti = ''
+x7daopairopti = ''
+x7101pairopti = ''
+x7102pairopti = ''
+x7103pairopti = ''
+x7104pairopti = ''
+x7105pairopti = ''
+
+# POLY
+x7rpairpoly = ''
+x7daopairpoly = ''
+x7101pairpoly = ''
+x7102pairpoly = ''
+x7103pairpoly = ''
+x7104pairpoly = ''
+x7105pairpoly = ''
 # NFTs
 # ETH
 ecopriceeth = '0.1 ETH - 500 Supply'
 liqpriceeth = '0.5ETH - 250 Supply'
 dexpriceeth = '0.5 ETH - 150 Supply'
 borrowpriceeth = '1 ETH - 100 Supply'
-magisterpriceeth = '50 Eth'
+magisterpriceeth = '50 Eth - 49 Supply'
 
 # ARB
 ecopricearb = '0.1 ETH - 500 Supply'
 liqpricearb = '0.5ETH - 250 Supply'
 dexpricearb = '0.5 ETH - 150 Supply'
 borrowpricearb = '1 ETH - 100 Supply'
-magisterpricearb = '50 Eth'
+magisterpricearb = '50 Eth - 49 Supply'
 
 # OPTI
 ecopriceopti = '0.1 ETH - 500 Supply'
 liqpriceopti = '0.5ETH - 250 Supply'
 dexpriceopti = '0.5 ETH - 150 Supply'
 borrowpriceopti = '1 ETH - 100 Supply'
-magisterpriceopti = '50 Eth'
+magisterpriceopti = '50 Eth - 49 Supply'
 
 # BSC
 ecopricebsc = '0.1 ETH - 500 Supply'
 liqpricebsc = '0.5ETH - 250 Supply'
 dexpricebsc = '0.5 ETH - 150 Supply'
 borrowpricebsc = '1 ETH - 100 Supply'
-magisterpricebsc = '50 Eth'
+magisterpricebsc = '50 Eth - 49 Supply'
 
 # POLY
 ecopricepoly = '0.1 ETH - 500 Supply'
 liqpricepoly = '0.5ETH - 250 Supply'
 dexpricepoly = '0.5 ETH - 150 Supply'
 borrowpricepoly = '1 ETH - 100 Supply'
-magisterpricepoly = '50 Eth'
+magisterpricepoly = '50 Eth 49 Supply'
 
 
 # LINKS
