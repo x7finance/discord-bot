@@ -471,7 +471,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
     x7daoholders = x7daoholdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description =\
             f'**X7DAO (ETH) Info**\n\n' \
             f'X7DAO Price: ${cgx7daoprice["x7dao"]["usd"]}\n' \
@@ -484,28 +484,28 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7daopaireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description =\
             f'**X7DAO (BSC) Info**\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7daopairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description =\
             f'**X7DAO (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7daopairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description =\
             f'**X7DAO (ARBITRUM) Info**\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7daopairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description =\
             f'**X7DAO (OPTIMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
@@ -546,7 +546,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     x7rholdersresponse = requests.get(x7rholdersurl)
     x7rholdersdata = x7rholdersresponse.json()
     x7rholders = x7rholdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description =\
             f'**X7R (ETH) Info**\n\n' \
             f'X7R Price: ${cgx7rprice["x7r"]["usd"]}\n' \
@@ -562,28 +562,28 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[Etherscan]({items.ethertoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7rpaireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description =\
             f'**X7R (BSC) Info**\n\n' \
             f'Contract Address:\n`{items.x7rca}\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7rpairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description =\
             f'**X7R (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7rca}\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7rpairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description =\
             f'**X7R (ARBITRUM) Info**\n\n' \
             f'Contract Address:\n`{items.x7rca}\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7rpairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description =\
             f'**X7R (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7rca}\n\n' \
@@ -614,7 +614,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7101holdersresponse = requests.get(x7101holdersurl)
     x7101holdersdata = x7101holdersresponse.json()
     x7101holders = x7101holdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description =\
             f'**X7101 (ETH) Info**\n\n' \
             f'X7101 Price: ${cgx7101price["x7101"]["usd"]}\n' \
@@ -626,25 +626,25 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7101paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description =\
             f'**X7101 (BSC) Info**\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7101pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description =\
             f'**X7101 (POLYGON) Info**\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7101pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description =\
             f'**X7101 (ARBITRUM) Info**\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7101pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description =\
             f'**X7101 (OPTIMISM) Info**\n\n' \
             f'[Optimistic.etherscan]({items.optitoken}{items.x7101ca})\n' \
@@ -674,7 +674,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7102holdersresponse = requests.get(x7102holdersurl)
     x7102holdersdata = x7102holdersresponse.json()
     x7102holders = x7102holdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description = \
             f'**X7102 (ETH) Info**\n\n' \
             f'X7102 Price: ${cgx7102price["x7102"]["usd"]}\n' \
@@ -686,28 +686,28 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7102paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description = \
             f'**X7102 (BSC) Info**\n\n' \
             f'Contract Address:\n`{items.x7102ca}\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7102pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description = \
             f'**X7102 (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7102ca}\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7102pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description = \
             f'**X7102 (ARBITRUM) Info**\n\n' \
             f'Contract Address:\n`{items.x7102ca}\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7102pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description = \
             f'**X7102 (OPTIMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7102ca}\n\n' \
@@ -738,7 +738,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7103holdersresponse = requests.get(x7103holdersurl)
     x7103holdersdata = x7103holdersresponse.json()
     x7103holders = x7103holdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description = \
             f'**X7103 (ETH) Info**\n\n' \
             f'X7103 Price: ${cgx7103price["x7103"]["usd"]}\n' \
@@ -750,28 +750,28 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7103paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description = \
             f'**X7103 (BSC) Info**\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7103pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description = \
             f'**X7103 (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
             f'[Polgonscan]({items.polytoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7103pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description = \
             f'**X7103 (ARBITRUM) Info**\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7103pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description = \
             f'**X7103 (OPTMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
@@ -802,7 +802,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7104holdersresponse = requests.get(x7104holdersurl)
     x7104holdersdata = x7104holdersresponse.json()
     x7104holders = x7104holdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description = \
             f'**X7104 (ETH) Info**\n\n' \
             f'X7104 Price: ${cgx7104price["x7104"]["usd"]}\n' \
@@ -814,25 +814,25 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7104paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description =\
             f'**X7104 (BSC) Info**\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7104pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description =\
             f'**X7104 (POLYGON) Info**\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7104pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description =\
             f'**X7104 (ARBITRUM) Info**\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7104pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description =\
             f'**X7104 (OPTIMISM) Info**\n\n' \
             f'[Optimistic.etherscan]({items.optitoken}{items.x7104ca})\n' \
@@ -862,7 +862,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7105holdersresponse = requests.get(x7105holdersurl)
     x7105holdersdata = x7105holdersresponse.json()
     x7105holders = x7105holdersdata["holdersCount"]
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description = \
             f'**X7105 (ETH) Info**\n\n' \
             f'X7105 Price: ${cgx7105price["x7105"]["usd"]}\n' \
@@ -874,28 +874,28 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7105paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description = \
             f'**X7105 (BSC) Info**\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7105pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description = \
             f'**X7105 (POLYGON) Info**\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7105pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description = \
             f'**X7105 (ARBITRUM) Info**\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7105pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description = \
             f'**X7105 (AOPTIMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
@@ -940,23 +940,23 @@ async def chart(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    if chain == "eth":
+    if chain.value == "eth":
         embed.description = '**X7 Finance Chart links (ETH)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolseth}{items.x7rpaireth})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolseth}{items.x7daopaireth})\n\n{quote}'
-    if chain == "bsc":
+    if chain.value == "bsc":
         embed.description = '**X7 Finance Chart links (BSC)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsbsc}{items.x7rpairbsc})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsbsc}{items.x7daopairbsc})\n\n{quote}'
-    if chain == "poly":
+    if chain.value == "poly":
         embed.description = '**X7 Finance Chart links (POLYGON)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolspoly}{items.x7rpairpoly})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolspoly}{items.x7daopairpoly})\n\n{quote}'
-    if chain == "arb":
+    if chain.value == "arb":
         embed.description = '**X7 Finance Chart links (ARBITRUM)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsarb}{items.x7rpairarb})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsarb}{items.x7daopairarb})\n\n{quote}'
-    if chain == "opti":
+    if chain.value == "opti":
         embed.description = '**X7 Finance Chart links (OPTIMISM)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsopti}{items.x7rpairopti})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsopti}{items.x7daopairopti})\n\n{quote}'
