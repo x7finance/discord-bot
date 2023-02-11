@@ -1254,7 +1254,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = str(pooldollarraw)
         embed.description = \
             f'**X7 Finance Lending Pool Info (ETH)**\n\n' \
-            f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} ETH (${pooldollar[:8]})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1273,7 +1273,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = str(pooldollarraw)
         embed.description = \
             f'**X7 Finance Lending Pool Info (BSC)**\n\n' \
-            f'{poolamount[:4]}BNB (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} BNB (${pooldollar[:8]})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1292,7 +1292,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = str(pooldollarraw)
         embed.description = \
             f'**X7 Finance Lending Pool Info (POLYGON)**\n\n' \
-            f'{poolamount[:4]}MATIC (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} MATIC (${pooldollar[:8]})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1311,7 +1311,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = str(pooldollarraw)
         embed.description = \
             f'**X7 Finance Lending Pool Info (ARB)**\n\n' \
-            f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} ETH (${pooldollar[:8]})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1932,6 +1932,7 @@ async def snapshot(interaction: discord.Interaction):
         f'are released on other chains.\n\nThese airdrop snapshots will occur just prior to the token launch\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
+
 @client.tree.command(description="X7R Initial Liquidity")
 @app_commands.choices(chain=[
     app_commands.Choice(name="Binance", value="bsc"),
@@ -1965,9 +1966,9 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
         x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (ARBITRUM)**\n\n' \
-            f'X7R:\n{x7rbscamount}ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc}ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc}ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
+            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
+            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         bscliqurl = \
@@ -1990,9 +1991,9 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
         x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (ARBITRUM)**\n\n' \
-            f'X7R:\n{x7rbscamount}ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc}ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc}ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
+            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
+            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         bscliqurl = \
@@ -2015,9 +2016,9 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
         x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (OPTIMISM)**\n\n' \
-            f'X7R:\n{x7rbscamount}ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc}ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc}ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
+            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
+            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         bscliqurl = \
@@ -2040,9 +2041,9 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
         x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (POLYGON)**\n\n' \
-            f'X7R:\n{x7rbscamount}MATIC (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc}MATIC (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc}MATIC (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7rbscamount} MATIC (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
+            f'X7DAO:\n{x7daobsc} MATIC (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
+            f'X7100:\n{x7rconsbsc} MATIC (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
 
