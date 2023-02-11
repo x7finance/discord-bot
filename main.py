@@ -1007,7 +1007,7 @@ async def buyevenly(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description='X7R Pioneer NFT info, use /pioneer followed by number to see NFT info')
+@client.tree.command(description='X7 Pioneer NFT info')
 @app_commands.rename(pioneerid='pioneer-id')
 @app_commands.describe(pioneerid='Show Pioneer NFT #')
 async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = None):
@@ -1206,7 +1206,7 @@ async def roadmap(interaction: discord.Interaction):
                         f'3.8. V1 XchangeRouter ✅\n' \
                         f'3.9. V1 XchangeOmniRouter, ✅\n' \
                         f'4. Lender dApp 🔄\n' \
-                        f'5. X7D minting 🔄\n' \
+                        f'5. X7D minting ✅\n' \
                         f'6. X7D staking 🔄\n' \
                         f'7. X7D dApp 🔄\n' \
                         f'8. Governance contracts 🔄\n' \
@@ -1229,6 +1229,7 @@ async def roadmap(interaction: discord.Interaction):
 
 @client.tree.command(description="X7 Finance Lending pool info")
 @app_commands.choices(chain=[
+    app_commands.Choice(name="All", value="all"),
     app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance", value="bsc"),
     app_commands.Choice(name="Polygon", value="poly"),
@@ -1240,6 +1241,68 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+    if chain.value == 'all':
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+
+        ethpoolurl = items.ethbalanceapieth + items.lpreserveca + '&tag=latest' + keys.ether
+        ethpoolresponse = requests.get(ethpoolurl)
+        ethpooldata = ethpoolresponse.json()
+        ethpool = float(ethpooldata["result"][0]["balance"])
+        poolamount = str(ethpool / 10 ** 18)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
+
+        arbpoolurl = items.ethbalanceapiarb + items.lpreserveca + '&tag=latest' + keys.arb
+        arbpoolresponse = requests.get(arbpoolurl)
+        arbpooldata = arbpoolresponse.json()
+        arbpool = float(arbpooldata["result"][0]["balance"])
+        arbpoolamount = str(arbpool / 10 ** 18)
+        arbpooldollar = float(arbpoolamount) * float(ethvalue) / 1 ** 18
+
+        bscurl = items.bnbpriceapi + keys.bsc
+        bscresponse = requests.get(bscurl)
+        bscdata = bscresponse.json()
+        bscvalue = float(bscdata["result"]["ethusd"])
+
+        bscpoolurl = items.bnbbalanceapi + items.lpreserveca + '&tag=latest' + keys.bsc
+        bscpoolresponse = requests.get(bscpoolurl)
+        bscpooldata = bscpoolresponse.json()
+        bscpool = float(bscpooldata["result"][0]["balance"])
+        bscpoolamount = str(bscpool / 10 ** 18)
+        bscpooldollar = float(bscpoolamount) * float(bscvalue) / 1 ** 18
+
+        optipoolurl = items.ethbalanceapiopti + items.lpreserveca + '&tag=latest' + keys.opti
+        optipoolresponse = requests.get(optipoolurl)
+        optipooldata = optipoolresponse.json()
+        optipool = float(optipooldata["result"][0]["balance"])
+        optipoolamount = str(optipool / 10 ** 18)
+        optipooldollar = float(optipoolamount) * float(ethvalue) / 1 ** 18
+
+        polyurl = items.maticpriceapi + keys.poly
+        polyresponse = requests.get(polyurl)
+        polydata = polyresponse.json()
+        polyvalue = float(polydata["result"]["maticusd"])
+
+        polypoolurl = items.maticbalanceapi + items.lpreserveca + '&tag=latest' + keys.poly
+        polypoolresponse = requests.get(polypoolurl)
+        polypooldata = polypoolresponse.json()
+        polypool = float(polypooldata["result"][0]["balance"])
+        polypoolamount = str(polypool / 10 ** 18)
+        polypooldollar = float(polypoolamount) * float(polyvalue) / 1 ** 18
+
+        totaldollar = polypooldollar + bscpooldollar + optipooldollar + arbpooldollar + pooldollar
+        embed.description = \
+            f'**X7 Finance Lending Pool Info **\nUse `/pool [chain-name]` for individual contracts\n\n' \
+            f'ETH: {poolamount[:4]} ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
+            f'ARB: {arbpoolamount[:4]} ETH (${"{:0,.0f}".format(arbpooldollar)})\n\n' \
+            f'OPTI: {optipoolamount[:4]} ETH (${"{:0,.0f}".format(optipooldollar)})\n\n' \
+            f'BSC: {bscpoolamount[:4]} BNB (${"{:0,.0f}".format(bscpooldollar)})\n\n' \
+            f'POLY: {polypoolamount[:4]} MATIC (${"{:0,.0f}".format(polypooldollar)})\n\n' \
+            f'TOTAL: (${"{:0,.0f}".format(totaldollar)})\n\n' \
+            f'{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'eth':
         ethurl = items.ethpriceapi + keys.ether
         ethresponse = requests.get(ethurl)
@@ -1250,11 +1313,10 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
-        pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
-        pooldollar = str(pooldollarraw)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (ETH)**\n\n' \
-            f'{poolamount[:4]} ETH (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1269,11 +1331,10 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
-        pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
-        pooldollar = str(pooldollarraw)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (BSC)**\n\n' \
-            f'{poolamount[:4]} BNB (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} BNB (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1288,11 +1349,10 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
-        pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
-        pooldollar = str(pooldollarraw)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (POLYGON)**\n\n' \
-            f'{poolamount[:4]} MATIC (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} MATIC (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1307,11 +1367,10 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
-        pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
-        pooldollar = str(pooldollarraw)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (ARB)**\n\n' \
-            f'{poolamount[:4]} ETH (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]} ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1326,11 +1385,10 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
-        pooldollarraw = float(poolamount) * float(ethvalue) / 1 ** 18
-        pooldollar = str(pooldollarraw)
+        pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (OPTIMISM)**\n\n' \
-            f'{poolamount[:4]}ETH (${pooldollar[:8]})\n\n' \
+            f'{poolamount[:4]}ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.optiaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.optiaddress}{items.x7dca})\n\n' \
             f'{quote}'
