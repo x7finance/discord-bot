@@ -1054,7 +1054,9 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
             f'Number of Owners: {owners}\n' \
             f'Pioneers Unlocked: {traits}\n' \
             f'Pioneer Pool: {totalamount[:3]} ETH (${totaldollar[:4]})\n\n' \
-            f'Pioneer Earnings: {pioneereamount[:5]} ETH (${pioneerdollar[:4]})\n\n{quote}'
+            f'Pioneer Earnings: {pioneereamount[:5]} ETH (${pioneerdollar[:4]})\n\n{quote}\n\n' \
+            f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
+            f'[Opensea](https://opensea.io/collection/x7-pioneer)'
     else:
         baseurl = "https://api.opensea.io/api/v1/asset/"
         slug = items.pioneerca + "/"
