@@ -37,7 +37,7 @@ class Button(discord.ui.View):
 
     @discord.ui.button(label="Agree", emoji="<:x7:1023271910647271584>", style=discord.ButtonStyle.blurple,
                        custom_id="1")
-    async def agree(self, interaction: discord.Interaction, Button: discord.ui.Button):
+    async def agree(self, interaction: discord.Interaction, button: discord.ui.button):
         if type(client.role) is not discord.Role:
             client.role = interaction.guild.get_role(1016657044553617428)
         if client.role not in interaction.user.roles:
@@ -46,19 +46,20 @@ class Button(discord.ui.View):
         else:
             await interaction.response.send_message("You are already verified!", ephemeral=True)
 
-@tasks.loop(hours=6)
+
+@tasks.loop(hours=variables.autotimewp)
 async def wp_message():
     mainchannel = client.get_channel(1017887733953347678)
-    embed = discord.Embed(colour=7419530)
-    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-    thumb = discord.File('X7whitelogo.png')
-    embed.set_thumbnail(url='attachment://X7whitelogo.png')
-    embed.description = \
+    wpembed = discord.Embed(colour=7419530)
+    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    wpthumb = discord.File('X7whitelogo.png')
+    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
+    wpembed.description = \
         '**X7 Finance Whitepaper Links**\n\n' \
         f'{random.choice(items.quotes)}\n\n' \
         '[Full WP](https://x7.finance/whitepaper)\n' \
         '[Short WP](https://x7community.space/wp-short.pdf)'
-    await mainchannel.send(file=thumb, embed=embed)
+    await mainchannel.send(file=wpthumb, embed=wpembed)
     print("WP Message Sent")
 
 
@@ -74,27 +75,27 @@ async def on_ready():
         wp_message.start()
         print("WP Message Started")
 
-@client.event
-async def on_member_join(member):
-    guild = client.get_guild(1016657044553617428)
-    dao = guild.get_role(1017420479159607367)
-    for channel in member.guild.channels:
-        if channel.name.startswith('Members'):
-            await channel.edit(name=f'Members: {member.guild.member_count}')
-        if channel.name.startswith('DAO Members'):
-            await channel.edit(name=f'DAO Members: {len(dao.members)}')
-
 
 @client.event
-async def on_member_leave(member):
-    guild = client.get_guild(1016657044553617428)
-    dao = guild.get_role(1017420479159607367)
-    for channel in member.guild.channels:
-        if channel.name.startswith('Members'):
-            await channel.edit(name=f'Members: {member.guild.member_count}')
+async def on_member_join(joinmember):
+    joinguild = client.get_guild(1016657044553617428)
+    dao = joinguild.get_role(1017420479159607367)
+    for joinchannel in joinmember.guild.channels:
+        if joinchannel.name.startswith('Members'):
+            await joinchannel.edit(name=f'Members: {joinmember.guild.member_count}')
+        if joinchannel.name.startswith('DAO Members'):
+            await joinchannel.edit(name=f'DAO Members: {len(dao.members)}')
 
-        if channel.name.startswith('DAO Members'):
-            await channel.edit(name=f'DAO Members: {len(dao.members)}')
+
+@client.event
+async def on_member_leave(leavemember):
+    leaveguild = client.get_guild(1016657044553617428)
+    dao = leaveguild.get_role(1017420479159607367)
+    for leavechannel in leavemember.guild.channels:
+        if leavechannel.name.startswith('Members'):
+            await leavechannel.edit(name=f'Members: {leavemember.guild.member_count}')
+        if leavechannel.name.startswith('DAO Members'):
+            await leavechannel.edit(name=f'DAO Members: {len(dao.members)}')
 
 
 # COMMANDS
@@ -201,7 +202,7 @@ async def rules(interaction: discord.Interaction, rule_number: app_commands.Choi
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-@client.tree.command(description="X7 NFT info")
+@client.tree.command(description="X7 NFT Info")
 @app_commands.choices(chain=[
     app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance", value="bsc"),
@@ -332,8 +333,8 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         devamount = str(dev / 10 ** 18)
         com = float(treasurydata["result"][1]["balance"])
         comamount = str(com / 10 ** 18)
-        pioneer = float(treasurydata["result"][2]["balance"])
-        pioneeramount = str(pioneer / 10 ** 18)
+        pioneerpool = float(treasurydata["result"][2]["balance"])
+        pioneeramount = str(pioneerpool / 10 ** 18)
         ethurl = items.ethpriceapi + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
@@ -1469,6 +1470,19 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
                                include_24hr_vol='true', include_market_cap="true"))
     cgtogetherprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
                                     include_24hr_vol='true'))
+    if coin == "":
+        quoteresponse = requests.get(items.quoteapi)
+        quotedata = quoteresponse.json()
+        quoteraw = (random.choice(quotedata))
+        quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+        embed.description = f'**X7 Finance Token Prices  (ETH)**\n\n' \
+                            f'X7R:      ${cgtogetherprice["x7r"]["usd"]}\n' \
+                            f'24 Hour Change: {round(cgtogetherprice["x7r"]["usd_24h_change"], 1)}%\n\n' \
+                            f'X7DAO:  ${cgtogetherprice["x7dao"]["usd"]}\n' \
+                            f'24 Hour Change: {round(cgtogetherprice["x7dao"]["usd_24h_change"], 0)}%\n\n' \
+                            f'{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+        return
     if coin == "eth":
         quoteresponse = requests.get(items.quoteapi)
         quotedata = quoteresponse.json()
@@ -1486,15 +1500,9 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         ethurl = baseurl + ether + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
-        block = "?module=proxy&action=eth_blockNumber"
-        blockurl = baseurl + block + keys.ether
-        blockresponse = requests.get(blockurl)
-        blockdataraw = blockresponse.json()
-        blockdata = int(blockdataraw["result"], 16)
         ethembed = discord.Embed(colour=7419530)
         ethembed.set_footer(text="Trust no one, Trust code. Long live Defi")
         ethembed.set_thumbnail(url=tokenlogo)
-        eththumb = discord.File('X7whitelogo.png')
         ethembed.description = \
             f'**{symbol} price**\n\n' \
             f'Eth Price:\n${ethdata["result"]["ethusd"]}\n' \
@@ -1503,39 +1511,23 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
             f'Gas Prices:\n' \
             f'Low: {gasdata["result"]["SafeGasPrice"]} Gwei\n' \
             f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
-            f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
-            f'Last Block: {blockdata}\n\n{quote}'
-        await interaction.response.send_message(file=eththumb, embed=ethembed)
-        return
-    if coin == "":
-        quoteresponse = requests.get(items.quoteapi)
-        quotedata = quoteresponse.json()
-        quoteraw = (random.choice(quotedata))
-        quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-        embed = discord.Embed(colour=7419530)
-        embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-        embed.set_thumbnail(url='attachment://X7whitelogo.png')
-        embed.description = f'**X7 Finance Token Prices  (ETH)**\n\n' \
-                            f'X7R:      ${cgtogetherprice["x7r"]["usd"]}\n' \
-                            f'24 Hour Change: {round(cgtogetherprice["x7r"]["usd_24h_change"], 1)}%\n\n' \
-                            f'X7DAO:  ${cgtogetherprice["x7dao"]["usd"]}\n' \
-                            f'24 Hour Change: {round(cgtogetherprice["x7dao"]["usd_24h_change"], 0)}%\n\n' \
-                            f'{quote}'
-        await interaction.response.send_message(embed=embed)
+            f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n{quote}'
+        await interaction.response.send_message(embed=ethembed)
     else:
         quoteresponse = requests.get(items.quoteapi)
         quotedata = quoteresponse.json()
         quoteraw = (random.choice(quotedata))
         quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-        embed = discord.Embed(colour=7419530)
-        embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-        embed.set_thumbnail(url=tokenlogo)
-        embed.description = f'**{symbol} price**\n\n' \
-                            f'Price:      ${tokenprice[tokenid]["usd"]}\n' \
-                            f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n' \
-                            f'Market Cap: ${"{:0,.0f}".format(tokenprice[tokenid]["usd_market_cap"])}\n\n' \
-                            f'{quote}'
-        await interaction.response.send_message(embed=embed)
+        tokenembed = discord.Embed(colour=7419530)
+        tokenembed.set_footer(text="Trust no one, Trust code. Long live Defi")
+        tokenembed.set_thumbnail(url=tokenlogo)
+        tokenembed.description = \
+            f'**{symbol} price**\n\n' \
+            f'Price:      ${tokenprice[tokenid]["usd"]}\n' \
+            f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n' \
+            f'Market Cap: ${"{:0,.0f}".format(tokenprice[tokenid]["usd_market_cap"])}\n\n' \
+            f'{quote}'
+        await interaction.response.send_message(embed=tokenembed)
 
 
 @client.tree.command(description="X7 Finance Token Holders")
@@ -1755,18 +1747,18 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
 
 
 @client.tree.command(description="X7 Finance Loan Term Info")
-@app_commands.choices(type=[
+@app_commands.choices(terms=[
     app_commands.Choice(name="Full list", value="all"),
     app_commands.Choice(name="1. Simple Loan", value="x7ill001"),
     app_commands.Choice(name="2. Amortizing Loan with interest", value="x7ill002"),
     app_commands.Choice(name="3. Interest Only Loan", value="x7illoo3"),
     ])
-async def loans(interaction: discord.Interaction, type: app_commands.Choice[str]):
+async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    if type.value == "all":
+    if terms.value == "all":
         embed.description = \
             '**X7 Finance Loan Terms**\n\n' \
             'Loan terms are defined by standalone smart contracts that provide the following:\n\n' \
@@ -1782,7 +1774,7 @@ async def loans(interaction: discord.Interaction, type: app_commands.Choice[str]
             'process by which new loan terms may be invented, provided they implement the proper interface.\n\n' \
             f'use `/loans ill001 - ill003` for more details on individual loan contrats\n\n' \
             f'{quote}'
-    if type.value == "x7ill001":
+    if terms.value == "x7ill001":
         embed.description =\
             f'{items.ill001name}\n\n' \
             f'{items.ill001terms}\n\n' \
@@ -1792,7 +1784,7 @@ async def loans(interaction: discord.Interaction, type: app_commands.Choice[str]
             f'[Arbitrum]({items.arbaddress}{items.ill001ca})\n' \
             f'[Optimism]({items.etheraddress}{items.ill001ca})\n\n' \
             f'{quote}'
-    if type.value == "x7ill002":
+    if terms.value == "x7ill002":
         embed.description = \
             f'{items.ill002name}\n\n' \
             f'{items.ill002terms}\n\n' \
@@ -1802,7 +1794,7 @@ async def loans(interaction: discord.Interaction, type: app_commands.Choice[str]
             f'[Arbitrum]({items.arbaddress}{items.ill002ca})\n' \
             f'[Optimism]({items.etheraddress}{items.ill002ca})\n\n' \
             f'{quote}'
-    if type.value == "x7ill003":
+    if terms.value == "x7ill003":
         embed.description = \
             f'{items.ill003name}\n\n' \
             f'{items.ill003terms}\n\n' \
@@ -1824,7 +1816,7 @@ async def twitter(interaction: discord.Interaction):
     tweet = tweepyclient.user_timeline(screen_name=username, count=1)
     embed.description = \
         f'**Latest X7 Finance Tweet**\n\n{tweet[0].text}\n\n' \
-        f'{random.choice(items.twitterresp)}'
+        f'{random.choice(items.twitterresp)}\n'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -2027,46 +2019,46 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
 # MOD COMMANDS
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
-async def say(ctx, *, message):
+async def say(ctx, *, saymessage):
     await ctx.message.delete()
-    await ctx.send(f"{message}")
+    await ctx.send(f"{saymessage}")
 
 
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
-async def shout(ctx, *, message):
+async def shout(ctx, *, shoutmessage):
     await ctx.message.delete()
-    embed.description = f'GM or GN Wherever you are.\n\n {message}'
+    embed.description = f'GM or GN Wherever you are.\n\n {shoutmessage}'
     await ctx.send(f"@everyone")
     await ctx.send(file=thumb, embed=embed)
 
 
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
-async def chain(ctx, *, message, **args):
+async def chain(ctx, *, chainmessage):
     await ctx.message.delete()
-    link = message.split()[0]
-    embed.description = f'**New On Chain Message:**\n\n```{message[91:]}```'
+    link = chainmessage.split()[0]
+    embed.description = f'**New On Chain Message:**\n\n```{chainmessage[91:]}```'
     await ctx.send(f"@everyone\n<{link}>")
     await ctx.send(file=thumb, embed=embed)
 
 
 @client.command()
-async def move(ctx, channel: discord.TextChannel, *message_ids: int):
+async def move(ctx, movechannel: discord.TextChannel, *message_ids: int):
     for message_id in message_ids:
-        message = await ctx.channel.fetch_message(message_id)
+        movemessage = await ctx.channel.fetch_message(message_id)
         if not message:
             return
-        if message.embeds:
-            embed = message.embeds[0]
-            embed.title = f'Embed by: {message.author}'
+        if movemessage.embeds:
+            moveembed = movemessage.embeds[0]
+            moveembed.title = f'Embed by: {movemessage.author}'
         else:
-            embed = discord.Embed(
-                title=f'Message by: {message.author}',
-                description=message.content
+            moveembed = discord.Embed(
+                title=f'Message by: {movemessage.author}',
+                description=movemessage.content
             )
-        await channel.send(embed=embed)
-        await message.delete()
+        await movechannel.send(embed=moveembed)
+        await movemessage.delete()
 
 
 @client.command()
@@ -2079,21 +2071,21 @@ async def agree_button(interaction: discord.Interaction):
 
 # MESSAGES
 @client.event
-async def on_error(*args, **kwargs):
+async def on_error(*args):
     print(f'Unhandled message: {args[0]}\n')
 
 
 @client.event
-async def on_message(message):
-    if message.author == client.user:
+async def on_message(newmessage):
+    if newmessage.author == client.user:
         return
-    if message.content == 'GM':
-        await message.channel.send('GM or GN, Where ever you are!')
-    if message.content == 'Trust no one, Trust code ':
-        await message.channel.send('Long Live Defi!')
-    if message.content == 'Trust no one':
-        await message.channel.send('trust code!')
-    await client.process_commands(message)
+    if newmessage.content == 'GM':
+        await newmessage.channel.send('GM or GN, Where ever you are!')
+    if newmessage.content == 'Trust no one, Trust code ':
+        await newmessage.channel.send('Long Live Defi!')
+    if newmessage.content == 'Trust no one':
+        await newmessage.channel.send('trust code!')
+    await client.process_commands(newmessage)
 
 
 client.run(keys.DISCORD_TOKEN)

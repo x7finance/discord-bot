@@ -6,7 +6,7 @@ spacestime = datetime(2023, 2, 3, 19, 00, 00)
 spaceslink = "https://twitter.com/i/spaces/1YqKDojbAoQxV"
 
 # AUTO     H
-autotime = 2
+autotimewp = 6
 twittertime = 1
 
 # GIVEAWAY               Y   M   D   H   M  S
@@ -31,7 +31,9 @@ modsonly = "You do not have permission from the X7 Mods to do this. #trustnoone"
 
 commands = '**Available X7 Finance commands:**\n\n' \
         '<@1018221723650379936>\n' \
-        '```/roadmap - Whats coming next' \
+        '```/roadmap - Whats coming next\n' \
+        '/snapshot - Shopshot Info' \
+        '/discount - Launch discount Info' \
         '/contract - Token Contract Addresses\n' \
         '/chart - Chart Links\n' \
         '/price [token] - Coin Gecko Prices\n' \
@@ -58,9 +60,11 @@ commands = '**Available X7 Finance commands:**\n\n' \
         '/pioneer [id#]\n' \
         '/treasury - Treasury Details\n' \
         '/pool - Lending Pool Info\n' \
+        '/liquidity - Initial liquidity Info' \
         '/loans - Loan Term Info\n' \
         '/burn - Burnt Tokens Info\n' \
         '/holders - Token Holder Info\n' \
+        '/fg - Market Fear and greed index' \
         '/giveaway - Current Giveaway Info\n' \
         '/report [@user] [reason]\n' \
         '/x7force - Submit your twitter ID for X7Force channel```\n' \
