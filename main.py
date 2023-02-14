@@ -1899,11 +1899,7 @@ async def snapshot(interaction: discord.Interaction):
     embed.description = \
         f'**X7 Finance NFT Information**\n\nThe rollout of the Ecosystem Contracts on BNB Smart Chain, Polygon ' \
         f'(MATIC), Arbitrum, and Optimism has begun.\n\n' \
-        f'In order to deploy the X7 ecosystem more than 30 contracts need to be deployed from unique deployer ' \
-        f'addresses per chain. After being deployed many require careful initial configuration. We are moving through' \
-        f' a very long checklist and will be double checking these deployments very carefully. Each contract should ' \
-        f'have the exact same address on all 5 chains. We expect this may take 1-2 days to fully complete, but do ' \
-        f'enjoy watching the on chain progress.\n\nWe will go live with Xchange, borrowing, lending, revenue ' \
+        f'We will go live with Xchange, borrowing, lending, revenue ' \
         f'splitting, and profit splitting on other chains as soon as we can in concert with the full release on ' \
         f'Ethereum.\n\nThe tokens however will not go live until we have built up a sufficient amount of initial ' \
         f'liquidity for the tokens on any particular chain.\n\nWhen the tokens do go live all X7 token holders on ' \

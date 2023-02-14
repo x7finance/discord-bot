@@ -6,7 +6,7 @@ spacestime = datetime(2023, 2, 3, 19, 00, 00)
 spaceslink = "https://twitter.com/i/spaces/1YqKDojbAoQxV"
 
 # AUTO     H
-autotimewp = 6
+autotimewp = 24
 twittertime = 1
 
 # GIVEAWAY               Y   M   D   H   M  S

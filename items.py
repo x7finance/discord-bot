@@ -157,36 +157,35 @@ ecopriceeth = '0.1 ETH - 500 Supply'
 liqpriceeth = '0.5ETH - 250 Supply'
 dexpriceeth = '0.5 ETH - 150 Supply'
 borrowpriceeth = '1 ETH - 100 Supply'
-magisterpriceeth = '50 Eth - 49 Supply'
+magisterpriceeth = '50 Eth'
 
 # ARB
 ecopricearb = '0.1 ETH - 500 Supply'
 liqpricearb = '0.5ETH - 250 Supply'
 dexpricearb = '0.5 ETH - 150 Supply'
 borrowpricearb = '1 ETH - 100 Supply'
-magisterpricearb = '50 Eth - 49 Supply'
+magisterpricearb = '50 Eth'
 
 # OPTI
 ecopriceopti = '0.1 ETH - 500 Supply'
 liqpriceopti = '0.5ETH - 250 Supply'
 dexpriceopti = '0.5 ETH - 150 Supply'
 borrowpriceopti = '1 ETH - 100 Supply'
-magisterpriceopti = '50 Eth - 49 Supply'
+magisterpriceopti = '50 Eth'
 
 # BSC
-ecopricebsc = '0.1 ETH - 500 Supply'
-liqpricebsc = '0.5ETH - 250 Supply'
-dexpricebsc = '0.5 ETH - 150 Supply'
-borrowpricebsc = '1 ETH - 100 Supply'
-magisterpricebsc = '50 Eth - 49 Supply'
+ecopricebsc = '0.5 BNB - 500 Supply'
+liqpricebsc = '2.5 BNB - 250 Supply'
+dexpricebsc = '2.5 BNB - 150 Supply'
+borrowpricebsc = '5 BNB - 100 Supply'
+magisterpricebsc = '150 BNB'
 
 # POLY
-ecopricepoly = '0.1 ETH - 500 Supply'
-liqpricepoly = '0.5ETH - 250 Supply'
-dexpricepoly = '0.5 ETH - 150 Supply'
-borrowpricepoly = '1 ETH - 100 Supply'
-magisterpricepoly = '50 Eth 49 Supply'
-
+ecopricepoly = '130 MATIC - 500 Supply'
+liqpricepoly = '650 MATIC - 250 Supply'
+dexpricepoly = '650 MATIC - 150 Supply'
+borrowpricepoly = '1300 MATIC - 100 Supply'
+magisterpricepoly = '45000 Eth'
 
 # LINKS
 website = 'https://x7.finance'
