@@ -108,7 +108,7 @@ dextoolsopti = 'https://www.dextools.io/app/optimism/pair-explorer/'
 # PAIRS
 # ETH
 x7rpaireth = '0x6139240a5907e4ce74673257c320ea366c521aea'
-x7daopaireth = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
+x7daopaireth = '0x81b786ed4b2f1118e0fa0343ad4760e15448e3e8'
 x7101paireth = '0x75311ee016c82e7770e4aca73a0d142f96ddb969'
 x7102paireth = '0x49c838c60170c36e90cfa6021a57f2268dda3254'
 x7103paireth = '0xcecf54edc42c5c9f6ee10cb1efcc23e49f7d5a5d'

@@ -6,6 +6,7 @@ import keys
 import requests
 from pycoingecko import CoinGeckoAPI
 from datetime import datetime, timedelta
+import pytz
 from discord import *
 from typing import *
 import random
@@ -353,9 +354,8 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         comx7dresponse = requests.get(comx7durl)
         comx7ddata = comx7dresponse.json()
         comx7d = int(comx7ddata["result"][:-18])
-        comx7ddollar = float(comamount) * float(ethvalue) / 1 ** 18
         comx7dprice = comx7d * ethvalue
-        comtotal = comx7rprice + comdollar + comx7ddollar
+        comtotal = comx7rprice + comdollar + comx7dprice
         embed.description = \
             f'**X7 Finance Treasury Info (ETH)**\n\n' \
             f'Pioneer Pool:\n{pioneeramount[:4]}ETH (${"{:0,.0f}".format(pioneerdollar)})\n\n' \
@@ -2019,6 +2019,34 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f'X7R:\n{x7rbscamount} MATIC (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
             f'X7DAO:\n{x7daobsc} MATIC (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
             f'X7100:\n{x7rconsbsc} MATIC (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+
+@client.tree.command(description="World Clock")
+async def time(interaction: discord.Interaction):
+    westcoastraw = pytz.timezone("America/Los_Angeles")
+    westcoast = datetime.now(westcoastraw)
+    westcoasttime = westcoast.strftime("%H:%M:%S")
+    eastcoastraw = pytz.timezone("America/New_York")
+    eastcoast = datetime.now(eastcoastraw)
+    eastcoasttime = eastcoast.strftime("%H:%M:%S")
+    londonraw = pytz.timezone("Europe/London")
+    london = datetime.now(londonraw)
+    londontime = london.strftime("%H:%M:%S")
+    berlinraw = pytz.timezone("Europe/Berlin")
+    berlin = datetime.now(berlinraw)
+    berlintime = berlin.strftime("%H:%M:%S")
+    tokyoraw = pytz.timezone("Asia/Tokyo")
+    tokyo = datetime.now(tokyoraw)
+    tokyotime = tokyo.strftime("%H:%M:%S")
+    embed.description = \
+        f'`GM or GN Where ever you are...`\n\n' \
+        f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\n' \
+        f'PST: {westcoasttime}\n' \
+        f'EST: {eastcoasttime}\n' \
+        f'UK: {londontime}\n' \
+        f'EU: {berlintime}\n' \
+        f'Tokyo: {tokyotime}\n'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
