@@ -207,8 +207,11 @@ dead = '0x000000000000000000000000000000000000dead'
 supply = 100000000
 
 # MEDIA
+blackhole = [r'media\blackhole1.jpg', r'media\blackhole2.jpg', r'media\blackhole3.jpg', r'media\blackhole4.jpg',
+             r'media\blackhole5.jpg', r'media\blackhole6.jpg', r'media\blackhole7.jpg']
 logos = [r'media\logo1.png', r'media\logo2.png', r'media\logo3.png', r'media\logo4.png', r'media\logo4.png',
-         r'media\logo5.png', r'media\logo6.png', r'media\logo7.png', r'media\logo8.png', r'media\logo9.png']
+         r'media\logo5.png', r'media\logo6.png', r'media\logo7.png', r'media\logo8.png', r'media\logo9.png',
+         r'media\logo10.png', r'media\logo11.png']
 x7rlogo = r'media\X7R_LOGO_black_back_200_x_200_px.png'
 x7daologo = r'media\X7_DAO_LOGO_black_back_200_x_200_px.png'
 x7101logo = r'media\X7101_LOGO_black_back_200_x_200_px.png'

@@ -11,6 +11,7 @@ from discord import *
 from typing import *
 import random
 import variables
+from PIL import Image, ImageDraw, ImageFont
 
 
 class PersitentViewBot(commands.Bot):
@@ -455,6 +456,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -465,11 +467,6 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
                                  include_24hr_vol='true', include_last_updated_at="true"))
     daoprice = (cgx7daoprice["x7dao"]["usd"])
-    uniurl = items.tokenbalanceapieth + items.x7daoca + '&address=' + items.x7daopaireth + '&tag=latest' + keys.ether
-    uniresponse = requests.get(uniurl)
-    unidata = uniresponse.json()
-    unidata["result"] = int(unidata["result"][:-18])
-    uniresult = round(((unidata["result"] / items.supply) * 100), 6)
     x7daoholdersurl = items.holdersapi + items.x7daoca + keys.holders
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
@@ -482,11 +479,11 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Market Cap:  ${"{:0,.0f}".format(daoprice*items.supply)}\n' \
             f'24 Hour Volume: ${"{:0,.0f}".format(cgx7daoprice["x7dao"]["usd_24h_vol"])}\n' \
             f'Holders: {x7daoholders}\n\n' \
-            f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult,2)}% of Supply\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7daopaireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
             f'**X7DAO (BSC) Info**\n\n' \
@@ -494,6 +491,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7daopairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
             f'**X7DAO (POLYGON) Info**\n\n' \
@@ -501,6 +499,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polygonscan]({items.polytoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7daopairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
             f'**X7DAO (ARBITRUM) Info**\n\n' \
@@ -508,6 +507,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7daopairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
             f'**X7DAO (OPTIMISM) Info**\n\n' \
@@ -515,7 +515,24 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7daopairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7daoca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7DAO Info (ETH)\nUse /x7dao [chain-name] for other chains\n\n'
+                f'X7DAO Price: ${cgx7daoprice["x7dao"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7daoprice["x7dao"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(daoprice * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7daoprice["x7dao"]["usd_24h_vol"])}\n'
+                f'Holders: {x7daoholders}\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7R Info')
@@ -525,6 +542,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -565,6 +583,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[Etherscan]({items.ethertoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7rpaireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
             f'**X7R (BSC) Info**\n\n' \
@@ -572,6 +591,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[BSCscan]({items.bsctoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7rpairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
             f'**X7R (POLYGON) Info**\n\n' \
@@ -579,6 +599,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[Polygonscan]({items.polytoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7rpairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
             f'**X7R (ARBITRUM) Info**\n\n' \
@@ -586,6 +607,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[Arbiscan]({items.arbtoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7rpairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
             f'**X7R (POLYGON) Info**\n\n' \
@@ -593,7 +615,28 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[Optimistic.etherscan]({items.optitoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7rpairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7rca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7R (ETH) Info\n\n'
+                f'X7R Price: ${cgx7rprice["x7r"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7rprice["x7r"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7rprice * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7rprice["x7r"]["usd_24h_vol"])}\n'
+                f'Holders: {x7rholders}\n\n'
+                f'X7R Tokens Burned:\n'
+                f'{"{:,}".format(burndata["result"])}\n'
+                f'{burnresult}% of Supply\n\n'
+                f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult, 2)}% of Supply\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7101 Info')
@@ -603,6 +646,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -629,6 +673,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7101paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
             f'**X7101 (BSC) Info**\n\n' \
@@ -636,6 +681,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7101pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
             f'**X7101 (POLYGON) Info**\n\n' \
@@ -643,6 +689,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polygonscan]({items.polytoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7101pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
             f'**X7101 (ARBITRUM) Info**\n\n' \
@@ -650,6 +697,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7101pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
             f'**X7101 (OPTIMISM) Info**\n\n' \
@@ -657,7 +705,24 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7101ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7101pairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7101ca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7101 (ETH) Info\n\n'
+                f'X7101 Price: ${cgx7101price["x7101"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7101price["x7101"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7101price * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7101price["x7101"]["usd_24h_vol"])}\n'
+                f'Holders: {x7101holders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7102 Info')
@@ -667,6 +732,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -693,6 +759,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7102paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
             f'**X7102 (BSC) Info**\n\n' \
@@ -700,6 +767,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7102pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
             f'**X7102 (POLYGON) Info**\n\n' \
@@ -707,6 +775,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polygonscan]({items.polytoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7102pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
             f'**X7102 (ARBITRUM) Info**\n\n' \
@@ -714,6 +783,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7102pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
             f'**X7102 (OPTIMISM) Info**\n\n' \
@@ -721,7 +791,24 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7102ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7102pairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7102ca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7102 (ETH) Info\n\n'
+                f'X7102 Price: ${cgx7102price["x7102"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7102price["x7102"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7102price*items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7102price["x7102"]["usd_24h_vol"])}\n'
+                f'Holders: {x7102holders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7103 Info')
@@ -731,6 +818,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -757,6 +845,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7103paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
             f'**X7103 (BSC) Info**\n\n' \
@@ -764,6 +853,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7103pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
             f'**X7103 (POLYGON) Info**\n\n' \
@@ -771,6 +861,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polgonscan]({items.polytoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7103pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
             f'**X7103 (ARBITRUM) Info**\n\n' \
@@ -778,6 +869,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7103pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
             f'**X7103 (OPTMISM) Info**\n\n' \
@@ -785,7 +877,24 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7103pairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7103ca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7103 (ETH) Info\n\n'
+                f'X7103 Price: ${cgx7103price["x7103"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7103price["x7103"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7103price * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7103price["x7103"]["usd_24h_vol"])}\n'
+                f'Holders: {x7103holders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7104 Info')
@@ -795,6 +904,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -821,6 +931,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7104paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
             f'**X7104 (BSC) Info**\n\n' \
@@ -828,6 +939,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7104pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
             f'**X7104 (POLYGON) Info**\n\n' \
@@ -835,6 +947,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polygonscan]({items.polytoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7104pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
             f'**X7104 (ARBITRUM) Info**\n\n' \
@@ -842,6 +955,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7104pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
             f'**X7104 (OPTIMISM) Info**\n\n' \
@@ -849,7 +963,24 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7104ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7104pairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7104ca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7104 (ETH) Info\n\n'
+                f'X7104 Price: ${cgx7104price["x7104"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7104price["x7104"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7104price * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7104price["x7104"]["usd_24h_vol"])}\n'
+                f'Holders: {x7104holders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description='X7105 Info, use /x7105 followed by amount to convert to $')
@@ -859,6 +990,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     app_commands.Choice(name="Optimism", value="opti"),
+    app_commands.Choice(name="Image", value="img"),
     ])
 async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
@@ -885,6 +1017,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Etherscan]({items.ethertoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7105paireth})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
             f'**X7105 (BSC) Info**\n\n' \
@@ -892,6 +1025,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[BSCscan]({items.bsctoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsbsc}{items.x7105pairbsc})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
             f'**X7105 (POLYGON) Info**\n\n' \
@@ -899,6 +1033,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Polygonscan]({items.polytoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolspoly}{items.x7105pairpoly})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
             f'**X7105 (ARBITRUM) Info**\n\n' \
@@ -906,6 +1041,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Arbiscan]({items.arbtoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsarb}{items.x7105pairarb})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
+        await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
             f'**X7105 (AOPTIMISM) Info**\n\n' \
@@ -913,7 +1049,24 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'[Optimistic.etherscan]({items.optitoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7105pairopti})\n' \
             f'[Buy]({items.xchangebuy}{items.x7105ca})\n\n{quote}'
-    await interaction.response.send_message(embed=embed, file=thumb)
+        await interaction.response.send_message(embed=embed, file=thumb)
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7105 (ETH) Info\n\n'
+                f'X7105 Price: ${cgx7105price["x7105"]["usd"]}\n'
+                f'24 Hour Change: {round(cgx7105price["x7105"]["usd_24h_change"], 1)}%\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7105price * items.supply)}\n'
+                f'24 Hour Volume: ${"{:0,.0f}".format(cgx7105price["x7105"]["usd_24h_vol"])}\n'
+                f'Holders: {x7105holders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description="X7 Finance Whitepaper links")
@@ -1159,7 +1312,11 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
 
 
 @client.tree.command(description="Market Cap Info")
-async def mcap(interaction: discord.Interaction):
+@app_commands.choices(view=[
+    app_commands.Choice(name="Text", value="text"),
+    app_commands.Choice(name="Image", value="img"),
+    ])
+async def mcap(interaction: discord.Interaction, view: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
@@ -1179,21 +1336,46 @@ async def mcap(interaction: discord.Interaction):
     x7104price = (cgx7104price["x7104"]["usd"]) * items.supply
     cgx7105price = (cg.get_price(ids='x7105', vs_currencies='usd'))
     x7105price = (cgx7105price["x7105"]["usd"]) * items.supply
-    embed.description = \
-        f'**X7 Finance Market Cap Info (ETH)**\n\n' \
-        f'X7R:          ${"{:0,.0f}".format(x7rprice)}\n' \
-        f'X7DAO:     ${"{:0,.0f}".format(x7daoprice)}\n' \
-        f'X7101:       ${"{:0,.0f}".format(x7101price)}\n' \
-        f'X7102:       ${"{:0,.0f}".format(x7102price)}\n' \
-        f'X7103:       ${"{:0,.0f}".format(x7103price)}\n' \
-        f'X7104:       ${"{:0,.0f}".format(x7104price)}\n' \
-        f'X7105:       ${"{:0,.0f}".format(x7105price)}\n\n' \
-        f'Constellations Combined: ' \
-        f'${"{:0,.0f}".format(x7101price + x7102price + x7103price + x7104price + x7105price)}\n' \
-        f'Total Token Marketcap:\n' \
-        f'    ${"{:0,.0f}".format(x7rprice+x7daoprice+x7101price+x7102price+x7103price+x7104price+x7105price)}' \
-        f'\n\n{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+    total = x7rprice+x7daoprice+x7101price+x7102price+x7103price+x7104price+x7105price
+    if view.value == "text":
+        embed.description = \
+            f'**X7 Finance Market Cap Info (ETH)**\n\n' \
+            f'X7R:          ${"{:0,.0f}".format(x7rprice)}\n' \
+            f'X7DAO:     ${"{:0,.0f}".format(x7daoprice)}\n' \
+            f'X7101:       ${"{:0,.0f}".format(x7101price)}\n' \
+            f'X7102:       ${"{:0,.0f}".format(x7102price)}\n' \
+            f'X7103:       ${"{:0,.0f}".format(x7103price)}\n' \
+            f'X7104:       ${"{:0,.0f}".format(x7104price)}\n' \
+            f'X7105:       ${"{:0,.0f}".format(x7105price)}\n\n' \
+            f'Constellations Combined: ' \
+            f'${"{:0,.0f}".format(x7101price + x7102price + x7103price + x7104price + x7105price)}\n' \
+            f'Total Token Marketcap:\n' \
+            f'    ${"{:0,.0f}".format(total)}' \
+            f'\n\n{quote}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if view.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(r'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7 Finance Market Cap Info (ETH)\n\n'
+                f'X7R:         ${"{:0,.0f}".format(x7rprice)}\n'
+                f'X7DAO:       ${"{:0,.0f}".format(x7daoprice)}\n'
+                f'X7101:       ${"{:0,.0f}".format(x7101price)}\n'
+                f'X7102:       ${"{:0,.0f}".format(x7102price)}\n'
+                f'X7103:       ${"{:0,.0f}".format(x7103price)}\n'
+                f'X7104:       ${"{:0,.0f}".format(x7104price)}\n'
+                f'X7105:       ${"{:0,.0f}".format(x7105price)}\n\n'
+                f'Constellations Combined: \n'
+                f'${"{:0,.0f}".format(x7101price + x7102price + x7103price + x7104price + x7105price)}\n\n'
+                f'Total Token Marketcap:\n'
+                f'${"{:0,.0f}".format(total)}\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description="Roadmap Info")
@@ -1266,7 +1448,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (ETH)**\n\n' \
-            f'{poolamount[:4]} ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
+            f'{poolamount[:5]} ETH (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1300,7 +1482,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         pooldollar = float(poolamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             f'**X7 Finance Lending Pool Info (POLYGON)**\n\n' \
-            f'{poolamount[:4]} MATIC (${"{:0,.0f}".format(pooldollar)})\n\n' \
+            f'{poolamount[:6]} MATIC (${"{:0,.0f}".format(pooldollar)})\n\n' \
             f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'{quote}'
@@ -1492,6 +1674,24 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
                             f'24 Hour Change: {round(cgtogetherprice["x7dao"]["usd_24h_change"], 0)}%\n\n' \
                             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
+    if coin == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(R'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7 Finance Token Price Info (ETH)\n'
+                f'Use /x7tokenname for all other details\n'
+                f'Use /constellations for constellations\n\n'
+                f'X7R:      ${cgtogetherprice["x7r"]["usd"]}\n'
+                f'24 Hour Change: {round(cgtogetherprice["x7r"]["usd_24h_change"], 1)}%\n\n'
+                f'X7DAO:  ${cgtogetherprice["x7dao"]["usd"]}\n'
+                f'24 Hour Change: {round(cgtogetherprice["x7dao"]["usd_24h_change"], 0)}%\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r"media\blackhole.png")
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
         return
     if coin == "eth":
         quoteresponse = requests.get(items.quoteapi)
@@ -1541,7 +1741,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
 
 
 @client.tree.command(description="X7 Finance Token Holders")
-async def holders(interaction: discord.Interaction):
+async def holders(interaction: discord.Interaction, view: Optional[str] = ""):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
@@ -1554,11 +1754,26 @@ async def holders(interaction: discord.Interaction):
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
     x7daoholders = x7daoholdersdata["holdersCount"]
-    embed.description = '**X7 Finance Token Holders (ETH)**\n\n' \
+    if view == "":
+        embed.description = '**X7 Finance Token Holders (ETH)**\n\n' \
                         f'X7R Holders: {x7rholders}\n' \
                         f'X7DAO Holders: {x7daoholders}\n\n' \
                         f'{quote}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if view == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(R'media\FreeMonoBold.ttf', 28)
+        i1.text((28, 36),
+                f'X7 Finance Token Holders (ETH)\n\n'
+                f'X7R Holders: {x7rholders}\n'
+                f'X7DAO Holders: {x7daoholders}\n\n\n\n'
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r"media\blackhole.png")
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
 
 
 @client.tree.command(description="Market Fear Greed Index")
