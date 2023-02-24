@@ -2265,6 +2265,33 @@ async def time(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
+@client.tree.command(description="X7 Finance FAQ")
+async def faq(interaction: discord.Interaction):
+    embed.description = \
+        "[Constellation Tokens]('https://www.x7finance.org/faq/constellations')" \
+        "[Developer Questions]('https://www.x7finance.org/faq/devs')" \
+        "[General Questions]('https://www.x7finance.org/faq/general')" \
+        "[Governance Questions](https://www.x7finance.org/faq/governance')" \
+        "[Investor Questions]('https://www.x7finance.org/faq/investors')" \
+        "[Liquidity Lending Questions]('https://www.x7finance.org/faq/liquiditylending')" \
+        "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
+        "[Xchange Questions]('https://www.x7finance.org/faq/xchange')"
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+
+@client.tree.command(description="X7 Finance Dashboard")
+async def dashboard(interaction: discord.Interaction):
+    embed.description = \
+        "[Constellation Tokens]('https://www.x7finance.org/faq/constellations')" \
+        "[Developer Questions]('https://www.x7finance.org/faq/devs')" \
+        "[General Questions]('https://www.x7finance.org/faq/general')" \
+        "[Governance Questions](https://www.x7finance.org/faq/governance')" \
+        "[Investor Questions]('https://www.x7finance.org/faq/investors')" \
+        "[Liquidity Lending Questions]('https://www.x7finance.org/faq/liquiditylending')" \
+        "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
+        "[Xchange Questions]('https://www.x7finance.org/faq/xchange')"
+    await interaction.response.send_message(file=thumb, embed=embed)
+
 # MOD COMMANDS
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
