@@ -1716,8 +1716,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         ethembed.description = \
             f'**{symbol} price**\n\n' \
             f'Eth Price:\n${ethdata["result"]["ethusd"]}\n' \
-            f'24 Hour Change: {round(eth["ethereum"]["usd_24h_change"], 1)}%\n' \
-            f'Market Cap: ${"{:0,.0f}".format(eth["ethereum"]["usd_market_cap"])}\n\n' \
+            f'24 Hour Change: {round(eth["ethereum"]["usd_24h_change"], 1)}%\n\n' \
             f'Gas Prices:\n' \
             f'Low: {gasdata["result"]["SafeGasPrice"]} Gwei\n' \
             f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
@@ -1734,8 +1733,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         tokenembed.description = \
             f'**{symbol} price**\n\n' \
             f'Price:      ${tokenprice[tokenid]["usd"]}\n' \
-            f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n' \
-            f'Market Cap: ${"{:0,.0f}".format(tokenprice[tokenid]["usd_market_cap"])}\n\n' \
+            f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n\n' \
             f'{quote}'
         await interaction.response.send_message(embed=tokenembed)
 
@@ -2254,6 +2252,9 @@ async def time(interaction: discord.Interaction):
     tokyoraw = pytz.timezone("Asia/Tokyo")
     tokyo = datetime.now(tokyoraw)
     tokyotime = tokyo.strftime("%H:%M:%S")
+    dubairaw = pytz.timezone("Asia/Dubai")
+    dubai = datetime.now(dubairaw)
+    dubaitime = tokyo.strftime("%H:%M:%S")
     embed.description = \
         f'`GM or GN Where ever you are...`\n\n' \
         f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\n' \
@@ -2261,6 +2262,7 @@ async def time(interaction: discord.Interaction):
         f'EST: {eastcoasttime}\n' \
         f'UK: {londontime}\n' \
         f'EU: {berlintime}\n' \
+        f'Dubai: {dubaitime}\n' \
         f'Tokyo: {tokyotime}\n'
     await interaction.response.send_message(file=thumb, embed=embed)
 
@@ -2291,6 +2293,7 @@ async def dashboard(interaction: discord.Interaction):
         "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
         "[Xchange Questions]('https://www.x7finance.org/faq/xchange')"
     await interaction.response.send_message(file=thumb, embed=embed)
+
 
 # MOD COMMANDS
 @client.command(pass_context=True)
