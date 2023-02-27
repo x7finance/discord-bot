@@ -185,7 +185,7 @@ ecopricepoly = '130 MATIC - 500 Supply'
 liqpricepoly = '650 MATIC - 250 Supply'
 dexpricepoly = '650 MATIC - 150 Supply'
 borrowpricepoly = '1300 MATIC - 100 Supply'
-magisterpricepoly = '45000 Eth'
+magisterpricepoly = '45000 MATIC'
 
 # LINKS
 website = 'https://x7.finance'

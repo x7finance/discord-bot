@@ -41,7 +41,7 @@ class Button(discord.ui.View):
                        custom_id="1")
     async def agree(self, interaction: discord.Interaction, button: discord.ui.button):
         if type(client.role) is not discord.Role:
-            client.role = interaction.guild.get_role(1016657044553617428)
+            client.role = interaction.guild.get_role(1016664143220179077)
         if client.role not in interaction.user.roles:
             await interaction.user.add_roles(client.role)
             await interaction.response.send_message("You are now verified!", ephemeral=True)
@@ -253,7 +253,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[**Magister**]({items.bsctoken}{items.magisterca})\n{items.magisterpricebsc}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
-            f'https://x7.finance/x/nft/mint\n\n{quote}'
+            f'https://www.x7finance.org/nfts/\n\n{quote}'
     if chain.value == "poly":
         embed.description = \
             f'**X7 Finance NFT Information (POLYGON)**\n\n' \
@@ -270,7 +270,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[**Magister**]({items.polytoken}{items.magisterca})\n{items.magisterpricepoly}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
-            f'https://x7.finance/x/nft/mint\n\n{quote}'
+            f'https://www.x7finance.org/nfts/\n\n{quote}'
     if chain.value == "arb":
         embed.description = \
             f'**X7 Finance NFT Information (ARBITRUM)**\n\n' \
@@ -287,7 +287,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[**Magister**]({items.arbtoken}{items.magisterca})\n{items.magisterpricearb}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
-            f'https://x7.finance/x/nft/mint\n\n{quote}'
+            f'https://www.x7finance.org/nfts/\n\n{quote}'
     if chain.value == "opti":
         embed.description = \
             f'**X7 Finance NFT Information (OPTIMUM)**\n\n' \
@@ -304,7 +304,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[**Magister**]({items.optitoken}{items.magisterca})\n{items.magisterpriceopti}\n' \
             f'> 25% discount on x7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
-            f'https://x7.finance/x/nft/mint\n\n{quote}'
+            f'https://www.x7finance.org/nfts/\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -1322,21 +1322,20 @@ async def mcap(interaction: discord.Interaction, view: app_commands.Choice[str])
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
-    cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd'))
-    x7rprice = (cgx7rprice["x7r"]["usd"]) * items.supply
-    cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd'))
-    x7daoprice = (cgx7daoprice["x7dao"]["usd"]) * items.supply
-    cgx7101price = (cg.get_price(ids='x7101', vs_currencies='usd'))
-    x7101price = (cgx7101price["x7101"]["usd"]) * items.supply
-    cgx7102price = (cg.get_price(ids='x7102', vs_currencies='usd'))
-    x7102price = (cgx7102price["x7102"]["usd"]) * items.supply
-    cgx7103price = (cg.get_price(ids='x7103', vs_currencies='usd'))
-    x7103price = (cgx7103price["x7103"]["usd"]) * items.supply
-    cgx7104price = (cg.get_price(ids='x7104', vs_currencies='usd'))
-    x7104price = (cgx7104price["x7104"]["usd"]) * items.supply
-    cgx7105price = (cg.get_price(ids='x7105', vs_currencies='usd'))
-    x7105price = (cgx7105price["x7105"]["usd"]) * items.supply
-    total = x7rprice+x7daoprice+x7101price+x7102price+x7103price+x7104price+x7105price
+    cgprice = (cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105', vs_currencies='usd'))
+    burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
+    burnresponse = requests.get(burnurl)
+    burndata = burnresponse.json()
+    burndata["result"] = int(burndata["result"][:-18])
+    x7rsupply = items.supply - burndata["result"]
+    x7rprice = (cgprice["x7r"]["usd"]) * x7rsupply
+    x7daoprice = (cgprice["x7dao"]["usd"]) * items.supply
+    x7101price = (cgprice["x7101"]["usd"]) * items.supply
+    x7102price = (cgprice["x7102"]["usd"]) * items.supply
+    x7103price = (cgprice["x7103"]["usd"]) * items.supply
+    x7104price = (cgprice["x7104"]["usd"]) * items.supply
+    x7105price = (cgprice["x7105"]["usd"]) * items.supply
+    total = x7rprice + x7daoprice + x7101price + x7102price + x7103price + x7104price + x7105price
     if view.value == "text":
         embed.description = \
             f'**X7 Finance Market Cap Info (ETH)**\n\n' \
@@ -2254,7 +2253,7 @@ async def time(interaction: discord.Interaction):
     tokyotime = tokyo.strftime("%H:%M:%S")
     dubairaw = pytz.timezone("Asia/Dubai")
     dubai = datetime.now(dubairaw)
-    dubaitime = tokyo.strftime("%H:%M:%S")
+    dubaitime = dubai.strftime("%H:%M:%S")
     embed.description = \
         f'`GM or GN Where ever you are...`\n\n' \
         f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\n' \
