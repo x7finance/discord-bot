@@ -1612,14 +1612,14 @@ async def spaces(interaction: discord.Interaction):
     days = divmod(duration_in_s, 86400)
     hours = divmod(days[1], 3600)
     minutes = divmod(hours[1], 60)
-    seconds = divmod(minutes[1], 1)
     if duration < timedelta(0):
         embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{quote}'
     else:
-        embed.description = f'Next X7 Finance Twitter space is:\n\n{then} (UTC)\n\n' \
-                            f'%d days, %d hours, %d minutes and %d seconds\n\n' \
-                            f'[Click here]({variables.spaceslink}) to set a reminder!' \
-                            f'\n\n{quote}'
+        embed.description =\
+            f'Next X7 Finance Twitter space is:\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
+            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
+            f'[Click here]({variables.spaceslink}) to set a reminder!' \
+            f'\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -2238,25 +2238,25 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
 async def time(interaction: discord.Interaction):
     westcoastraw = pytz.timezone("America/Los_Angeles")
     westcoast = datetime.now(westcoastraw)
-    westcoasttime = westcoast.strftime("%H:%M:%S")
+    westcoasttime = westcoast.strftime("%I:%M %p")
     eastcoastraw = pytz.timezone("America/New_York")
     eastcoast = datetime.now(eastcoastraw)
-    eastcoasttime = eastcoast.strftime("%H:%M:%S")
+    eastcoasttime = eastcoast.strftime("%I:%M %p")
     londonraw = pytz.timezone("Europe/London")
     london = datetime.now(londonraw)
-    londontime = london.strftime("%H:%M:%S")
+    londontime = london.strftime("%I:%M %p")
     berlinraw = pytz.timezone("Europe/Berlin")
     berlin = datetime.now(berlinraw)
-    berlintime = berlin.strftime("%H:%M:%S")
+    berlintime = berlin.strftime("%I:%M %p")
     tokyoraw = pytz.timezone("Asia/Tokyo")
     tokyo = datetime.now(tokyoraw)
-    tokyotime = tokyo.strftime("%H:%M:%S")
+    tokyotime = tokyo.strftime("%I:%M %p")
     dubairaw = pytz.timezone("Asia/Dubai")
     dubai = datetime.now(dubairaw)
-    dubaitime = dubai.strftime("%H:%M:%S")
+    dubaitime = dubai.strftime("%I:%M %p")
     embed.description = \
-        f'`GM or GN Where ever you are...`\n\n' \
-        f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n\n' \
+        f'UTC: {datetime.now().strftime("%A %B %d %Y")}\n' \
+        f'{datetime.now().strftime("%I:%M %p")}\n\n' \
         f'PST: {westcoasttime}\n' \
         f'EST: {eastcoasttime}\n' \
         f'UK: {londontime}\n' \
