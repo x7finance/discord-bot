@@ -25,8 +25,8 @@ ethbalanceapiarb = 'https://api.arbiscan.io/api?module=account&action=balancemul
 tokenbalanceapiopti = 'https://api-optimistic.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
 ethbalanceapiopti = 'https://api-optimistic.etherscan.io/api?module=account&action=balancemulti&address='
 
-
-holdersapi = 'https://api.ethplorer.io/getTokenInfo/'
+blockspanapi = 'https://api.blockspan.com/v1/collections/contract/'
+ethplorerapi = 'https://api.ethplorer.io/getTokenInfo/'
 osapi = "https://api.opensea.io/api/v1/collection/"
 quoteapi = 'https://type.fit/api/quotes'
 fearapi = 'https://api.alternative.me/fng/?limit=0'
