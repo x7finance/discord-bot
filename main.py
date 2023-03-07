@@ -1287,7 +1287,7 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
         pioneerdollarraw = float(totalamount) * float(ethvalue) / 1 ** 18 / 639
         pioneerdollar = str(pioneerdollarraw)
         embed.description = \
-            f'**X7 Pioneer NFT Info**\n\nFloor Price: {floor} ETH\n' \
+            f'**X7 Pioneer NFT Info**\n\nFloor Price: {floor} ETH (including locked pioneers)\n' \
             f'Average Price: {avgprice} ETH\n' \
             f'Market Cap: {cap} ETH\n' \
             f'Total Volume: {volume} ETH\n' \
