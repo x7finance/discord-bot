@@ -12,6 +12,7 @@ from typing import *
 import random
 import variables
 from PIL import Image, ImageDraw, ImageFont
+from moralis import evm_api
 
 
 class PersitentViewBot(commands.Bot):
@@ -2221,6 +2222,7 @@ async def snapshot(interaction: discord.Interaction):
 
 @client.tree.command(description="X7R Initial Liquidity")
 @app_commands.choices(chain=[
+app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance", value="bsc"),
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
@@ -2231,6 +2233,42 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+    if chain.value == "eth":
+        if chain == "":
+            cg = CoinGeckoAPI()
+            cgprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
+                                    include_24hr_vol='true', include_last_updated_at="true"))
+            x7rprice = (cgprice["x7r"]["usd"])
+            x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                       params={"chain": "eth", "pair_address": items.x7rpaireth})
+            x7daoresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                         params={"chain": "eth", "pair_address": items.x7daopaireth})
+            x7rtoken = int(x7rresult["reserve0"])
+            x7rweth = int(x7rresult["reserve1"])
+            ethurl = items.ethpriceapi + keys.ether
+            ethresponse = requests.get(ethurl)
+            ethdata = ethresponse.json()
+            ethvalue = float(ethdata["result"]["ethusd"])
+            x7rwethdollar = float(x7rweth) * float(ethvalue) / 10 ** 18
+            x7rtokendollar = float(x7rprice) * float(x7rtoken) / 10 ** 18
+            x7daoprice = (cgprice["x7dao"]["usd"])
+            x7daotoken = int(x7daoresult["reserve0"])
+            x7daoweth = int(x7daoresult["reserve1"])
+            x7daowethdollar = float(x7daoweth) * float(ethvalue) / 10 ** 18
+            x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
+            img = Image.open((random.choice(items.blackhole)))
+            i1 = ImageDraw.Draw(img)
+            embed.description = \
+                f'**X7 Finance Token Liquidity (ETH)**\n\n' \
+                f'*X7R*\n' \
+                f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' \
+                f'{"{:0,.0f}".format(x7rweth)[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
+                f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' \
+                f'*X7DAO*\n' \
+                f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' \
+                f'{"{:0,.0f}".format(x7daoweth)[:6]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
+                f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' \
+                f'{quote}'
     if chain.value == "bsc":
         bscliqurl = \
             items.ethbalanceapiarb + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
