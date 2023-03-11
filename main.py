@@ -568,6 +568,8 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
     x7daoholders = x7daoholdersdata["holdersCount"]
+    if cgx7daoprice["x7dao"]["usd_24h_change"] is None:
+        cgx7daoprice["x7dao"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description =\
             f'**X7DAO (ETH) Info**\n\n' \
@@ -664,6 +666,8 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     x7rholdersresponse = requests.get(x7rholdersurl)
     x7rholdersdata = x7rholdersresponse.json()
     x7rholders = x7rholdersdata["holdersCount"]
+    if cgx7rprice["x7r"]["usd_24h_change"] is None:
+        cgx7rprice["x7r"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description =\
             f'**X7R (ETH) Info**\n\n' \
@@ -758,6 +762,8 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7101holdersresponse = requests.get(x7101holdersurl)
     x7101holdersdata = x7101holdersresponse.json()
     x7101holders = x7101holdersdata["holdersCount"]
+    if cgx7101price["x7101"]["usd_24h_change"] is None:
+        cgx7101price["x7101"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description =\
             f'**X7101 (ETH) Info**\n\n' \
@@ -844,6 +850,8 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7102holdersresponse = requests.get(x7102holdersurl)
     x7102holdersdata = x7102holdersresponse.json()
     x7102holders = x7102holdersdata["holdersCount"]
+    if cgx7102price["x7102"]["usd_24h_change"] is None:
+        cgx7102price["x7102"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description = \
             f'**X7102 (ETH) Info**\n\n' \
@@ -930,6 +938,8 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7103holdersresponse = requests.get(x7103holdersurl)
     x7103holdersdata = x7103holdersresponse.json()
     x7103holders = x7103holdersdata["holdersCount"]
+    if cgx7103price["x7103"]["usd_24h_change"] is None:
+        cgx7103price["x7103"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description = \
             f'**X7103 (ETH) Info**\n\n' \
@@ -1016,6 +1026,8 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7104holdersresponse = requests.get(x7104holdersurl)
     x7104holdersdata = x7104holdersresponse.json()
     x7104holders = x7104holdersdata["holdersCount"]
+    if cgx7104price["x7104"]["usd_24h_change"] is None:
+        cgx7104price["x7104"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description = \
             f'**X7104 (ETH) Info**\n\n' \
@@ -1080,6 +1092,93 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
         await interaction.response.send_message(file=file)
 
 
+@client.tree.command(description='Constellation Info')
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Image", value="img"),
+    ])
+async def constellations(interaction: discord.Interaction, chain: app_commands.Choice[str]):
+    quoteresponse = requests.get(items.quoteapi)
+    quotedata = quoteresponse.json()
+    quoteraw = (random.choice(quotedata))
+    quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+    cg = CoinGeckoAPI()
+    cgconstellationprice = (cg.get_price(ids='x7101,x7102,x7103,x7104,x7105', vs_currencies='usd',
+                                         include_24hr_change='true'))
+    x7101mc = cgconstellationprice["x7101"]["usd"] * items.supply
+    x7102mc = cgconstellationprice["x7102"]["usd"] * items.supply
+    x7103mc = cgconstellationprice["x7103"]["usd"] * items.supply
+    x7104mc = cgconstellationprice["x7104"]["usd"] * items.supply
+    x7105mc = cgconstellationprice["x7105"]["usd"] * items.supply
+    constmc = x7101mc + x7102mc + x7103mc + x7104mc + x7105mc
+    if cgconstellationprice["x7101"]["usd_24h_change"] is None:
+        cgconstellationprice["x7101"]["usd_24h_change"] = 0
+    if cgconstellationprice["x7102"]["usd_24h_change"] is None:
+        cgconstellationprice["x7102"]["usd_24h_change"] = 0
+    if cgconstellationprice["x7103"]["usd_24h_change"] is None:
+        cgconstellationprice["x7103"]["usd_24h_change"] = 0
+    if cgconstellationprice["x7104"]["usd_24h_change"] is None:
+        cgconstellationprice["x7104"]["usd_24h_change"] = 0
+    if cgconstellationprice["x7105"]["usd_24h_change"] is None:
+        cgconstellationprice["x7105"]["usd_24h_change"] = 0
+    if chain.value == "img":
+        img = Image.open((random.choice(items.blackhole)))
+        i1 = ImageDraw.Draw(img)
+        myfont = ImageFont.truetype(R'media\FreeMonoBold.ttf', 20)
+        i1.text((28, 36),
+                f'X7 Finance Constellation Token Prices (ETH)\n\n' 
+                f'X7101:      ${cgconstellationprice["x7101"]["usd"]}\n' 
+                f'24 Hour Change: {round(cgconstellationprice["x7101"]["usd_24h_change"],1)}%\n' 
+                f'Market Cap:  ${"{:0,.0f}".format(x7101mc)}\n\n' 
+                f'X7102:      ${cgconstellationprice["x7102"]["usd"]}\n' 
+                f'24 Hour Change: {round(cgconstellationprice["x7102"]["usd_24h_change"],1)}%\n' 
+                f'Market Cap:  ${"{:0,.0f}".format(x7102mc)}\n\n' 
+                f'X7103:      ${cgconstellationprice["x7103"]["usd"]}\n' 
+                f'24 Hour Change: {round(cgconstellationprice["x7103"]["usd_24h_change"],1)}%\n' 
+                f'Market Cap:  ${"{:0,.0f}".format(x7103mc)}\n\n' 
+                f'X7104:      ${cgconstellationprice["x7104"]["usd"]}\n' 
+                f'24 Hour Change: {round(cgconstellationprice["x7104"]["usd_24h_change"],1)}%\n' 
+                f'Market Cap:  ${"{:0,.0f}".format(x7104mc)}\n\n' 
+                f'X7105:      ${cgconstellationprice["x7105"]["usd"]}\n' 
+                f'24 Hour Change: {round(cgconstellationprice["x7105"]["usd_24h_change"],1)}%\n' 
+                f'Market Cap:  ${"{:0,.0f}".format(x7105mc)}\n\n' 
+                f'Combined Market Cap: ${"{:0,.0f}".format(constmc)}\n' 
+                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
+                font=myfont, fill=(255, 255, 255))
+        img.save(r'media\blackhole.png')
+        file = discord.File(r'media\blackhole.png')
+        embed.set_image(url='attachment://media/blackhole.png')
+        await interaction.response.send_message(file=file)
+    if chain.value == "eth":
+        embed.description = \
+            f'**X7 Finance Constellation Token Prices (ETH)**\n\n' \
+            f'For more info use `/x7tokenname`\n\n' \
+            f'X7101:      ${cgconstellationprice["x7101"]["usd"]}\n' \
+            f'24 Hour Change: {round(cgconstellationprice["x7101"]["usd_24h_change"],1)}%\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7101mc)}\n' \
+            f'CA: `{items.x7101ca}`\n\n' \
+            f'X7102:      ${cgconstellationprice["x7102"]["usd"]}\n' \
+            f'24 Hour Change: {round(cgconstellationprice["x7102"]["usd_24h_change"],1)}%\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7102mc)}\n' \
+            f'CA: `{items.x7102ca}`\n\n' \
+            f'X7103:      ${cgconstellationprice["x7103"]["usd"]}\n' \
+            f'24 Hour Change: {round(cgconstellationprice["x7103"]["usd_24h_change"],1)}%\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7103mc)}\n' \
+            f'CA: `{items.x7103ca}`\n\n' \
+            f'X7104:      ${cgconstellationprice["x7104"]["usd"]}\n' \
+            f'24 Hour Change: {round(cgconstellationprice["x7104"]["usd_24h_change"],1)}%\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7104mc)}\n' \
+            f'CA: `{items.x7104ca}`\n\n' \
+            f'X7105:      ${cgconstellationprice["x7105"]["usd"]}\n' \
+            f'24 Hour Change: {round(cgconstellationprice["x7105"]["usd_24h_change"],1)}%\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7105mc)}\n' \
+            f'CA: `{items.x7105ca}`\n\n' \
+            f'Combined Market Cap: ${"{:0,.0f}".format(constmc)}\n\n' \
+            f'{quote}'
+    await interaction.response.send_message(embed=embed, file=thumb)
+
+
+
 @client.tree.command(description='X7105 Info, use /x7105 followed by amount to convert to $')
 @app_commands.choices(chain=[
     app_commands.Choice(name="Ethereum", value="eth"),
@@ -1102,6 +1201,8 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
     x7105holdersresponse = requests.get(x7105holdersurl)
     x7105holdersdata = x7105holdersresponse.json()
     x7105holders = x7105holdersdata["holdersCount"]
+    if cgx7105price["x7105"]["usd_24h_change"] is None:
+        cgx7105price["x7105"]["usd_24h_change"] = 0
     if chain.value == "eth":
         embed.description = \
             f'**X7105 (ETH) Info**\n\n' \
@@ -2315,10 +2416,11 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             x7105tokendollar = float(x7105price) * float(x7105token) / 10 ** 18
 
             constellationstoken = x7101token + x7102token + x7103token + x7104token + x7105token
-            constellationsweth = x7101weth + x7102weth + x7103weth + x7104weth + x7105weth
-            constellationswethdollar = x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar \
+            constellationsweth = \
+                round(float(x7101weth) + float(x7102weth) + float(x7103weth) + float(x7104weth) + float(x7105weth), 2)
+            constellationswethdollar = x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar\
                 + x7105wethdollar
-            constellationstokendollar = x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar \
+            constellationstokendollar = x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar\
                 + x7105tokendollar
             embed.description = \
                 f'**X7 Finance Token Liquidity (ETH)**\n\n' \
@@ -2333,7 +2435,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
                 f'**Constellations**\n' \
                 f'{"{:0,.0f}".format(constellationstoken)[:4]}M' \
                 f' X7100 (${"{:0,.0f}".format(constellationstokendollar)})\n' \
-                f'{constellationsweth[:6]} WETH' \
+                f'{constellationsweth} WETH' \
                 f' (${"{:0,.0f}".format(constellationswethdollar)})\n' \
                 f'Total Liquidity (${"{:0,.0f}".format(constellationswethdollar+constellationstokendollar)})\n\n' \
                 f'{quote}'
