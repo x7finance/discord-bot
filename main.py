@@ -419,9 +419,8 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     if chain.value == 'eth':
-        cg = CoinGeckoAPI()
-        cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
-                                   include_24hr_vol='true', include_last_updated_at="true"))
+        cgx7rprice = (keys.cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
+                                        include_24hr_vol='true', include_last_updated_at="true"))
         x7rprice = (cgx7rprice["x7r"]["usd"])
         treasuryurl = \
             items.ethbalanceapieth + items.devmultieth + ',' + items.commultieth + ',' + items.pioneerca +\
@@ -560,9 +559,8 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7daoprice = (keys.cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     daoprice = (cgx7daoprice["x7dao"]["usd"])
     x7daoholdersurl = items.ethplorerapi + items.x7daoca + keys.holders
     x7daoholdersresponse = requests.get(x7daoholdersurl)
@@ -646,9 +644,8 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
-                               include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7rprice = (keys.cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
+                                    include_24hr_vol='true', include_last_updated_at="true"))
     x7rprice = (cgx7rprice["x7r"]["usd"])
     burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
     burnresponse = requests.get(burnurl)
@@ -750,9 +747,8 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7101price = (cg.get_price(ids='x7101', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7101price = (keys.cg.get_price(ids='x7101', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     x7101price = (cgx7101price["x7101"]["usd"])
     x7101holdersurl = items.ethplorerapi + items.x7101ca + keys.holders
     x7101holdersresponse = requests.get(x7101holdersurl)
@@ -836,9 +832,8 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7102price = (cg.get_price(ids='x7102', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7102price = (keys.cg.get_price(ids='x7102', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     x7102price = (cgx7102price["x7102"]["usd"])
     x7102holdersurl = items.ethplorerapi + items.x7102ca + keys.holders
     x7102holdersresponse = requests.get(x7102holdersurl)
@@ -922,9 +917,8 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7103price = (cg.get_price(ids='x7103', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7103price = (keys.cg.get_price(ids='x7103', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     x7103price = (cgx7103price["x7103"]["usd"])
     x7103holdersurl = items.ethplorerapi + items.x7103ca + keys.holders
     x7103holdersresponse = requests.get(x7103holdersurl)
@@ -1008,9 +1002,8 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7104price = (cg.get_price(ids='x7104', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7104price = (keys.cg.get_price(ids='x7104', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     x7104price = (cgx7104price["x7104"]["usd"])
     x7104holdersurl = items.ethplorerapi + items.x7104ca + keys.holders
     x7104holdersresponse = requests.get(x7104holdersurl)
@@ -1094,9 +1087,8 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgx7105price = (cg.get_price(ids='x7105', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+    cgx7105price = (keys.cg.get_price(ids='x7105', vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
     x7105price = (cgx7105price["x7105"]["usd"])
     x7105holdersurl = items.ethplorerapi + items.x7105ca + keys.holders
     x7105holdersresponse = requests.get(x7105holdersurl)
@@ -1418,8 +1410,7 @@ async def mcap(interaction: discord.Interaction, view: app_commands.Choice[str])
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    cg = CoinGeckoAPI()
-    cgprice = (cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105', vs_currencies='usd'))
+    cgprice = (keys.cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105', vs_currencies='usd'))
     burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
     burnresponse = requests.get(burnurl)
     burndata = burnresponse.json()
@@ -1753,11 +1744,10 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
     tokenid = token["coins"][0]["api_symbol"]
     tokenlogo = token["coins"][0]["thumb"]
     symbol = token["coins"][0]["symbol"]
-    cg = CoinGeckoAPI()
-    tokenprice = (cg.get_price(ids=tokenid, vs_currencies='usd', include_24hr_change='true',
-                               include_24hr_vol='true', include_market_cap="true"))
-    cgtogetherprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
-                                    include_24hr_vol='true'))
+    tokenprice = (keys.cg.get_price(ids=tokenid, vs_currencies='usd', include_24hr_change='true',
+                                    include_24hr_vol='true', include_market_cap="true"))
+    cgtogetherprice = (keys.cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
+                                         include_24hr_vol='true'))
     if coin == "":
         quoteresponse = requests.get(items.quoteapi)
         quotedata = quoteresponse.json()
@@ -2222,7 +2212,7 @@ async def snapshot(interaction: discord.Interaction):
 
 @client.tree.command(description="X7R Initial Liquidity")
 @app_commands.choices(chain=[
-app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance", value="bsc"),
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
@@ -2235,9 +2225,8 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     if chain.value == "eth":
         if chain == "":
-            cg = CoinGeckoAPI()
-            cgprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
-                                    include_24hr_vol='true', include_last_updated_at="true"))
+            cgprice = (keys.cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
+                                         include_24hr_vol='true', include_last_updated_at="true"))
             x7rprice = (cgprice["x7r"]["usd"])
             # noinspection PyTypeChecker
             x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
@@ -2258,8 +2247,6 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             x7daoweth = int(x7daoresult["reserve1"])
             x7daowethdollar = float(x7daoweth) * float(ethvalue) / 10 ** 18
             x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
-            img = Image.open((random.choice(items.blackhole)))
-            i1 = ImageDraw.Draw(img)
             embed.description = \
                 f'**X7 Finance Token Liquidity (ETH)**\n\n' \
                 f'*X7R*\n' \
