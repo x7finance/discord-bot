@@ -2273,60 +2273,67 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             ethvalue = float(ethdata["result"]["ethusd"])
 
             x7rtoken = int(x7rresult["reserve0"])
-            x7rweth = int(x7rresult["reserve1"])
-            x7rwethdollar = float(x7rweth) * float(ethvalue) / 10 ** 18
+            x7rwethraw = int(x7rresult["reserve1"])
+            x7rweth = str(x7rwethraw / 10 ** 18)
+            x7rwethdollar = float(x7rweth) * float(ethvalue)
             x7rtokendollar = float(x7rprice) * float(x7rtoken) / 10 ** 18
 
             x7daotoken = int(x7daoresult["reserve0"])
-            x7daoweth = int(x7daoresult["reserve1"])
-            x7daowethdollar = float(x7daoweth) * float(ethvalue) / 10 ** 18
+            x7daowethraw = int(x7daoresult["reserve1"])
+            x7daoweth = str(x7daowethraw / 10 ** 18)
+            x7daowethdollar = float(x7daoweth) * float(ethvalue)
             x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
 
             x7101token = int(x7101result["reserve0"])
-            x7101weth = int(x7101result["reserve1"])
-            x7101wethdollar = float(x7101weth) * float(ethvalue) / 10 ** 18
+            x7101wethraw = int(x7101result["reserve1"])
+            x7101weth = str(x7101wethraw / 10 ** 18)
+            x7101wethdollar = float(x7101weth) * float(ethvalue)
             x7101tokendollar = float(x7101price) * float(x7101token) / 10 ** 18
 
             x7102token = int(x7102result["reserve0"])
-            x7102weth = int(x7102result["reserve1"])
-            x7102wethdollar = float(x7102weth) * float(ethvalue) / 10 ** 18
+            x7102wethraw = int(x7102result["reserve1"])
+            x7102weth = str(x7102wethraw / 10 ** 18)
+            x7102wethdollar = float(x7102weth) * float(ethvalue)
             x7102tokendollar = float(x7102price) * float(x7102token) / 10 ** 18
 
             x7103token = int(x7103result["reserve0"])
-            x7103weth = int(x7103result["reserve1"])
-            x7103wethdollar = float(x7103weth) * float(ethvalue) / 10 ** 18
+            x7103wethraw = int(x7103result["reserve1"])
+            x7103weth = str(x7103wethraw / 10 ** 18)
+            x7103wethdollar = float(x7103weth) * float(ethvalue)
             x7103tokendollar = float(x7103price) * float(x7103token) / 10 ** 18
 
             x7104token = int(x7104result["reserve0"])
-            x7104weth = int(x7104result["reserve1"])
-            x7104wethdollar = float(x7104weth) * float(ethvalue) / 10 ** 18
+            x7104wethraw = int(x7104result["reserve1"])
+            x7104weth = str(x7104wethraw / 10 ** 18)
+            x7104wethdollar = float(x7104weth) * float(ethvalue)
             x7104tokendollar = float(x7104price) * float(x7104token) / 10 ** 18
 
             x7105token = int(x7105result["reserve0"])
-            x7105weth = int(x7105result["reserve1"])
-            x7105wethdollar = float(x7105weth) * float(ethvalue) / 10 ** 18
+            x7105wethraw = int(x7105result["reserve1"])
+            x7105weth = str(x7105wethraw / 10 ** 18)
+            x7105wethdollar = float(x7105weth) * float(ethvalue)
             x7105tokendollar = float(x7105price) * float(x7105token) / 10 ** 18
 
             constellationstoken = x7101token + x7102token + x7103token + x7104token + x7105token
             constellationsweth = x7101weth + x7102weth + x7103weth + x7104weth + x7105weth
-            constellationswethdollar = \
-                x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar + x7105wethdollar
-            constellationstokendollar = \
-                x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar + x7105tokendollar
+            constellationswethdollar = x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar \
+                + x7105wethdollar
+            constellationstokendollar = x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar \
+                + x7105tokendollar
             embed.description = \
                 f'**X7 Finance Token Liquidity (ETH)**\n\n' \
                 f'*X7R*\n' \
                 f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' \
-                f'{"{:0,.0f}".format(x7rweth)[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
+                f'{x7rweth[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
                 f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' \
                 f'*X7DAO*\n' \
                 f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' \
-                f'{"{:0,.0f}".format(x7daoweth)[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
+                f'{x7daoweth[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
                 f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' \
                 f'**Constellations**\n' \
                 f'{"{:0,.0f}".format(constellationstoken)[:4]}M' \
                 f' X7100 (${"{:0,.0f}".format(constellationstokendollar)})\n' \
-                f'{"{:0,.0f}".format(constellationsweth)[:6]} WETH' \
+                f'{constellationsweth[:6]} WETH' \
                 f' (${"{:0,.0f}".format(constellationswethdollar)})\n' \
                 f'Total Liquidity (${"{:0,.0f}".format(constellationswethdollar+constellationstokendollar)})\n\n' \
                 f'{quote}'
