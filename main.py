@@ -2239,8 +2239,10 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             cgprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
                                     include_24hr_vol='true', include_last_updated_at="true"))
             x7rprice = (cgprice["x7r"]["usd"])
+            # noinspection PyTypeChecker
             x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
                                                        params={"chain": "eth", "pair_address": items.x7rpaireth})
+            # noinspection PyTypeChecker
             x7daoresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
                                                          params={"chain": "eth", "pair_address": items.x7daopaireth})
             x7rtoken = int(x7rresult["reserve0"])
