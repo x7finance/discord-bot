@@ -847,7 +847,6 @@ async def swap(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
-
 @client.tree.command(description="X7 Finance Twitter Spaces Info")
 async def spaces(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
@@ -1363,11 +1362,23 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     cg = CoinGeckoAPI()
     cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
                                  include_24hr_vol='true', include_last_updated_at="true"))
-    daoprice = (cgx7daoprice["x7dao"]["usd"])
+    x7daoprice = (cgx7daoprice["x7dao"]["usd"])
     x7daoholdersurl = items.ethplorerapi + items.x7daoca + keys.holders
     x7daoholdersresponse = requests.get(x7daoholdersurl)
     x7daoholdersdata = x7daoholdersresponse.json()
     x7daoholders = x7daoholdersdata["holdersCount"]
+    # noinspection PyTypeChecker
+    x7daoresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                 params={"chain": "eth", "pair_address": items.x7daopaireth})
+    ethurl = items.ethpriceapi + keys.ether
+    ethresponse = requests.get(ethurl)
+    ethdata = ethresponse.json()
+    ethvalue = float(ethdata["result"]["ethusd"])
+    x7daotoken = int(x7daoresult["reserve0"])
+    x7daowethraw = int(x7daoresult["reserve1"])
+    x7daoweth = str(x7daowethraw / 10 ** 18)
+    x7daowethdollar = float(x7daoweth) * float(ethvalue)
+    x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
     if cgx7daoprice["x7dao"]["usd_24h_change"] is None:
         cgx7daoprice["x7dao"]["usd_24h_change"] = 0
     if chain.value == "eth":
@@ -1375,9 +1386,13 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'**X7DAO (ETH) Info**\n\n' \
             f'X7DAO Price: ${cgx7daoprice["x7dao"]["usd"]}\n' \
             f'24 Hour Change: {round(cgx7daoprice["x7dao"]["usd_24h_change"],1)}%\n' \
-            f'Market Cap:  ${"{:0,.0f}".format(daoprice*items.supply)}\n' \
+            f'Market Cap:  ${"{:0,.0f}".format(x7daoprice*items.supply)}\n' \
             f'24 Hour Volume: ${"{:0,.0f}".format(cgx7daoprice["x7dao"]["usd_24h_vol"])}\n' \
             f'Holders: {x7daoholders}\n\n' \
+            f'Liquidity:\n' \
+            f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' \
+            f'{x7daoweth[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
+            f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' \
             f'Contract Address:\n`{items.x7daoca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7daoca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7daopaireth})\n' \
@@ -1423,9 +1438,13 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
                 f'X7DAO Info (ETH)\nUse /x7dao [chain-name] for other chains\n\n'
                 f'X7DAO Price: ${cgx7daoprice["x7dao"]["usd"]}\n'
                 f'24 Hour Change: {round(cgx7daoprice["x7dao"]["usd_24h_change"], 1)}%\n'
-                f'Market Cap:  ${"{:0,.0f}".format(daoprice * items.supply)}\n'
+                f'Market Cap:  ${"{:0,.0f}".format(x7daoprice * items.supply)}\n'
                 f'24 Hour Volume: ${"{:0,.0f}".format(cgx7daoprice["x7dao"]["usd_24h_vol"])}\n'
                 f'Holders: {x7daoholders}\n\n'
+                f'Liquidity:\n' 
+                f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' 
+                f'{x7daoweth[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' 
+                f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' 
                 f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
                 font=myfont, fill=(255, 255, 255))
         img.save(r'media\blackhole.png')
@@ -1452,16 +1471,23 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
                                include_24hr_vol='true', include_last_updated_at="true"))
     x7rprice = (cgx7rprice["x7r"]["usd"])
+    # noinspection PyTypeChecker
+    x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                               params={"chain": "eth", "pair_address": items.x7rpaireth})
+    ethurl = items.ethpriceapi + keys.ether
+    ethresponse = requests.get(ethurl)
+    ethdata = ethresponse.json()
+    ethvalue = float(ethdata["result"]["ethusd"])
+    x7rtoken = int(x7rresult["reserve0"])
+    x7rwethraw = int(x7rresult["reserve1"])
+    x7rweth = str(x7rwethraw / 10 ** 18)
+    x7rwethdollar = float(x7rweth) * float(ethvalue)
+    x7rtokendollar = float(x7rprice) * float(x7rtoken) / 10 ** 18
     burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
     burnresponse = requests.get(burnurl)
     burndata = burnresponse.json()
     burndata["result"] = int(burndata["result"][:-18])
     burnresult = round(((burndata["result"] / items.supply) * 100), 6)
-    uniurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.x7rpaireth + '&tag=latest' + keys.ether
-    uniresponse = requests.get(uniurl)
-    unidata = uniresponse.json()
-    unidata["result"] = int(unidata["result"][:-18])
-    uniresult = round(((unidata["result"] / items.supply) * 100), 6)
     x7rholdersurl = items.ethplorerapi + items.x7rca + keys.holders
     x7rholdersresponse = requests.get(x7rholdersurl)
     x7rholdersdata = x7rholdersresponse.json()
@@ -1479,7 +1505,10 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'X7R Tokens Burned:\n' \
             f'{"{:,}".format(burndata["result"])}\n' \
             f'{burnresult}% of Supply\n\n' \
-            f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult, 2)}% of Supply\n\n' \
+            f'Liquidity:\n' \
+            f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' \
+            f'{x7rweth[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
+            f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' \
             f'Contract Address:\n`{items.x7rca}`\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7rca})\n' \
             f'[Chart]({items.dextoolseth}{items.x7rpaireth})\n' \
@@ -1531,7 +1560,10 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
                 f'X7R Tokens Burned:\n'
                 f'{"{:,}".format(burndata["result"])}\n'
                 f'{burnresult}% of Supply\n\n'
-                f'Uniswap Supply:\n{"{:,}".format(unidata["result"])}\n{round(uniresult, 2)}% of Supply\n\n'
+                f'Liquidity:\n' 
+                f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' 
+                f'{x7rweth[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' 
+                f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' 
                 f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
                 font=myfont, fill=(255, 255, 255))
         img.save(r'media\blackhole.png')
