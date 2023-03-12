@@ -27,46 +27,5 @@ tweetid = 1618166216706646018
 tweetlink = "https://twitter.com/X7_Finance/status/1617660521431576576?s=20&t=pJLH-p73Qcjwz7dRuE5MCw"
 
 # COMMANDS
-modsonly = "You do not have permission from the X7 Mods to do this. #trustnoone"
+modsonly = "You do not have permission to do this. #trustnoone"
 
-commands = '**Available X7 Finance commands:**\n\n' \
-        '<@1018221723650379936>\n' \
-        '```/roadmap - Whats coming next\n' \
-        '/snapshot - Shopshot Info' \
-        '/discount - Launch discount Info' \
-        '/contract - Token Contract Addresses\n' \
-        '/chart - Chart Links\n' \
-        '/price [token] - Coin Gecko Prices\n' \
-        '/buy - Buy Links/xchange - XChange DEX Info\n' \
-        '/wp - Whitepaper\n' \
-        '/discount - Discount Info' \
-        '/x7r - X7R Info\n' \
-        '/x7dao - X7DAO Info\n' \
-        '/x7101 - X7101 Info\n' \
-        '/x7102 - X7102 Info\n' \
-        '/x7103 - X7103 Info\n' \
-        '/x7104 - X7104 Info\n' \
-        '/x7105 - X7105 Info\n' \
-        '/constellations - X7 Constellation Info\n' \
-        '/x7d - X7Deposit Info\n' \
-        '/buyevenly - A Guide to buying constellation series evenly\n' \
-        '/tax - Token Tax Info\n' \
-        '/mcap  - Market Cap Info\n' \
-        'spaces - Twitter space Info\n' \
-        '/listings - Token Listing Info\n' \
-        '/swap - Xchange Details\n' \
-        '/nft - NFT Details\n' \
-        '/opensea - Opensea Links\n' \
-        '/pioneer [id#]\n' \
-        '/treasury - Treasury Details\n' \
-        '/pool - Lending Pool Info\n' \
-        '/liquidity - Initial liquidity Info' \
-        '/loans - Loan Term Info\n' \
-        '/burn - Burnt Tokens Info\n' \
-        '/holders - Token Holder Info\n' \
-        '/fg - Market Fear and greed index' \
-        '/giveaway - Current Giveaway Info\n' \
-        '/report [@user] [reason]\n' \
-        '/x7force - Submit your twitter ID for X7Force channel```\n' \
-        '<@704521096837464076>\n```/join ```\n<@159985870458322944>\n```/levels\n/rank```\n<@617037497574359050>' \
-        '** - Server Currency is X7R**\n```/balance\n/withdraw\n/deposit\n/tip [@user] [$# / #x7r]```'
