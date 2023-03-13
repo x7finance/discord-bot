@@ -962,6 +962,7 @@ async def fg(interaction: discord.Interaction):
     hours = divmod(days[1], 3600)
     minutes = divmod(hours[1], 60)
     seconds = divmod(minutes[1], 1)
+    embed.set_image(url="https://alternative.me/crypto/fear-and-greed-index.png")
     embed.description = \
         f'**Market Fear and Greed Index**\n\n' \
         f'{feardata["data"][0]["value"]} - {feardata["data"][0]["value_classification"]} - {localtime} \n\n' \
