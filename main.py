@@ -2276,7 +2276,9 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
     if chain.value == "opti":
         treasuryurl = items.ethbalanceapiopti + items.devmultiopti + ',' + items.commultiopti + '&tag=latest' +\
                       keys.opti
-        treasuryresponse = requests.get(treasuryurl)
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        url = treasuryurl
+        treasuryresponse = scraper.get(url)
         treasurydata = treasuryresponse.json()
         dev = float(treasurydata["result"][0]["balance"])
         devamount = str(dev / 10 ** 18)
