@@ -13,6 +13,7 @@ import random
 import variables
 from PIL import Image, ImageDraw, ImageFont
 from moralis import evm_api
+import cloudscraper
 
 
 class PersitentViewBot(commands.Bot):
@@ -721,7 +722,9 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["ethusd"])
         poolurl = items.bnbbalanceapi + items.lpreserveca + '&tag=latest' + keys.bsc
-        poolresponse = requests.get(poolurl)
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        url = poolurl
+        poolresponse = scraper.get(url)
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
@@ -764,7 +767,9 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{quote}'
     if chain.value == 'opti':
         poolurl = items.ethbalanceapiopti + items.lpreserveca + '&tag=latest' + keys.opti
-        poolresponse = requests.get(poolurl)
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        url = poolurl
+        poolresponse = scraper.get(url)
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
@@ -943,39 +948,43 @@ async def fg(interaction: discord.Interaction):
     fearurl = "https://api.alternative.me/fng/?limit=0"
     fearresponse = requests.get(fearurl)
     feardata = fearresponse.json()
-    timestamp = float(feardata["data"][0]["timestamp"])
-    localtime = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][1]["timestamp"])
-    localtime1 = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][2]["timestamp"])
-    localtime2 = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][3]["timestamp"])
-    localtime3 = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][4]["timestamp"])
-    localtime4 = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][5]["timestamp"])
-    localtime5 = datetime.fromtimestamp(timestamp)
-    timestamp = float(feardata["data"][6]["timestamp"])
-    localtime6 = datetime.fromtimestamp(timestamp)
+    timestamp0 = float(feardata["data"][0]["timestamp"])
+    localtime0 = datetime.fromtimestamp(timestamp0)
+    timestamp1 = float(feardata["data"][1]["timestamp"])
+    localtime1 = datetime.fromtimestamp(timestamp1)
+    timestamp2 = float(feardata["data"][2]["timestamp"])
+    localtime2 = datetime.fromtimestamp(timestamp2)
+    timestamp3 = float(feardata["data"][3]["timestamp"])
+    localtime3 = datetime.fromtimestamp(timestamp3)
+    timestamp4 = float(feardata["data"][4]["timestamp"])
+    localtime4 = datetime.fromtimestamp(timestamp4)
+    timestamp5 = float(feardata["data"][5]["timestamp"])
+    localtime5 = datetime.fromtimestamp(timestamp5)
+    timestamp6 = float(feardata["data"][6]["timestamp"])
+    localtime6 = datetime.fromtimestamp(timestamp6)
     duration_in_s = float(feardata["data"][0]["time_until_update"])
     days = divmod(duration_in_s, 86400)
     hours = divmod(days[1], 3600)
     minutes = divmod(hours[1], 60)
-    seconds = divmod(minutes[1], 1)
     embed.set_image(url="https://alternative.me/crypto/fear-and-greed-index.png")
     embed.description = \
-        f'**Market Fear and Greed Index**\n\n' \
-        f'{feardata["data"][0]["value"]} - {feardata["data"][0]["value_classification"]} - {localtime} \n\n' \
+        f'{feardata["data"][0]["value"]} - {feardata["data"][0]["value_classification"]} - ' \
+        f'{localtime0.strftime("%A %B %d")} \n\n' \
         f'Change:\n' \
-        f'{feardata["data"][1]["value"]} - {feardata["data"][1]["value_classification"]} - {localtime1}\n' \
-        f'{feardata["data"][2]["value"]} - {feardata["data"][2]["value_classification"]} - {localtime2}\n' \
-        f'{feardata["data"][3]["value"]} - {feardata["data"][3]["value_classification"]} - {localtime3}\n' \
-        f'{feardata["data"][4]["value"]} - {feardata["data"][4]["value_classification"]} - {localtime4}\n' \
-        f'{feardata["data"][5]["value"]} - {feardata["data"][5]["value_classification"]} - {localtime5}\n' \
-        f'{feardata["data"][6]["value"]} - {feardata["data"][6]["value_classification"]} - {localtime6}\n\n' \
+        f'{feardata["data"][1]["value"]} - {feardata["data"][1]["value_classification"]} - ' \
+        f'{localtime1.strftime("%A %B %d")}\n' \
+        f'{feardata["data"][2]["value"]} - {feardata["data"][2]["value_classification"]} - ' \
+        f'{localtime2.strftime("%A %B %d")}\n' \
+        f'{feardata["data"][3]["value"]} - {feardata["data"][3]["value_classification"]} - ' \
+        f'{localtime3.strftime("%A %B %d")}\n' \
+        f'{feardata["data"][4]["value"]} - {feardata["data"][4]["value_classification"]} - ' \
+        f'{localtime4.strftime("%A %B %d")}\n' \
+        f'{feardata["data"][5]["value"]} - {feardata["data"][5]["value_classification"]} - ' \
+        f'{localtime5.strftime("%A %B %d")}\n' \
+        f'{feardata["data"][6]["value"]} - {feardata["data"][6]["value_classification"]} - ' \
+        f'{localtime6.strftime("%A %B %d")}\n\n' \
         f'Next Update:\n' \
-        f'%d hours, %d minutes and %d seconds\n\n' \
-        f'{quote}' % (hours[0], minutes[0], seconds[0])
+        f'{int(hours[0])} hours and {int(minutes[0])} minutes\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -2411,206 +2420,199 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     if chain.value == "eth":
-        if chain == "":
-            cg = CoinGeckoAPI()
-            cgprice = (cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105',
-                                    vs_currencies='usd', include_24hr_change='true',
-                                    include_24hr_vol='true', include_last_updated_at="true"))
-            x7rprice = (cgprice["x7r"]["usd"])
-            x7daoprice = (cgprice["x7dao"]["usd"])
-            x7101price = (cgprice["x7101"]["usd"])
-            x7102price = (cgprice["x7102"]["usd"])
-            x7103price = (cgprice["x7103"]["usd"])
-            x7104price = (cgprice["x7104"]["usd"])
-            x7105price = (cgprice["x7105"]["usd"])
-            # noinspection PyTypeChecker
-            x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                       params={"chain": "eth", "pair_address": items.x7rpaireth})
-            # noinspection PyTypeChecker
-            x7daoresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7daopaireth})
-            # noinspection PyTypeChecker
-            x7101result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7101paireth})
-            # noinspection PyTypeChecker
-            x7102result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7102paireth})
-            # noinspection PyTypeChecker
-            x7103result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7103paireth})
-            # noinspection PyTypeChecker
-            x7104result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+        cg = CoinGeckoAPI()
+        cgprice = (cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105',
+                                vs_currencies='usd', include_24hr_change='true',
+                                include_24hr_vol='true', include_last_updated_at="true"))
+        x7rprice = (cgprice["x7r"]["usd"])
+        x7daoprice = (cgprice["x7dao"]["usd"])
+        x7101price = (cgprice["x7101"]["usd"])
+        x7102price = (cgprice["x7102"]["usd"])
+        x7103price = (cgprice["x7103"]["usd"])
+        x7104price = (cgprice["x7104"]["usd"])
+        x7105price = (cgprice["x7105"]["usd"])
+        # noinspection PyTypeChecker
+        x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                   params={"chain": "eth", "pair_address": items.x7rpaireth})
+        # noinspection PyTypeChecker
+        x7daoresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                     params={"chain": "eth", "pair_address": items.x7daopaireth})
+        # noinspection PyTypeChecker
+        x7101result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                     params={"chain": "eth", "pair_address": items.x7101paireth})
+        # noinspection PyTypeChecker
+        x7102result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                     params={"chain": "eth", "pair_address": items.x7102paireth})
+        # noinspection PyTypeChecker
+        x7103result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                     params={"chain": "eth", "pair_address": items.x7103paireth})
+        # noinspection PyTypeChecker
+        x7104result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
                                                          params={"chain": "eth", "pair_address": items.x7104paireth})
-            # noinspection PyTypeChecker
-            x7105result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7105paireth})
-            ethurl = items.ethpriceapi + keys.ether
-            ethresponse = requests.get(ethurl)
-            ethdata = ethresponse.json()
-            ethvalue = float(ethdata["result"]["ethusd"])
-
-            x7rtoken = int(x7rresult["reserve0"])
-            x7rwethraw = int(x7rresult["reserve1"])
-            x7rweth = str(x7rwethraw / 10 ** 18)
-            x7rwethdollar = float(x7rweth) * float(ethvalue)
-            x7rtokendollar = float(x7rprice) * float(x7rtoken) / 10 ** 18
-
-            x7daotoken = int(x7daoresult["reserve0"])
-            x7daowethraw = int(x7daoresult["reserve1"])
-            x7daoweth = str(x7daowethraw / 10 ** 18)
-            x7daowethdollar = float(x7daoweth) * float(ethvalue)
-            x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
-
-            x7101token = int(x7101result["reserve0"])
-            x7101wethraw = int(x7101result["reserve1"])
-            x7101weth = str(x7101wethraw / 10 ** 18)
-            x7101wethdollar = float(x7101weth) * float(ethvalue)
-            x7101tokendollar = float(x7101price) * float(x7101token) / 10 ** 18
-
-            x7102token = int(x7102result["reserve0"])
-            x7102wethraw = int(x7102result["reserve1"])
-            x7102weth = str(x7102wethraw / 10 ** 18)
-            x7102wethdollar = float(x7102weth) * float(ethvalue)
-            x7102tokendollar = float(x7102price) * float(x7102token) / 10 ** 18
-
-            x7103token = int(x7103result["reserve0"])
-            x7103wethraw = int(x7103result["reserve1"])
-            x7103weth = str(x7103wethraw / 10 ** 18)
-            x7103wethdollar = float(x7103weth) * float(ethvalue)
-            x7103tokendollar = float(x7103price) * float(x7103token) / 10 ** 18
-
-            x7104token = int(x7104result["reserve0"])
-            x7104wethraw = int(x7104result["reserve1"])
-            x7104weth = str(x7104wethraw / 10 ** 18)
-            x7104wethdollar = float(x7104weth) * float(ethvalue)
-            x7104tokendollar = float(x7104price) * float(x7104token) / 10 ** 18
-
-            x7105token = int(x7105result["reserve0"])
-            x7105wethraw = int(x7105result["reserve1"])
-            x7105weth = str(x7105wethraw / 10 ** 18)
-            x7105wethdollar = float(x7105weth) * float(ethvalue)
-            x7105tokendollar = float(x7105price) * float(x7105token) / 10 ** 18
-
-            constellationstoken = x7101token + x7102token + x7103token + x7104token + x7105token
-            constellationsweth = \
-                round(float(x7101weth) + float(x7102weth) + float(x7103weth) + float(x7104weth) + float(x7105weth), 2)
-            constellationswethdollar = x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar\
-                + x7105wethdollar
-            constellationstokendollar = x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar\
-                + x7105tokendollar
-            embed.description = \
-                f'**X7 Finance Token Liquidity (ETH)**\n\n' \
-                f'*X7R*\n' \
-                f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' \
-                f'{x7rweth[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
-                f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' \
-                f'*X7DAO*\n' \
-                f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' \
-                f'{x7daoweth[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
-                f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' \
-                f'**Constellations**\n' \
-                f'{"{:0,.0f}".format(constellationstoken)[:4]}M' \
-                f' X7100 (${"{:0,.0f}".format(constellationstokendollar)})\n' \
-                f'{constellationsweth} WETH' \
-                f' (${"{:0,.0f}".format(constellationswethdollar)})\n' \
-                f'Total Liquidity (${"{:0,.0f}".format(constellationswethdollar+constellationstokendollar)})\n\n' \
-                f'{quote}'
+        # noinspection PyTypeChecker
+        x7105result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
+                                                     params={"chain": "eth", "pair_address": items.x7105paireth})
+        ethurl = items.ethpriceapi + keys.ether
+        ethresponse = requests.get(ethurl)
+        ethdata = ethresponse.json()
+        ethvalue = float(ethdata["result"]["ethusd"])
+        x7rtoken = int(x7rresult["reserve0"])
+        x7rwethraw = int(x7rresult["reserve1"])
+        x7rweth = str(x7rwethraw / 10 ** 18)
+        x7rwethdollar = float(x7rweth) * float(ethvalue)
+        x7rtokendollar = float(x7rprice) * float(x7rtoken) / 10 ** 18
+        x7daotoken = int(x7daoresult["reserve0"])
+        x7daowethraw = int(x7daoresult["reserve1"])
+        x7daoweth = str(x7daowethraw / 10 ** 18)
+        x7daowethdollar = float(x7daoweth) * float(ethvalue)
+        x7daotokendollar = float(x7daoprice) * float(x7daotoken) / 10 ** 18
+        x7101token = int(x7101result["reserve0"])
+        x7101wethraw = int(x7101result["reserve1"])
+        x7101weth = str(x7101wethraw / 10 ** 18)
+        x7101wethdollar = float(x7101weth) * float(ethvalue)
+        x7101tokendollar = float(x7101price) * float(x7101token) / 10 ** 18
+        x7102token = int(x7102result["reserve0"])
+        x7102wethraw = int(x7102result["reserve1"])
+        x7102weth = str(x7102wethraw / 10 ** 18)
+        x7102wethdollar = float(x7102weth) * float(ethvalue)
+        x7102tokendollar = float(x7102price) * float(x7102token) / 10 ** 18
+        x7103token = int(x7103result["reserve0"])
+        x7103wethraw = int(x7103result["reserve1"])
+        x7103weth = str(x7103wethraw / 10 ** 18)
+        x7103wethdollar = float(x7103weth) * float(ethvalue)
+        x7103tokendollar = float(x7103price) * float(x7103token) / 10 ** 18
+        x7104token = int(x7104result["reserve0"])
+        x7104wethraw = int(x7104result["reserve1"])
+        x7104weth = str(x7104wethraw / 10 ** 18)
+        x7104wethdollar = float(x7104weth) * float(ethvalue)
+        x7104tokendollar = float(x7104price) * float(x7104token) / 10 ** 18
+        x7105token = int(x7105result["reserve0"])
+        x7105wethraw = int(x7105result["reserve1"])
+        x7105weth = str(x7105wethraw / 10 ** 18)
+        x7105wethdollar = float(x7105weth) * float(ethvalue)
+        x7105tokendollar = float(x7105price) * float(x7105token) / 10 ** 18
+        constellationstoken = x7101token + x7102token + x7103token + x7104token + x7105token
+        constellationsweth = \
+            round(float(x7101weth) + float(x7102weth) + float(x7103weth) + float(x7104weth) + float(x7105weth), 2)
+        constellationswethdollar = x7101wethdollar + x7102wethdollar + x7103wethdollar + x7104wethdollar\
+            + x7105wethdollar
+        constellationstokendollar = x7101tokendollar + x7102tokendollar + x7103tokendollar + x7104tokendollar\
+            + x7105tokendollar
+        embed.description = \
+            f'**X7 Finance Token Liquidity (ETH)**\n\n' \
+            f'*X7R*\n' \
+            f'{"{:0,.0f}".format(x7rtoken)[:4]}M X7R (${"{:0,.0f}".format(x7rtokendollar)})\n' \
+            f'{x7rweth[:6]} WETH (${"{:0,.0f}".format(x7rwethdollar)})\n' \
+            f'Total Liquidity (${"{:0,.0f}".format(x7rwethdollar + x7rtokendollar)})\n\n' \
+            f'*X7DAO*\n' \
+            f'{"{:0,.0f}".format(x7daotoken)[:4]}M X7DAO (${"{:0,.0f}".format(x7daotokendollar)})\n' \
+            f'{x7daoweth[:5]} WETH (${"{:0,.0f}".format(x7daowethdollar)})\n' \
+            f'Total Liquidity (${"{:0,.0f}".format(x7daowethdollar + x7daotokendollar)})\n\n' \
+            f'**Constellations**\n' \
+            f'{"{:0,.0f}".format(constellationstoken)[:4]}M' \
+            f' X7100 (${"{:0,.0f}".format(constellationstokendollar)})\n' \
+            f'{constellationsweth} WETH' \
+            f' (${"{:0,.0f}".format(constellationswethdollar)})\n' \
+            f'Total Liquidity (${"{:0,.0f}".format(constellationswethdollar+constellationstokendollar)})\n\n' \
+            f'{quote}'
     if chain.value == "bsc":
-        bscliqurl = \
+        liqurl = \
             items.ethbalanceapiarb + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
             + keys.arb
-        bscresponse = requests.get(bscliqurl)
-        bscdata = bscresponse.json()
-        x7daobsc = float(bscdata["result"][0]["balance"])
-        x7daobscamount = str(x7daobsc / 10 ** 18)
-        x7rbsc = float(bscdata["result"][1]["balance"])
-        x7rbscamount = str(x7rbsc / 10 ** 18)
-        x7rconsbsc = float(bscdata["result"][2]["balance"])
-        x7rconsbscamount = str(x7rconsbsc / 10 ** 18)
+        response = requests.get(liqurl)
+        data = response.json()
+        x7dao = float(data["result"][0]["balance"])
+        x7daoamount = str(x7dao / 10 ** 18)
+        x7r = float(data["result"][1]["balance"])
+        x7ramount = str(x7r / 10 ** 18)
+        x7rcons = float(data["result"][2]["balance"])
+        x7rconsamount = str(x7rcons / 10 ** 18)
         ethurl = items.ethpriceapi + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["ethusd"])
-        x7daobscdollar = float(x7daobscamount) * float(ethvalue) / 1 ** 18
-        x7rbscdollar = float(x7rbscamount) * float(ethvalue) / 1 ** 18
-        x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
+        x7daodollar = float(x7daoamount) * float(ethvalue) / 1 ** 18
+        x7rdollar = float(x7ramount) * float(ethvalue) / 1 ** 18
+        x7rconsdollar = float(x7rconsamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (ARBITRUM)**\n\n' \
-            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7ramount} ETH (${"{:0,.0f}".format(x7rdollar)})\n\n' \
+            f'X7DAO:\n{x7dao} ETH (${"{:0,.0f}".format(x7daodollar)})\n\n' \
+            f'X7100:\n{x7rcons} ETH (${"{:0,.0f}".format(x7rconsdollar)})\n\n{quote}'
     if chain.value == "arb":
-        bscliqurl = \
+        liqurl = \
             items.ethbalanceapiarb + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
             + keys.arb
-        bscresponse = requests.get(bscliqurl)
-        bscdata = bscresponse.json()
-        x7daobsc = float(bscdata["result"][0]["balance"])
-        x7daobscamount = str(x7daobsc / 10 ** 18)
-        x7rbsc = float(bscdata["result"][1]["balance"])
-        x7rbscamount = str(x7rbsc / 10 ** 18)
-        x7rconsbsc = float(bscdata["result"][2]["balance"])
-        x7rconsbscamount = str(x7rconsbsc / 10 ** 18)
+        response = requests.get(liqurl)
+        data = response.json()
+        x7dao = float(data["result"][0]["balance"])
+        x7daoamount = str(x7dao / 10 ** 18)
+        x7r = float(data["result"][1]["balance"])
+        x7ramount = str(x7r / 10 ** 18)
+        x7rcons = float(data["result"][2]["balance"])
+        x7rconsamount = str(x7rcons / 10 ** 18)
         ethurl = items.ethpriceapi + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["ethusd"])
-        x7daobscdollar = float(x7daobscamount) * float(ethvalue) / 1 ** 18
-        x7rbscdollar = float(x7rbscamount) * float(ethvalue) / 1 ** 18
-        x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
+        x7daodollar = float(x7daoamount) * float(ethvalue) / 1 ** 18
+        x7rdollar = float(x7ramount) * float(ethvalue) / 1 ** 18
+        x7rconsdollar = float(x7rconsamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (ARBITRUM)**\n\n' \
-            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7ramount} ETH (${"{:0,.0f}".format(x7rdollar)})\n\n' \
+            f'X7DAO:\n{x7dao} ETH (${"{:0,.0f}".format(x7daodollar)})\n\n' \
+            f'X7100:\n{x7rcons} ETH (${"{:0,.0f}".format(x7rconsdollar)})\n\n{quote}'
     if chain.value == "opti":
-        bscliqurl = \
-            items.ethbalanceapiarb + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
-            + keys.arb
-        bscresponse = requests.get(bscliqurl)
-        bscdata = bscresponse.json()
-        x7daobsc = float(bscdata["result"][0]["balance"])
-        x7daobscamount = str(x7daobsc / 10 ** 18)
-        x7rbsc = float(bscdata["result"][1]["balance"])
-        x7rbscamount = str(x7rbsc / 10 ** 18)
-        x7rconsbsc = float(bscdata["result"][2]["balance"])
-        x7rconsbscamount = str(x7rconsbsc / 10 ** 18)
+        liqurl = \
+            items.ethbalanceapiopti + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
+            + keys.opti
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        url = liqurl
+        response = scraper.get(url)
+        data = response.json()
+        x7dao = float(data["result"][0]["balance"])
+        x7daoamount = str(x7dao / 10 ** 18)
+        x7r = float(data["result"][1]["balance"])
+        x7ramount = str(x7r / 10 ** 18)
+        x7rcons = float(data["result"][2]["balance"])
+        x7rconsamount = str(x7rcons / 10 ** 18)
         ethurl = items.ethpriceapi + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["ethusd"])
-        x7daobscdollar = float(x7daobscamount) * float(ethvalue) / 1 ** 18
-        x7rbscdollar = float(x7rbscamount) * float(ethvalue) / 1 ** 18
-        x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
+        x7daodollar = float(x7daoamount) * float(ethvalue) / 1 ** 18
+        x7rdollar = float(x7ramount) * float(ethvalue) / 1 ** 18
+        x7rconsdollar = float(x7rconsamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (OPTIMISM)**\n\n' \
-            f'X7R:\n{x7rbscamount} ETH (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc} ETH (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc} ETH (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7ramount} ETH (${"{:0,.0f}".format(x7rdollar)})\n\n' \
+            f'X7DAO:\n{x7dao} ETH (${"{:0,.0f}".format(x7daodollar)})\n\n' \
+            f'X7100:\n{x7rcons} ETH (${"{:0,.0f}".format(x7rconsdollar)})\n\n{quote}'
     if chain.value == "poly":
-        bscliqurl = \
+        liqurl = \
             items.maticbalanceapi + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
             + keys.poly
-        bscresponse = requests.get(bscliqurl)
-        bscdata = bscresponse.json()
-        x7daobsc = float(bscdata["result"][0]["balance"])
-        x7daobscamount = str(x7daobsc / 10 ** 18)
-        x7rbsc = float(bscdata["result"][1]["balance"])
-        x7rbscamount = str(x7rbsc / 10 ** 18)
-        x7rconsbsc = float(bscdata["result"][2]["balance"])
-        x7rconsbscamount = str(x7rconsbsc / 10 ** 18)
+        response = requests.get(liqurl)
+        data = response.json()
+        x7dao = float(data["result"][0]["balance"])
+        x7daoamount = str(x7dao / 10 ** 18)
+        x7r = float(data["result"][1]["balance"])
+        x7ramount = str(x7r / 10 ** 18)
+        x7rcons = float(data["result"][2]["balance"])
+        x7rconsamount = str(x7rcons / 10 ** 18)
         ethurl = items.maticpriceapi + keys.poly
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
         ethvalue = float(ethdata["result"]["maticusd"])
-        x7daobscdollar = float(x7daobscamount) * float(ethvalue) / 1 ** 18
-        x7rbscdollar = float(x7rbscamount) * float(ethvalue) / 1 ** 18
-        x7rconsbscdollar = float(x7rconsbscamount) * float(ethvalue) / 1 ** 18
+        x7daodollar = float(x7daoamount) * float(ethvalue) / 1 ** 18
+        x7rdollar = float(x7ramount) * float(ethvalue) / 1 ** 18
+        x7rconsdollar = float(x7rconsamount) * float(ethvalue) / 1 ** 18
         embed.description = \
             '**X7 Finance Initial Liquidity (POLYGON)**\n\n' \
-            f'X7R:\n{x7rbscamount} MATIC (${"{:0,.0f}".format(x7rbscdollar)})\n\n' \
-            f'X7DAO:\n{x7daobsc} MATIC (${"{:0,.0f}".format(x7daobscdollar)})\n\n' \
-            f'X7100:\n{x7rconsbsc} MATIC (${"{:0,.0f}".format(x7rconsbscdollar)})\n\n{quote}'
+            f'X7R:\n{x7ramount} MATIC (${"{:0,.0f}".format(x7rdollar)})\n\n' \
+            f'X7DAO:\n{x7dao} MATIC (${"{:0,.0f}".format(x7daodollar)})\n\n' \
+            f'X7100:\n{x7rcons} MATIC (${"{:0,.0f}".format(x7rconsdollar)})\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
