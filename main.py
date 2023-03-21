@@ -754,7 +754,8 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{quote}'
     if chain.value == 'arb':
         poolurl = items.ethbalanceapiarb + items.lpreserveca + '&tag=latest' + keys.arb
-        poolresponse = requests.get(poolurl)
+        scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
+        poolresponse = scraper.get(poolurl)
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
@@ -768,8 +769,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
     if chain.value == 'opti':
         poolurl = items.ethbalanceapiopti + items.lpreserveca + '&tag=latest' + keys.opti
         scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
-        url = poolurl
-        poolresponse = scraper.get(url)
+        poolresponse = scraper.get(poolurl)
         pooldata = poolresponse.json()
         dev = float(pooldata["result"][0]["balance"])
         poolamount = str(dev / 10 ** 18)
@@ -2277,8 +2277,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         treasuryurl = items.ethbalanceapiopti + items.devmultiopti + ',' + items.commultiopti + '&tag=latest' +\
                       keys.opti
         scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
-        url = treasuryurl
-        treasuryresponse = scraper.get(url)
+        treasuryresponse = scraper.get(treasuryurl)
         treasurydata = treasuryresponse.json()
         dev = float(treasurydata["result"][0]["balance"])
         devamount = str(dev / 10 ** 18)
@@ -2570,8 +2569,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             items.ethbalanceapiopti + items.daoliq + ',' + items.x7rliq + ',' + items.consliq + '&tag=latest' \
             + keys.opti
         scraper = cloudscraper.create_scraper(delay=10, browser={'custom': 'ScraperBot/1.0', })
-        url = liqurl
-        response = scraper.get(url)
+        response = scraper.get(liqurl)
         data = response.json()
         x7dao = float(data["result"][0]["balance"])
         x7daoamount = str(x7dao / 10 ** 18)
