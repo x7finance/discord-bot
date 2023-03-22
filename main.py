@@ -2450,7 +2450,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
                                                      params={"chain": "eth", "pair_address": items.x7103paireth})
         # noinspection PyTypeChecker
         x7104result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
-                                                         params={"chain": "eth", "pair_address": items.x7104paireth})
+                                                     params={"chain": "eth", "pair_address": items.x7104paireth})
         # noinspection PyTypeChecker
         x7105result = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
                                                      params={"chain": "eth", "pair_address": items.x7105paireth})
