@@ -827,18 +827,54 @@ async def tax(interaction: discord.Interaction):
 
 
 @client.tree.command(description="X7 Finance Opensea links")
-async def opensea(interaction: discord.Interaction):
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     quoteresponse = requests.get(items.quoteapi)
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    embed.description = '**X7 Finance Opensea links (ETH)**\n\n' \
-                        '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi)\n' \
-                        '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi)\n' \
-                        '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi)\n' \
-                        '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max)\n' \
-                        '[Magister](https://opensea.io/collection/x7-magister)\n' \
-                        f'[Pioneer](https://opensea.io/collection/x7-pioneer)\n\n{quote}'
+    if chain.value == "eth":
+        embed.description = '**X7 Finance Opensea links (ETH)**\n\n' \
+                            '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi)\n' \
+                            '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi)\n' \
+                            '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi)\n' \
+                            '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max)\n' \
+                            '[Magister](https://opensea.io/collection/x7-magister)\n' \
+                            f'[Pioneer](https://opensea.io/collection/x7-pioneer)\n\n{quote}'
+    if chain.value == "bsc":
+        embed.description = '**X7 Finance Opensea links (BSC)**\n\n' \
+                            '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-binance)\n' \
+                            '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi-binance)\n' \
+                            '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-binance)\n' \
+                            '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-binance)\n' \
+                            f'[Magister](https://opensea.io/collection/x7-magister-binance)\n\n{quote}'
+    if chain.value == "poly":
+        embed.description = '**X7 Finance Opensea links (POLYGON)**\n\n' \
+                            '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-polygon)\n' \
+                            '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi-polygon)\n' \
+                            '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-polygon)\n' \
+                            '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-polygon)\n' \
+                            f'[Magister](https://opensea.io/collection/x7-magister-polygon)\n\n{quote}'
+    if chain.value == "arb":
+        embed.description = '**X7 Finance Opensea links (ARB)**\n\n' \
+                            '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-arbitrum)\n' \
+                            '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi-arbitrum)\n' \
+                            '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-arbitrum)\n' \
+                            '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-arbitrum)\n' \
+                            f'[Magister](https://opensea.io/collection/x7-magister-arbitrum)\n\n{quote}'
+    if chain.value == "opti":
+        embed.description = '**X7 Finance Opensea links (OPTI)**\n\n' \
+                            '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-optimism)\n' \
+                            '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi-optimism)\n' \
+                            '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-optimism)\n' \
+                            '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-optimism)\n' \
+                            f'[Magister](https://opensea.io/collection/x7-magister-optimism)\n\n{quote}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
