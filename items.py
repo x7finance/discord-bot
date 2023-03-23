@@ -224,6 +224,7 @@ constellationlogo = r'media\constellation.mp4'
 ebblogo = r'media\photo_2023-01-11_10-38-43.jpg'
 nftlogo = r'media\NFTvid.mp4'
 opensealogo = r'media\Logomark-Blue.png'
+raffle = r"media\raffle.jpg"
 
 gm = 'CAACAgQAAxkBAAEGsh9jjfZUfCKtJjaLGZbNFuzVgb9VOQAC6g4AAsII4FH2AAFleY-pPhorBA'
 chain = 'CAACAgQAAxkBAAEG0mxjmasTyMMNZirkZNKn89xDJs_QVgACkw4AAlYb0FADUpToi7aroywE'

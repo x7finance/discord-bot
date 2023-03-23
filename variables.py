@@ -10,6 +10,7 @@ autotimewp = 24
 twittertime = 1
 
 # GIVEAWAY               Y   M   D   H   M  S
+raffle = datetime(2023, 3, 28, 12, 00, 00)
 giveawaytime = datetime(2023, 3, 10, 20, 30, 00)
 snapshot1 = datetime(2023, 2, 9, 20, 30, 00)
 snapshot2 = datetime(2023, 3, 9, 20, 30, 00)

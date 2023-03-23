@@ -4,7 +4,6 @@ import tweepy
 import items
 import keys
 import requests
-from pycoingecko import CoinGeckoAPI
 from datetime import datetime, timedelta
 import pytz
 from discord import *
@@ -14,6 +13,7 @@ import variables
 from PIL import Image, ImageDraw, ImageFont
 from moralis import evm_api
 import cloudscraper
+from pycoingecko import CoinGeckoAPI
 
 
 class PersitentViewBot(commands.Bot):
@@ -51,20 +51,20 @@ class Button(discord.ui.View):
             await interaction.response.send_message("You are already verified!", ephemeral=True)
 
 
-@tasks.loop(hours=variables.autotimewp)
-async def wp_message():
-    mainchannel = client.get_channel(1017887733953347678)
-    wpembed = discord.Embed(colour=7419530)
-    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
-    wpthumb = discord.File('X7whitelogo.png')
-    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
-    wpembed.description = \
-        '**X7 Finance Whitepaper Links**\n\n' \
-        f'{random.choice(items.quotes)}\n\n' \
-        '[Full WP](https://x7.finance/whitepaper)\n' \
-        '[Short WP](https://x7community.space/wp-short.pdf)'
-    await mainchannel.send(file=wpthumb, embed=wpembed)
-    print("WP Message Sent")
+#@tasks.loop(hours=variables.autotimewp)
+#async def wp_message():
+#    mainchannel = client.get_channel(1017887733953347678)
+#    wpembed = discord.Embed(colour=7419530)
+#    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
+#    wpthumb = discord.File('X7whitelogo.png')
+#    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
+#    wpembed.description = \
+#        '**X7 Finance Whitepaper Links**\n\n' \
+#        f'{random.choice(items.quotes)}\n\n' \
+#        '[Full WP](https://x7.finance/whitepaper)\n' \
+#        '[Short WP](https://x7community.space/wp-short.pdf)'
+#    await mainchannel.send(file=wpthumb, embed=wpembed)
+#    print("WP Message Sent")
 
 
 @client.event
@@ -75,9 +75,9 @@ async def on_ready():
         print(f'Synced {len(synced)} command(s)')
     except Exception as e:
         print(e)
-    if not wp_message.is_running():
-        wp_message.start()
-        print("WP Message Started")
+#    if not wp_message.is_running():
+#        wp_message.start()
+#        print("WP Message Started")
 
 
 @client.event
@@ -888,6 +888,62 @@ async def swap(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
+@client.tree.command(description="X7 Finance Raffle Info")
+async def raffle(interaction: discord.Interaction):
+    img = discord.File("media/raffle.jpg", filename="raffle.jpg")
+    embed.set_image(url="attachment://media/raffle.jpg")
+    quoteresponse = requests.get(items.quoteapi)
+    quotedata = quoteresponse.json()
+    quoteraw = (random.choice(quotedata))
+    quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
+    cg = CoinGeckoAPI()
+    cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
+                                     include_24hr_vol='true', include_last_updated_at="true"))
+    x7rprice = (cgx7rprice["x7r"]["usd"])
+    x7rurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.commultieth + '&tag=latest' + keys.ether
+    x7rresponse = requests.get(x7rurl)
+    x7rdata = x7rresponse.json()
+    x7rbalance = int(x7rdata["result"][:6]) - 172897
+    x7rdollar = x7rbalance * x7rprice
+    x7rhalfdollar = x7rdollar / 2
+    x7rhalfbalance = x7rbalance / 2
+    then = variables.raffle
+    now = datetime.now()
+    duration = then - now
+    duration_in_s = duration.total_seconds()
+    days = divmod(duration_in_s, 86400)
+    hours = divmod(days[1], 3600)
+    minutes = divmod(hours[1], 60)
+    if duration < timedelta(0):
+        embed.description = \
+            f'X7 Finance Raffle emtries have now closed, check back later for updates' \
+            f'\n\n{quote}'
+    else:
+        embed.description = \
+            f'**X7 Finance 50/50 Raffle**\n\n' \
+            f'To enter send X7R to the community multisig wallet\n`{items.commultieth}`\n' \
+            f'Community Multisig contributions: 10000 X7R\n\n' \
+            f'100 X7R = 1 Ticket\n' \
+            f'200 X7R = 3 Tickets\n' \
+            f'300 X7R = 8 Tickets\n' \
+            f'400 X7R = 12 Tickets\n' \
+            f'500 X7R = 20 Tickets\n' \
+            f'1000 X7R = 45 Tickets\n\n' \
+            f'First Prize:        50% of the pool\n' \
+            f'Second Prize:  1 Ecosystem Maxi NFT\n' \
+            f'Third Prize:      1 Ecosystem Maxi NFT\n' \
+            f'Burn:                  50% of the pool\n\n' \
+            f'Entries Close:\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n' \
+            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
+            f'Running Total: {"{:0,.0f}".format(x7rbalance)} X7R (${"{:0,.0f}".format(x7rdollar)})\n' \
+            f'Winners Prize: {"{:0,.0f}".format(x7rhalfbalance)}' \
+            f'X7R (${"{:0,.0f}".format(x7rhalfdollar)})\n' \
+            f'Burn Amount: {"{:0,.0f}".format(x7rhalfbalance)}' \
+            f'X7R (${"{:0,.0f}".format(x7rhalfdollar)})\n\n' \
+            f'{quote}'
+    await interaction.response.send_message(file=img, embed=embed)
+
+
 @client.tree.command(description="X7 Finance Twitter Spaces Info")
 async def spaces(interaction: discord.Interaction):
     quoteresponse = requests.get(items.quoteapi)
@@ -1407,7 +1463,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7daoprice = (cg.get_price(ids='x7dao', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7daoprice = (cgx7daoprice["x7dao"]["usd"])
     x7daoholdersurl = items.ethplorerapi + items.x7daoca + keys.holders
     x7daoholdersresponse = requests.get(x7daoholdersurl)
@@ -1515,7 +1571,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
-                               include_24hr_vol='true', include_last_updated_at="true"))
+                                     include_24hr_vol='true', include_last_updated_at="true"))
     x7rprice = (cgx7rprice["x7r"]["usd"])
     # noinspection PyTypeChecker
     x7rresult = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
@@ -1634,7 +1690,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7101price = (cg.get_price(ids='x7101', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7101price = (cgx7101price["x7101"]["usd"])
     x7101holdersurl = items.ethplorerapi + items.x7101ca + keys.holders
     x7101holdersresponse = requests.get(x7101holdersurl)
@@ -1722,7 +1778,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7102price = (cg.get_price(ids='x7102', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7102price = (cgx7102price["x7102"]["usd"])
     x7102holdersurl = items.ethplorerapi + items.x7102ca + keys.holders
     x7102holdersresponse = requests.get(x7102holdersurl)
@@ -1810,7 +1866,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7103price = (cg.get_price(ids='x7103', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7103price = (cgx7103price["x7103"]["usd"])
     x7103holdersurl = items.ethplorerapi + items.x7103ca + keys.holders
     x7103holdersresponse = requests.get(x7103holdersurl)
@@ -1898,7 +1954,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7104price = (cg.get_price(ids='x7104', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7104price = (cgx7104price["x7104"]["usd"])
     x7104holdersurl = items.ethplorerapi + items.x7104ca + keys.holders
     x7104holdersresponse = requests.get(x7104holdersurl)
@@ -1986,7 +2042,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgx7105price = (cg.get_price(ids='x7105', vs_currencies='usd', include_24hr_change='true',
-                                 include_24hr_vol='true', include_last_updated_at="true"))
+                                       include_24hr_vol='true', include_last_updated_at="true"))
     x7105price = (cgx7105price["x7105"]["usd"])
     x7105holdersurl = items.ethplorerapi + items.x7105ca + keys.holders
     x7105holdersresponse = requests.get(x7105holdersurl)
@@ -2070,7 +2126,7 @@ async def constellations(interaction: discord.Interaction, chain: app_commands.C
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     cg = CoinGeckoAPI()
     cgconstellationprice = (cg.get_price(ids='x7101,x7102,x7103,x7104,x7105', vs_currencies='usd',
-                                         include_24hr_change='true'))
+                                               include_24hr_change='true'))
     x7101mc = cgconstellationprice["x7101"]["usd"] * items.supply
     x7102mc = cgconstellationprice["x7102"]["usd"] * items.supply
     x7103mc = cgconstellationprice["x7103"]["usd"] * items.supply
@@ -2226,7 +2282,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
     if chain.value == 'eth':
         cg = CoinGeckoAPI()
         cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
-                                   include_24hr_vol='true', include_last_updated_at="true"))
+                                         include_24hr_vol='true', include_last_updated_at="true"))
         x7rprice = (cgx7rprice["x7r"]["usd"])
         treasuryurl = \
             items.ethbalanceapieth + items.devmultieth + ',' + items.commultieth + ',' + items.pioneerca +\
@@ -2365,9 +2421,9 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
     symbol = token["coins"][0]["symbol"]
     cg = CoinGeckoAPI()
     tokenprice = (cg.get_price(ids=tokenid, vs_currencies='usd', include_24hr_change='true',
-                               include_24hr_vol='true', include_market_cap="true"))
+                                     include_24hr_vol='true', include_market_cap="true"))
     cgtogetherprice = (cg.get_price(ids='x7r,x7dao', vs_currencies='usd', include_24hr_change='true',
-                                    include_24hr_vol='true'))
+                                          include_24hr_vol='true'))
     if coin == "":
         quoteresponse = requests.get(items.quoteapi)
         quotedata = quoteresponse.json()
@@ -2406,7 +2462,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
         cg = CoinGeckoAPI()
         eth = (cg.get_price(ids='ethereum', vs_currencies='usd', include_24hr_change='true',
-                                include_market_cap="true"))
+                                  include_market_cap="true"))
         baseurl = "https://api.etherscan.io/api"
         gas = "?module=gastracker&action=gasoracle"
         gasurl = baseurl + gas + keys.ether
@@ -2438,7 +2494,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         tokenembed.set_thumbnail(url=tokenlogo)
         tokenembed.description = \
             f'**{symbol} price**\n\n' \
-            f'Price:      ${tokenprice[tokenid]["usd"]}\n' \
+            f'Price:      ${"{:f}".format(float(tokenprice[tokenid]["usd"]))}\n' \
             f'24 Hour Change: {round(tokenprice[tokenid]["usd_24h_change"], 1)}%\n\n' \
             f'{quote}'
         await interaction.response.send_message(embed=tokenembed)
@@ -2460,8 +2516,8 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
     if chain.value == "eth":
         cg = CoinGeckoAPI()
         cgprice = (cg.get_price(ids='x7r,x7dao,x7101,x7102,x7103,x7104,x7105',
-                                vs_currencies='usd', include_24hr_change='true',
-                                include_24hr_vol='true', include_last_updated_at="true"))
+                                      vs_currencies='usd', include_24hr_change='true',
+                                      include_24hr_vol='true', include_last_updated_at="true"))
         x7rprice = (cgprice["x7r"]["usd"])
         x7daoprice = (cgprice["x7dao"]["usd"])
         x7101price = (cgprice["x7101"]["usd"])
