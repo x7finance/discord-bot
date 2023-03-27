@@ -14,8 +14,8 @@ from PIL import Image, ImageDraw, ImageFont
 from moralis import evm_api
 import cloudscraper
 from pycoingecko import CoinGeckoAPI
-local = pytz.timezone("Europe/London")
 
+localtime = pytz.timezone("Europe/London")
 
 class PersitentViewBot(commands.Bot):
     def __init__(self):
@@ -25,16 +25,6 @@ class PersitentViewBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         self.add_view(Button())
-
-
-client = PersitentViewBot()
-
-
-embed = discord.Embed(colour=7419530)
-embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-thumb = discord.File('X7whitelogo.png')
-embed.set_thumbnail(url='attachment://X7whitelogo.png')
-
 
 class Button(discord.ui.View):
     def __init__(self):
@@ -52,19 +42,22 @@ class Button(discord.ui.View):
             await interaction.response.send_message("You are already verified!", ephemeral=True)
 
 
+client = PersitentViewBot()
+embed = discord.Embed(colour=7419530)
+embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+thumb = discord.File('X7whitelogo.png')
+embed.set_thumbnail(url='attachment://X7whitelogo.png')
+
+
 @tasks.loop(hours=variables.autotimewp)
 async def wp_message():
     mainchannel = client.get_channel(1017887733953347678)
-    wpembed = discord.Embed(colour=7419530)
-    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
-    wpthumb = discord.File('X7whitelogo.png')
-    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
-    wpembed.description = \
+    embed.description = \
         '**X7 Finance Whitepaper Links**\n\n' \
         f'{random.choice(items.quotes)}\n\n' \
         '[Full WP](https://x7.finance/whitepaper)\n' \
         '[Short WP](https://x7community.space/wp-short.pdf)'
-    await mainchannel.send(file=wpthumb, embed=wpembed)
+    await mainchannel.send(file=thumb, embed=embed)
     print("WP Message Sent")
 
 
@@ -908,7 +901,7 @@ async def raffle(interaction: discord.Interaction):
     x7rdollar = x7rbalance * x7rprice
     x7rhalfdollar = x7rdollar / 2
     x7rhalfbalance = x7rbalance / 2
-    local_dt = local.localize(variables.raffle, is_dst=None)
+    local_dt = localtime.localize(variables.raffle, is_dst=None)
     then = local_dt.astimezone(pytz.utc)
     now = datetime.now(timezone.utc)
     duration = then - now
@@ -952,7 +945,7 @@ async def spaces(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    local_dt = local.localize(variables.spacestime, is_dst=None)
+    local_dt = localtime.localize(variables.spacestime, is_dst=None)
     then = local_dt.astimezone(pytz.utc)
     now = datetime.now(timezone.utc)
     duration = then - now
@@ -1345,7 +1338,7 @@ async def giveaway(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    local_dt = local.localize(variables.giveawaytime, is_dst=None)
+    local_dt = localtime.localize(variables.giveawaytime, is_dst=None)
     then = local_dt.astimezone(pytz.utc)
     now = datetime.now(timezone.utc)
     duration = then - now
