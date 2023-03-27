@@ -4,7 +4,7 @@ import tweepy
 import items
 import keys
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pytz
 from discord import *
 from typing import *
@@ -14,6 +14,7 @@ from PIL import Image, ImageDraw, ImageFont
 from moralis import evm_api
 import cloudscraper
 from pycoingecko import CoinGeckoAPI
+local = pytz.timezone("Europe/London")
 
 
 class PersitentViewBot(commands.Bot):
@@ -907,8 +908,9 @@ async def raffle(interaction: discord.Interaction):
     x7rdollar = x7rbalance * x7rprice
     x7rhalfdollar = x7rdollar / 2
     x7rhalfbalance = x7rbalance / 2
-    then = variables.raffle
-    now = datetime.now()
+    local_dt = local.localize(variables.raffle, is_dst=None)
+    then = local_dt.astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
     duration = then - now
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
@@ -950,14 +952,15 @@ async def spaces(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    then = variables.spacestime
-    now = datetime.now()
+    local_dt = local.localize(variables.spacestime, is_dst=None)
+    then = local_dt.astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
     duration = then - now
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
     hours = divmod(days[1], 3600)
     minutes = divmod(hours[1], 60)
-    if duration < timedelta(1):
+    if duration < timedelta(0):
         embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{quote}'
     else:
         embed.description =\
@@ -1342,8 +1345,9 @@ async def giveaway(interaction: discord.Interaction):
     quotedata = quoteresponse.json()
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
-    then = variables.giveawaytime
-    now = datetime.now()
+    local_dt = local.localize(variables.giveawaytime, is_dst=None)
+    then = local_dt.astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
     duration = then - now
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
