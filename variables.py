@@ -31,4 +31,3 @@ tweetlink = "https://twitter.com/X7_Finance/status/1617660521431576576?s=20&t=pJ
 
 # COMMANDS
 modsonly = "You do not have permission to do this. #trustnoone"
-

@@ -52,20 +52,20 @@ class Button(discord.ui.View):
             await interaction.response.send_message("You are already verified!", ephemeral=True)
 
 
-#@tasks.loop(hours=variables.autotimewp)
-#async def wp_message():
-#    mainchannel = client.get_channel(1017887733953347678)
-#    wpembed = discord.Embed(colour=7419530)
-#    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
-#    wpthumb = discord.File('X7whitelogo.png')
-#    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
-#    wpembed.description = \
-#        '**X7 Finance Whitepaper Links**\n\n' \
-#        f'{random.choice(items.quotes)}\n\n' \
-#        '[Full WP](https://x7.finance/whitepaper)\n' \
-#        '[Short WP](https://x7community.space/wp-short.pdf)'
-#    await mainchannel.send(file=wpthumb, embed=wpembed)
-#    print("WP Message Sent")
+@tasks.loop(hours=variables.autotimewp)
+async def wp_message():
+    mainchannel = client.get_channel(1017887733953347678)
+    wpembed = discord.Embed(colour=7419530)
+    wpembed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    wpthumb = discord.File('X7whitelogo.png')
+    wpembed.set_thumbnail(url='attachment://X7whitelogo.png')
+    wpembed.description = \
+        '**X7 Finance Whitepaper Links**\n\n' \
+        f'{random.choice(items.quotes)}\n\n' \
+        '[Full WP](https://x7.finance/whitepaper)\n' \
+        '[Short WP](https://x7community.space/wp-short.pdf)'
+    await mainchannel.send(file=wpthumb, embed=wpembed)
+    print("WP Message Sent")
 
 
 @client.event
@@ -76,9 +76,9 @@ async def on_ready():
         print(f'Synced {len(synced)} command(s)')
     except Exception as e:
         print(e)
-#    if not wp_message.is_running():
-#        wp_message.start()
-#        print("WP Message Started")
+    if not wp_message.is_running():
+        wp_message.start()
+        print("WP Message Started")
 
 
 @client.event
