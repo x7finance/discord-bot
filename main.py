@@ -529,7 +529,6 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
         totaldollar = float(totalamount) * float(ethvalue) / 1 ** 18
         pioneereamount = str(pioneerth / 10 ** 18 / 639)
         pioneerdollar = float(totalamount) * float(ethvalue) / 1 ** 18 / 639
-
         embed.description = \
             f'**X7 Pioneer NFT Info**\n\nFloor Price: {floor} ETH (including locked pioneers)\n' \
             f'Average Price: {avgprice} ETH\n' \
@@ -574,14 +573,19 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     if chain.value == "eth":
+        cg = CoinGeckoAPI()
+        cgx7rprice = (cg.get_price(ids='x7r', vs_currencies='usd', include_24hr_change='true',
+                                   include_24hr_vol='true', include_last_updated_at="true"))
+        x7rprice = (cgx7rprice["x7r"]["usd"])
         burnurl = items.tokenbalanceapieth + items.x7rca + '&address=' + items.dead + '&tag=latest' + keys.ether
         burnresponse = requests.get(burnurl)
         burndata = burnresponse.json()
         burndata["result"] = int(burndata["result"][:-18])
+        burndollar = x7rprice * burndata["result"]
         result = round(((burndata["result"] / items.supply) * 100), 6)
         embed.description = \
             f'\n\n**X7R Tokens Burn Info (ETH)**:\n\n' \
-            f'{"{:,}".format(burndata["result"])}\n' \
+            f'{"{:,}".format(burndata["result"])} (${"{:0,.0f}".format(burndollar)})\n' \
             f'{result}% of Supply\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7rca}?a={items.dead})\n\n{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
