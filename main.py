@@ -526,11 +526,10 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
         pioneerethdata = pioneerethresponse.json()
         pioneerth = float(pioneerethdata["result"][0]["balance"])
         totalamount = str(pioneerth / 10 ** 18)
-        totaldollarraw = float(totalamount) * float(ethvalue) / 1 ** 18
-        totaldollar = str(totaldollarraw)
+        totaldollar = float(totalamount) * float(ethvalue) / 1 ** 18
         pioneereamount = str(pioneerth / 10 ** 18 / 639)
-        pioneerdollarraw = float(totalamount) * float(ethvalue) / 1 ** 18 / 639
-        pioneerdollar = str(pioneerdollarraw)
+        pioneerdollar = float(totalamount) * float(ethvalue) / 1 ** 18 / 639
+
         embed.description = \
             f'**X7 Pioneer NFT Info**\n\nFloor Price: {floor} ETH (including locked pioneers)\n' \
             f'Average Price: {avgprice} ETH\n' \
@@ -539,8 +538,8 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
             f'Total Sales: {sales}\n' \
             f'Number of Owners: {owners}\n' \
             f'Pioneers Unlocked: {traits}\n' \
-            f'Pioneer Pool: {totalamount[:3]} ETH (${totaldollar[:4]})\n\n' \
-            f'Pioneer Earnings: {pioneereamount[:5]} ETH (${pioneerdollar[:4]})\n\n{quote}\n\n' \
+            f'Pioneer Pool: {totalamount[:3]} ETH (${"{:0,.0f}".format(totaldollar)})\n' \
+            f'Pioneer Earnings: {pioneereamount[:5]} ETH (${"{:0,.0f}".format(pioneerdollar)})\n\n{quote}\n\n' \
             f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
             f'[Opensea](https://opensea.io/collection/x7-pioneer)'
     else:
@@ -2735,6 +2734,10 @@ async def say(ctx, *, saymessage):
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
 async def shout(ctx, *, shoutmessage):
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    thumb = discord.File('X7whitelogo.png')
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
     await ctx.message.delete()
     embed.description = f'GM or GN Wherever you are.\n\n {shoutmessage}'
     await ctx.send(f"@everyone")
@@ -2744,6 +2747,10 @@ async def shout(ctx, *, shoutmessage):
 @client.command(pass_context=True)
 @commands.has_any_role("Community Team")
 async def chain(ctx, *, chainmessage):
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    thumb = discord.File('X7whitelogo.png')
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
     await ctx.message.delete()
     link = chainmessage.split()[0]
     embed.description = f'**New On Chain Message:**\n\n```{chainmessage[91:]}```'
