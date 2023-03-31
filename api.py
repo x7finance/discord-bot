@@ -4,10 +4,11 @@ import keys
 import items
 
 # CG
-cg = CoinGeckoAPI()
-price = cg.get_price(ids=',x7r,x7dao,x7101,x7102,x7103,x7104,x7105', vs_currencies='usd',
-                     include_24hr_change='true', include_24hr_vol='true')
-# MORALIS LIQ
+coingecko = CoinGeckoAPI()
+cg = coingecko.get_price(ids=',x7r,x7dao,x7101,x7102,x7103,x7104,x7105', vs_currencies='usd',
+                         include_24hr_change='true', include_24hr_vol='true')
+
+# MORALIS
 # noinspection PyTypeChecker
 x7rliq = evm_api.defi.get_pair_reserves(api_key=keys.moralis,
                                         params={"chain": "eth", "pair_address": items.x7rpaireth})

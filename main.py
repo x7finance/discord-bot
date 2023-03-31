@@ -2211,7 +2211,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         comx7rresponse = requests.get(comx7rurl)
         comx7rdata = comx7rresponse.json()
         comx7r = int(comx7rdata["result"][:-18])
-        comx7rprice = comx7r * api.price["x7r"]["usd"]
+        comx7rprice = comx7r * api.cg["x7r"]["usd"]
         comx7durl =\
             api.tokenbalanceeth + items.x7dca + '&address=' + items.commultieth + '&tag=latest' + keys.ether
         comx7dresponse = requests.get(comx7durl)
@@ -2332,10 +2332,10 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         quoteraw = (random.choice(quotedata))
         quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
         embed.description = f'**X7 Finance Token Prices  (ETH)**\n\n' \
-                            f'X7R:      ${api.price["x7r"]["usd"]}\n' \
-                            f'24 Hour Change: {round(api.price["x7r"]["usd_24h_change"], 1)}%\n\n' \
-                            f'X7DAO:  ${api.price["x7dao"]["usd"]}\n' \
-                            f'24 Hour Change: {round(api.price["x7dao"]["usd_24h_change"], 0)}%\n\n' \
+                            f'X7R:      ${api.cg["x7r"]["usd"]}\n' \
+                            f'24 Hour Change: {round(api.cg["x7r"]["usd_24h_change"], 1)}%\n\n' \
+                            f'X7DAO:  ${api.cg["x7dao"]["usd"]}\n' \
+                            f'24 Hour Change: {round(api.cg["x7dao"]["usd_24h_change"], 0)}%\n\n' \
                             f'{quote}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if coin == "img":
@@ -2346,10 +2346,10 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
                 f'X7 Finance Token Price Info (ETH)\n'
                 f'Use /x7tokenname for all other details\n'
                 f'Use /constellations for constellations\n\n'
-                f'X7R:      ${api.price["x7r"]["usd"]}\n'
-                f'24 Hour Change: {round(api.price["x7r"]["usd_24h_change"], 1)}%\n\n'
-                f'X7DAO:  ${api.price["x7dao"]["usd"]}\n'
-                f'24 Hour Change: {round(api.price["x7dao"]["usd_24h_change"], 0)}%\n\n\n\n'
+                f'X7R:      ${api.cg["x7r"]["usd"]}\n'
+                f'24 Hour Change: {round(api.cg["x7r"]["usd_24h_change"], 1)}%\n\n'
+                f'X7DAO:  ${api.cg["x7dao"]["usd"]}\n'
+                f'24 Hour Change: {round(api.cg["x7dao"]["usd_24h_change"], 0)}%\n\n\n\n'
                 f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
                 font=myfont, fill=(255, 255, 255))
         img.save(r"media\blackhole.png")
@@ -2416,13 +2416,13 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
     quoteraw = (random.choice(quotedata))
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     if chain.value == "eth":
-        x7rprice = (api.price["x7r"]["usd"])
-        x7daoprice = (api.price["x7dao"]["usd"])
-        x7101price = (api.price["x7101"]["usd"])
-        x7102price = (api.price["x7102"]["usd"])
-        x7103price = (api.price["x7103"]["usd"])
-        x7104price = (api.price["x7104"]["usd"])
-        x7105price = (api.price["x7105"]["usd"])
+        x7rprice = (api.cg["x7r"]["usd"])
+        x7daoprice = (api.cg["x7dao"]["usd"])
+        x7101price = (api.cg["x7101"]["usd"])
+        x7102price = (api.cg["x7102"]["usd"])
+        x7103price = (api.cg["x7103"]["usd"])
+        x7104price = (api.cg["x7104"]["usd"])
+        x7105price = (api.cg["x7105"]["usd"])
         ethurl = api.ethprice + keys.ether
         ethresponse = requests.get(ethurl)
         ethdata = ethresponse.json()
