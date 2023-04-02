@@ -1094,6 +1094,105 @@ async def dashboard(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
+@client.tree.command(description="X7 Finance Deployer Info")
+async def deployer(interaction: discord.Interaction):
+    embed.description = \
+        '**X7 Finance Deployer**\n\n' \
+        'V2: https://etherscan.io/address/0x7000a09c425abf5173ff458df1370c25d1c58105\n\n' \
+        'V1 DAO: https://etherscan.io/address/0x7565cE5E02d368BB3aEC044b7C3398911E27dB1E\n\n' \
+        'V1 Protocol https://etherscan.io/address/0x8FE821FB171076B850A3048B9AAD7600BE8d0F30'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="On this day in history")
+async def today(interaction: discord.Interaction):
+    data = api.get_today()
+    today = (random.choice(data["data"]["Events"]))
+    embed.description = \
+        f'`On this day in {today["year"]}:\n\n{today["text"]}`',
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Finance Voting Infi=o")
+async def voting(interaction: discord.Interaction):
+    embed.description = \
+        '**Proposals and Voting**\n\nVoting will occur in multiple phases, each of which has either a minimum or ' \
+        'maximum time phase duration.\n\n*Phase 1: Quorum-seeking*\nX7DAO token holders will be able to stake ' \
+        'their tokens as X7sDAO, a non-transferrable staked version of X7DAO.\n\nA quorum is reached when more ' \
+        'than 50% of circulating X7DAO has been staked as X7sDAO.\n\nOnce a quorum is reached and a minimum ' \
+        'quorum-seeking time period has passed, the X7sDAO tokens are temporarily locked (and no more X7DAO tokens ' \
+        'may be staked until the next Quorum seeking period) and the governance process moves to the next phase\n\n' \
+        '**Phase 2: Proposal creation**\n A proposal is created by running a transaction on the governance contract ' \
+        'which specifies a specific transaction on a specific contract (e.g. setFeeNumerator(0) on the X7R token ' \
+        'contract).\n\nProposals are ordered, and any proposals that are passed/adopted must be run in the order ' \
+        'that they were created.\n\nProposals can be made by X7sDAO stakes of 500,000 tokens or more. Additionally, ' \
+        'holders of Magister tokens may make proposals. Proposals may require a refundable proposal fee to prevent ' \
+        'process griefing.\n\n**Phase 3: Proposal voting**\n Each proposal may be voted on once by each address. ' \
+        'The voter may specify the weight of their vote between 0 and the total amount of X7sDAO they have ' \
+        'staked.\n\nProposals pass by a majority vote of the quorum of X7sDAO tokens.\n\nA parallel voting process ' \
+        'will occur with Magister tokens, where each Magister token carries ' \
+        'one vote.\n\nIf a majority of magister token holders vote against a proposal, the proposal must ' \
+        'reach an X7sDAO vote of 75% of the quorum of X7sDAO tokens.\n\n*Phase 4: Proposal adoption*\nDuring this ' \
+        'phase, proposals that have passed will be enqueued for execution. This step ensures proper ordering and is ' \
+        'a guard against various forms of process griefing.\n\n*Phase 5: Proposal execution*\nAfter proposal ' \
+        'adoption, all passed proposals must be executed before a new Quorum Seeking phase may commence.\n\n' \
+        '{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="Market Gas Info")
+@app_commands.choices(terms=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance Smart Chain", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    ])
+async def gas(interaction: discord.Interaction, chain: app_commands.Choice[str]):
+    if chain.value == "eth":
+        gasdata = api.get_gas("eth")
+        embed.description = \
+            f'**Eth Gas Prices:**\n' \
+            f'Low: {gasdata["result"]["SafeGasPrice"]} Gwei\n' \
+            f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
+            f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
+            f'{api.get_quote()}'
+    if chain.value == "bsc":
+        gasdata = api.get_gas("bsc")
+        embed.description = \
+            f'**BSC Gas Prices:**\n' \
+            f'For other chains use `/gas [chain-name]`\n\n' \
+            f'Low: {gasdata["result"]["SafeGasPrice"]} Gwei\n' \
+            f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
+            f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
+            f'{api.get_quote()}'
+    if chain.value == "poly":
+        gasdata = api.get_gas("poly")
+        embed.description = \
+            f'**POLYGON Gas Prices:**\n' \
+            f'For other chains use `/gas [chain-name]`\n\n' \
+            f'Low: {gasdata["result"]["SafeGasPrice"]} Gwei\n' \
+            f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
+            f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
+            f'{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="Wei conversion")
+@app_commands.describe(Eth='amount to convert')
+async def wei(interaction: discord.Interaction, eth: Optional[str] = ""):
+    weiraw = float(eth)
+    wei = weiraw * 10 ** 18
+    embed.description = \
+        f'{eth} ETH is equal to \n\n' \
+        f'`{wei:.0f}` wei' \
+        f'{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Finance Alumni")
+async def alumni(interaction: discord.Interaction):
+    embed.description = \
+        f'**X7 Finance Alumni**\n\n' \
+        f'@Callmelandlord - The Godfather of the X7 Finance community, the OG, the creator - X7 God\n\n' \
+        f'@WoxieX - Creator of the OG dashboard -  x7community.space\n\n' \
+        f'@Zaratustra  - Defi extraordinaire and protocol prophet\n\n' \
+        f'{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
 # CG COMMANDS
 @client.tree.command(description="X7DAO Info")
 @app_commands.choices(chain=[
