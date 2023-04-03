@@ -119,7 +119,7 @@ def get_native_price(token):
         url = 'https://api.polygonscan.com/api?module=stats&action=maticprice&' + keys.poly
         response = requests.get(url)
         data = response.json()
-        value = float(data["result"]["ethusd"])
+        value = float(data["result"]["maticusd"])
         return value
 
 def get_token_balance(wallet, chain, token):
