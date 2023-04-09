@@ -10,9 +10,7 @@ from discord import *
 from typing import *
 import random
 import variables
-from PIL import Image, ImageDraw, ImageFont
 import api
-from pycoingecko import CoinGeckoAPI
 
 localtime = pytz.timezone("Europe/London")
 
@@ -427,7 +425,7 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
             f'Total Sales: {sales}\n' \
             f'Number of Owners: {owners}\n' \
             f'Pioneers Unlocked: {traits}\n' \
-            f'Pioneer Pool: {pioneerpool[:3]} ETH (${"{:0,.0f}".format(totaldollar)})\n' \
+            f'Pioneer Pool: {pioneerpool[:3]} ETH (${"{:0,.0f}".format(totaldollar)})\n\n' \
             f'{api.get_quote()}\n\n' \
             f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
             f'[Opensea](https://opensea.io/collection/x7-pioneer)'
@@ -711,33 +709,14 @@ async def quote(interaction: discord.Interaction):
 
 
 @client.tree.command(description="X7 Finance Token Holders")
-@app_commands.choices(view=[
-    app_commands.Choice(name="Image", value="img"),
-    app_commands.Choice(name="Text", value="text"),
-    ])
 async def holders(interaction: discord.Interaction, view: app_commands.Choice[str]):
     x7daoholders = api.get_holders(items.x7daoca)
     x7rholders = api.get_holders(items.x7rca)
-    if view == "text":
-        embed.description = '**X7 Finance Token Holders (ETH)**\n\n' \
+    embed.description = '**X7 Finance Token Holders (ETH)**\n\n' \
                         f'X7R Holders: {x7rholders}\n' \
                         f'X7DAO Holders: {x7daoholders}\n\n' \
                         f'{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
-    if view == "img":
-        img = Image.open((random.choice(items.blackhole)))
-        i1 = ImageDraw.Draw(img)
-        myfont = ImageFont.truetype(R'media\FreeMonoBold.ttf', 28)
-        i1.text((28, 36),
-                f'X7 Finance Token Holders (ETH)\n\n'
-                f'X7R Holders: {x7rholders}\n'
-                f'X7DAO Holders: {x7daoholders}\n\n\n\n'
-                f'UTC: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}',
-                font=myfont, fill=(255, 255, 255))
-        img.save(r"media\blackhole.png")
-        file = discord.File(r'media\blackhole.png')
-        embed.set_image(url='attachment://media/blackhole.png')
-        await interaction.response.send_message(file=file)
+    await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="Market Fear Greed Index")
@@ -1138,7 +1117,7 @@ async def voting(interaction: discord.Interaction):
     await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="Market Gas Info")
-@app_commands.choices(terms=[
+@app_commands.choices(chain=[
     app_commands.Choice(name="Ethereum", value="eth"),
     app_commands.Choice(name="Binance Smart Chain", value="bsc"),
     app_commands.Choice(name="Polygon", value="poly"),
@@ -1173,7 +1152,7 @@ async def gas(interaction: discord.Interaction, chain: app_commands.Choice[str])
     await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="Wei conversion")
-@app_commands.describe(Eth='amount to convert')
+@app_commands.describe(eth='amount to convert')
 async def wei(interaction: discord.Interaction, eth: Optional[str] = ""):
     weiraw = float(eth)
     wei = weiraw * 10 ** 18
@@ -1795,14 +1774,11 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
 @client.tree.command(description="X7 Finance Token price info")
 @app_commands.describe(coin='Coin Name')
 async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
-    basetokenurl = 'https://api.coingecko.com/api/v3/search?query='
     token = api.get_cg_search(coin)
     tokenid = token["coins"][0]["api_symbol"]
     tokenlogo = token["coins"][0]["thumb"]
     symbol = token["coins"][0]["symbol"]
-    cg = CoinGeckoAPI()
-    tokenprice = (cg.get_price(ids=tokenid, vs_currencies='usd', include_24hr_change='true',
-                               include_24hr_vol='true', include_market_cap="true"))
+    tokenprice = api.get_cg_price(tokenid)
     if coin == "":
         price = api.get_cg_price("x7r, x7dao")
         embed.description = f'**X7 Finance Token Prices  (ETH)**\n\n' \
@@ -1813,7 +1789,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
                             f'{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if coin == "eth":
-        eth = (cg.get_price(ids='ethereum', vs_currencies='usd', include_24hr_change='true'))
+        eth = api.get_cg_price("ethereum")
         gasdata = api.get_gas("eth")
         ethembed = discord.Embed(colour=7419530)
         ethembed.set_footer(text="Trust no one, Trust code. Long live Defi")
@@ -1828,8 +1804,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
             f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=ethembed)
     if coin == "bnb":
-        bnb = (cg.get_price(ids='binancecoin', vs_currencies='usd', include_24hr_change='true',
-                            include_market_cap='true'))
+        bnb = api.get_cg_price("binancecoin")
         gasdata = api.get_gas("bsc")
         bnbembed = discord.Embed(colour=7419530)
         bnbembed.set_footer(text="Trust no one, Trust code. Long live Defi")
@@ -1845,8 +1820,7 @@ async def price(interaction: discord.Interaction, coin: Optional[str] = ""):
         await interaction.response.send_message(embed=bnbembed)
         return
     if coin == "matic" or coin == "poly" or coin == "polygon":
-        matic = (cg.get_price(ids='matic-network', vs_currencies='usd', include_24hr_change='true',
-                              include_market_cap='true'))
+        matic = api.get_cg_price("matic-network")
         gasdata = api.get_gas("poly")
         polyembed = discord.Embed(colour=7419530)
         polyembed.set_footer(text="Trust no one, Trust code. Long live Defi")
