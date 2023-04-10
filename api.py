@@ -1,7 +1,6 @@
 from pycoingecko import CoinGeckoAPI
 from moralis import evm_api
 import keys
-import items
 import requests
 import random
 from datetime import datetime
