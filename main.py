@@ -189,21 +189,21 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
         embed.description = \
             f'**X7 Finance NFT Information (ETH)**\n\n' \
             f'[**Ecosystem Maxi**]({items.ethertoken}{items.ecoca})\n{items.ecopriceeth}\n' \
-            f'Available - {500-int(api.get_holders_nft_eth(items.ecoca))}\n'\
+            f'Available - {500-int(api.get_holders_nft(items.ecoca, "?chain=eth-main"))}\n'\
             f'> 25% discount on X7100 tax\n' \
             f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({items.ethertoken}{items.liqca})\n{items.liqpriceeth}\n' \
-            f'Available - {250-int(api.get_holders_nft_eth(items.liqca))}\n' \
+            f'Available - {250-int(api.get_holders_nft(items.liqca, "?chain=eth-main"))}\n' \
             f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
             f'> 15 % discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({items.ethertoken}{items.dexca})\n{items.dexpriceeth}\n' \
-            f'Available - {150-int(api.get_holders_nft_eth(items.dexca))}\n' \
+            f'Available - {150-int(api.get_holders_nft(items.dexca, "?chain=eth-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
             f'[**Borrowing Maxi**]({items.ethertoken}{items.borrowca})\n{items.borrowpriceeth}\n' \
-            f'Available - {100-int(api.get_holders_nft_eth(items.borrowca))}\n' \
+            f'Available - {100-int(api.get_holders_nft(items.borrowca, "?chain=eth-main"))}\n' \
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({items.ethertoken}{items.magisterca})\n{items.magisterpriceeth}\n' \
-            f'Available - {49 - int(api.get_holders_nft_eth(items.magisterca))}\n'\
+            f'Available - {49 - int(api.get_holders_nft(items.magisterca, "?chain=eth-main"))}\n'\
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'[**Pioneer**]({items.ethertoken}{items.pioneerca})\n' \
@@ -233,21 +233,21 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
         embed.description = \
             f'**X7 Finance NFT Information (POLYGON)**\n\n' \
             f'[**Ecosystem Maxi**]({items.polytoken}{items.ecoca})\n{items.ecopricepoly}\n' \
-            f'Available - {500-int(api.get_holders_nft_poly(items.ecoca))}\n' \
+            f'Available - {500-int(api.get_holders_nft(items.ecoca, "?chain=poly-main"))}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({items.polytoken}{items.liqca})\n{items.liqpricepoly}\n' \
-            f'Available - {250-int(api.get_holders_nft_poly(items.liqca))}\n' \
+            f'Available - {250-int(api.get_holders_nft(items.liqca, "?chain=poly-main"))}\n' \
             f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
             f'> 15 % discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({items.polytoken}{items.dexca})\n{items.dexpricepoly}\n' \
-            f'Available - {150-int(api.get_holders_nft_poly(items.dexca))}\n' \
+            f'Available - {150-int(api.get_holders_nft(items.dexca, "?chain=poly-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
             f'[**Borrowing Maxi**]({items.polytoken}{items.borrowca})\n{items.borrowpricepoly}\n' \
-            f'Available - {100-int(api.get_holders_nft_poly(items.borrowca))}\n' \
+            f'Available - {100-int(api.get_holders_nft(items.borrowca, "?chain=poly-main"))}\n' \
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({items.polytoken}{items.magisterca})\n{items.magisterpricepoly}\n'\
-            f'Available - {49-int(api.get_holders_nft_poly(items.magisterca))}\n' \
+            f'Available - {49-int(api.get_holders_nft(items.magisterca, "?chain=poly-main"))}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
@@ -256,21 +256,21 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
         embed.description = \
             f'**X7 Finance NFT Information (ARBITRUM)**\n\n' \
             f'[**Ecosystem Maxi**]({items.arbtoken}{items.ecoca})\n{items.ecopricearb}\n' \
-            f'Available - {500-int(api.get_holders_nft_arb(items.ecoca))}\n' \
+            f'Available - {500-int(api.get_holders_nft(items.ecoca, "?chain=arbitrum"))}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({items.arbtoken}{items.liqca})\n{items.liqpricearb}\n' \
-            f'Available - {250-int(api.get_holders_nft_arb(items.liqca))}\n' \
+            f'Available - {250-int(api.get_holders_nft(items.liqca, "?chain=arbitrum"))}\n' \
             f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
             f'> 15 % discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({items.arbtoken}{items.dexca})\n{items.dexpricearb}\n' \
-            f'Available - {150-int(api.get_holders_nft_arb(items.dexca))}\n' \
+            f'Available - {150-int(api.get_holders_nft(items.dexca, "?chain=arbitrum"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
             f'[**Borrowing Maxi**]({items.arbtoken}{items.borrowca})\n{items.borrowpricearb}\n' \
-            f'Available - {100-int(api.get_holders_nft_arb(items.borrowca))}\n' \
+            f'Available - {100-int(api.get_holders_nft(items.borrowca, "?chain=arbitrum"))}\n' \
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({items.arbtoken}{items.magisterca})\n{items.magisterpricearb}\n'\
-            f'Available - {49-int(api.get_holders_nft_arb(items.magisterca))}\n' \
+            f'Available - {49-int(api.get_holders_nft(items.magisterca, "?chain=arbitrum"))}\n' \
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
@@ -279,21 +279,21 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
         embed.description = \
             f'**X7 Finance NFT Information (OPTIMUM)**\n\n' \
             f'[**Ecosystem Maxi**]({items.optitoken}{items.ecoca})\n{items.ecopriceopti}\n' \
-            f'Available - {500-int(api.get_holders_nft_opti(items.ecoca))}\n' \
+            f'Available - {500-int(api.get_holders_nft(items.ecoca, "?chain=optimism-main"))}\n' \
             f'> 25% discount on x7100 tax\n' \
             f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({items.optitoken}{items.liqca})\n{items.liqpriceopti}\n' \
-            f'Available - {250-int(api.get_holders_nft_opti(items.liqca))}\n' \
+            f'Available - {250-int(api.get_holders_nft(items.liqca, "?chain=optimism-main"))}\n' \
             f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
             f'> 15 % discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({items.optitoken}{items.dexca})\n{items.dexpriceopti}\n' \
-            f'Available - {150-int(api.get_holders_nft_opti(items.dexca))}\n' \
+            f'Available - {150-int(api.get_holders_nft(items.dexca, "?chain=optimism-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
             f'[**Borrowing Maxi**]({items.optitoken}{items.borrowca})\n{items.borrowpriceopti}\n' \
-            f'Available - {100-int(api.get_holders_nft_opti(items.borrowca))}\n' \
+            f'Available - {100-int(api.get_holders_nft(items.borrowca, "?chain=optimism-main"))}\n' \
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({items.optitoken}{items.magisterca})\n{items.magisterpriceopti}\n' \
-            f'Available - {49-int(api.get_holders_nft_opti(items.magisterca))}\n' \
+            f'Available - {49-int(api.get_holders_nft(items.magisterca, "?chain=optimism-main"))}\n' \
             f'> 25% discount on x7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
@@ -400,7 +400,7 @@ async def buyevenly(interaction: discord.Interaction):
 @app_commands.describe(pioneerid='Show Pioneer NFT #')
 async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = None):
     if not pioneerid:
-        data = api.get_nft("/x7-pioneer")
+        data = api.get_os_nft("/x7-pioneer")
         floor = (data["collection"]["stats"]["floor_price"])
         traits = (data["collection"]["traits"]["Transfer Lock Status"]["unlocked"])
         cap = round(data["collection"]["stats"]["market_cap"], 2)
@@ -1078,6 +1078,63 @@ async def dashboard(interaction: discord.Interaction):
         "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
         f"[Xchange Questions]('https://www.x7finance.org/faq/xchange')\n\n{api.get_quote()}"
     await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Magister Holders")
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    ])
+async def magisters(interaction: discord.Interaction):
+    if chain.value == "eth":
+        response = api.get_nft(items.magisterca, "eth")
+        embed.description = \
+            '**X7 Finance Magister Holders (ETH)**\n\n' \
+            f'[Magister 0]({items.etheraddress}{response["result"][0]["owner_of"]})\n' \
+            f'[Magister 1]({items.etheraddress}{response["result"][1]["owner_of"]})\n' \
+            f'[Magister 2]({items.etheraddress}{response["result"][2]["owner_of"]})\n' \
+            f'[Magister 3]({items.etheraddress}{response["result"][3]["owner_of"]})\n' \
+            f'[Magister 4]({items.etheraddress}{response["result"][4]["owner_of"]})\n' \
+            f'[Magister 5]({items.etheraddress}{response["result"][5]["owner_of"]})\n' \
+            f'[Magister 6]({items.etheraddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        response = api.get_nft(items.magisterca, "bsc")
+        embed.description = \
+            '**X7 Finance Magister Holders (BSC)**\n\n' \
+            f'[Magister 0]({items.bscaddress}{response["result"][0]["owner_of"]})\n' \
+            f'[Magister 1]({items.bscaddress}{response["result"][1]["owner_of"]})\n' \
+            f'[Magister 2]({items.bscaddress}{response["result"][2]["owner_of"]})\n' \
+            f'[Magister 3]({items.bscaddress}{response["result"][3]["owner_of"]})\n' \
+            f'[Magister 4]({items.bscaddress}{response["result"][4]["owner_of"]})\n' \
+            f'[Magister 5]({items.bscaddress}{response["result"][5]["owner_of"]})\n' \
+            f'[Magister 6]({items.bscaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        response = api.get_nft(items.magisterca, "arbitrum")
+        embed.description = \
+            '**X7 Finance Magister Holders (ARB)**\n\n' \
+            f'[Magister 0]({items.arbaddress}{response["result"][0]["owner_of"]})\n' \
+            f'[Magister 1]({items.arbaddress}{response["result"][1]["owner_of"]})\n' \
+            f'[Magister 2]({items.arbaddress}{response["result"][2]["owner_of"]})\n' \
+            f'[Magister 3]({items.arbaddress}{response["result"][3]["owner_of"]})\n' \
+            f'[Magister 4]({items.arbaddress}{response["result"][4]["owner_of"]})\n' \
+            f'[Magister 5]({items.arbaddress}{response["result"][5]["owner_of"]})\n' \
+            f'[Magister 6]({items.arbaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        response = api.get_nft(items.magisterca, "polygon")
+        embed.description = \
+            '**X7 Finance Magister Holders (POLYGON)**\n\n' \
+            f'[Magister 0]({items.polyaddress}{response["result"][0]["owner_of"]})\n' \
+            f'[Magister 1]({items.polyaddress}{response["result"][1]["owner_of"]})\n' \
+            f'[Magister 2]({items.polyaddress}{response["result"][2]["owner_of"]})\n' \
+            f'[Magister 3]({items.polyaddress}{response["result"][3]["owner_of"]})\n' \
+            f'[Magister 4]({items.polyaddress}{response["result"][4]["owner_of"]})\n' \
+            f'[Magister 5]({items.polyaddress}{response["result"][5]["owner_of"]})\n' \
+            f'[Magister 6]({items.polyaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Deployer Info")

@@ -24,6 +24,12 @@ def get_liquidity(pair):
     amount = evm_api.defi.get_pair_reserves(api_key=keys.moralis, params={"chain": "eth", "pair_address": pair})
     return amount
 
+# noinspection PyTypeChecker
+def get_nft(nft, chain):
+    result = evm_api.nft.get_nft_owners(
+        api_key=keys.moralis, params={"chain": chain, "format": "decimal", "address": nft})
+    return result
+
 def get_cg_search(token):
     basetokenurl = 'https://api.coingecko.com/api/v3/search?query='
     tokenurl = basetokenurl + token
@@ -45,7 +51,7 @@ def get_today():
     data = response.json()
     return data
 
-def get_nft(slug):
+def get_os_nft(slug):
     slug = slug
     headers = {"X-API-KEY": keys.os}
     url = "https://api.opensea.io/api/v1/collection/" + slug
@@ -77,30 +83,8 @@ def get_holders(token):
     amount = data["totalSupply"]
     return amount
 
-
-def get_holders_nft_eth(nft):
-    url = 'https://api.blockspan.com/v1/collections/contract/' + nft + '?chain=eth-main'
-    response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
-    data = response.json()
-    amount = data["total_tokens"]
-    return amount
-
-def get_holders_nft_arb(nft):
-    url = 'https://api.blockspan.com/v1/collections/contract/' + nft + '?chain=arbitrum'
-    response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
-    data = response.json()
-    amount = data["total_tokens"]
-    return amount
-
-def get_holders_nft_poly(nft):
-    url = 'https://api.blockspan.com/v1/collections/contract/' + items.dexca + '?chain=poly-main'
-    response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
-    data = response.json()
-    amount = data["total_tokens"]
-    return amount
-
-def get_holders_nft_opti(nft):
-    url = 'https://api.blockspan.com/v1/collections/contract/' + nft + '?chain=optimism-main'
+def get_holders_nft(nft, chain):
+    url = 'https://api.blockspan.com/v1/collections/contract/' + nft + chain
     response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
     data = response.json()
     amount = data["total_tokens"]
