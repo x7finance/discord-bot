@@ -1062,7 +1062,7 @@ async def faq(interaction: discord.Interaction):
         "[Investor Questions]('https://www.x7finance.org/faq/investors')" \
         "[Liquidity Lending Questions]('https://www.x7finance.org/faq/liquiditylending')" \
         "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
-        "[Xchange Questions]('https://www.x7finance.org/faq/xchange')"
+        f"[Xchange Questions]('https://www.x7finance.org/faq/xchange')\n\n{api.get_quote()}"
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -1076,17 +1076,39 @@ async def dashboard(interaction: discord.Interaction):
         "[Investor Questions]('https://www.x7finance.org/faq/investors')" \
         "[Liquidity Lending Questions]('https://www.x7finance.org/faq/liquiditylending')" \
         "[NFT Questions]('https://www.x7finance.org/faq/nfts')" \
-        "[Xchange Questions]('https://www.x7finance.org/faq/xchange')"
+        f"[Xchange Questions]('https://www.x7finance.org/faq/xchange')\n\n{api.get_quote()}"
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Deployer Info")
 async def deployer(interaction: discord.Interaction):
+    deployer = api.get_tx(items.deployer, "eth")
+    dev = api.get_tx(items.devmultieth, "eth")
+    date = deployer["result"][0]["block_timestamp"].split("-")
+    year = int(date[0])
+    month = int(date[1])
+    day = int(date[2][:2])
+    then = datetime(year, month, day)
+    now = datetime.now()
+    duration = now - then
+    duration_in_s = duration.total_seconds()
+    days = divmod(duration_in_s, 86400)
+    devdate = dev["result"][0]["block_timestamp"].split("-")
+    devyear = int(devdate[0])
+    devmonth = int(devdate[1])
+    devday = int(devdate[2][:2])
+    devthen = datetime(devyear, devmonth, devday)
+    devduration = now - devthen
+    devduration_in_s = devduration.total_seconds()
+    devdays = divmod(devduration_in_s, 86400)
     embed.description = \
-        '**X7 Finance Deployer**\n\n' \
-        'V2: https://etherscan.io/address/0x7000a09c425abf5173ff458df1370c25d1c58105\n\n' \
-        'V1 DAO: https://etherscan.io/address/0x7565cE5E02d368BB3aEC044b7C3398911E27dB1E\n\n' \
-        'V1 Protocol https://etherscan.io/address/0x8FE821FB171076B850A3048B9AAD7600BE8d0F30'
+        '**X7 Finance DAO Founders**\n\n' \
+        '[Deployer Wallet](https://etherscan.io/address/0x7000a09c425abf5173ff458df1370c25d1c58105)\n' \
+        f'Last TX -  {int(days[0])} days ago:\n' \
+        f'https://etherscan.io/tx/{deployer["result"][0]["hash"]}\n\n' \
+        f'[Developer Operations Wallet](https://etherscan.io/address/0x5CF4288Bf373BBe17f76948E39Baf33B9f6ac2e0)\n' \
+        f'Last TX -  {int(devdays[0])} days ago:\n' \
+        f'https://etherscan.io/tx/{dev["result"][0]["hash"]}\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="On this day in history")

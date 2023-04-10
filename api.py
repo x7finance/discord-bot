@@ -6,6 +6,11 @@ import requests
 import random
 from datetime import datetime
 
+def get_tx(address, chain):
+    result = evm_api.transaction.get_wallet_transactions(
+        api_key=keys.moralis, params={"address": address, "chain": chain})
+    return result
+
 def get_quote():
     quoteresponse = requests.get('https://type.fit/api/quotes')
     quotedata = quoteresponse.json()
@@ -13,7 +18,6 @@ def get_quote():
     quote = quoteraw["text"] + quoteraw["author"]
     quote = f'`"{quoteraw["text"]}"\n\n-{quoteraw["author"]}`'
     return quote
-
 
 # noinspection PyTypeChecker
 def get_liquidity(pair):
@@ -210,4 +214,3 @@ def get_native_balance(wallet, chain):
         amountraw = float(data["result"][0]["balance"])
         amount = str(amountraw / 10 ** 18)
         return amount
-

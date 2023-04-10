@@ -51,6 +51,8 @@ commultiarb = '0x8b8122Cc806615D50287b5c7CF6636033E38f0Dc'
 devmultiopti = '0xBC534678E9ab8Bf1009fE6Ca4De8B02C091c9ca8'
 commultiopti = '0xc8804440275c0B60a081e832bb027DDaAE4A2daa'
 
+deployer = '0x7000a09c425abf5173ff458df1370c25d1c58105'
+
 # URLS
 xchangebuy = 'https://app.x7.finance/#/swap?outputCurrency='
 ethertoken = 'https://etherscan.io/token/'
