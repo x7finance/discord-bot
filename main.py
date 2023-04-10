@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 import tweepy
 import items
 import keys
@@ -42,20 +42,8 @@ class Button(discord.ui.View):
 client = PersitentViewBot()
 embed = discord.Embed(colour=7419530)
 embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-thumb = discord.File('X7whitelogo.png')
 embed.set_thumbnail(url='attachment://X7whitelogo.png')
-
-
-@tasks.loop(hours=variables.autotimewp)
-async def wp_message():
-    mainchannel = client.get_channel(1017887733953347678)
-    embed.description = \
-        '**X7 Finance Whitepaper Links**\n\n' \
-        f'{random.choice(items.quotes)}\n\n' \
-        '[Full WP](https://x7.finance/whitepaper)\n' \
-        '[Short WP](https://x7community.space/wp-short.pdf)'
-    await mainchannel.send(file=thumb, embed=embed)
-    print("WP Message Sent")
+thumb = discord.File('X7whitelogo.png')
 
 
 @client.event
@@ -66,9 +54,6 @@ async def on_ready():
         print(f'Synced {len(synced)} command(s)')
     except Exception as e:
         print(e)
-    if not wp_message.is_running():
-        wp_message.start()
-        print("WP Message Started")
 
 
 @client.event
@@ -225,6 +210,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f' > 6% of profits that come into the X7 Treasury Splitter are now being allocated to the reward ' \
             f'pool. Each X7 Pioneer NFT grants you a proportional share of this pool\n\n' \
             f'https://x7.finance/x/nft/mint\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         embed.description = \
             f'**X7 Finance NFT Information (BSC)**\n\n' \
@@ -242,6 +228,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         embed.description = \
             f'**X7 Finance NFT Information (POLYGON)**\n\n' \
@@ -264,6 +251,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         embed.description = \
             f'**X7 Finance NFT Information (ARBITRUM)**\n\n' \
@@ -286,6 +274,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> 25% discount on X7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         embed.description = \
             f'**X7 Finance NFT Information (OPTIMUM)**\n\n' \
@@ -308,7 +297,7 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> 25% discount on x7100 tax\n' \
             f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Whitepaper links")
@@ -343,27 +332,31 @@ async def chart(interaction: discord.Interaction, chain: app_commands.Choice[str
                             f'[X7R - Rewards Token]({items.dextoolseth}{items.x7rpaireth})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolseth}{items.x7daopaireth})\n\n' \
                             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         embed.description = '**X7 Finance Chart links (BSC)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsbsc}{items.x7rpairbsc})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsbsc}{items.x7daopairbsc})\n\n' \
                             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         embed.description = '**X7 Finance Chart links (POLYGON)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolspoly}{items.x7rpairpoly})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolspoly}{items.x7daopairpoly})\n\n' \
                             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         embed.description = '**X7 Finance Chart links (ARBITRUM)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsarb}{items.x7rpairarb})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsarb}{items.x7daopairarb})\n\n' \
                             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         embed.description = '**X7 Finance Chart links (OPTIMISM)**\n\nUse ``/x7tokenname`` for all other details\n\n' \
                             f'[X7R - Rewards Token]({items.dextoolsopti}{items.x7rpairopti})\n' \
                             f'[X7DAO - Governance Token]({items.dextoolsopti}{items.x7daopairopti})\n\n' \
                             f'{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Token contract info")
@@ -426,9 +419,10 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
             f'Number of Owners: {owners}\n' \
             f'Pioneers Unlocked: {traits}\n' \
             f'Pioneer Pool: {pioneerpool[:3]} ETH (${"{:0,.0f}".format(totaldollar)})\n\n' \
-            f'{api.get_quote()}\n\n' \
             f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-            f'[Opensea](https://opensea.io/collection/x7-pioneer)'
+            f'[Opensea](https://opensea.io/collection/x7-pioneer)\n\n' \
+            f'{api.get_quote()}\n\n'
+        await interaction.response.send_message(file=thumb, embed=embed)
     else:
         baseurl = "https://api.opensea.io/api/v1/asset/"
         slug = items.pioneerca + "/"
@@ -444,7 +438,7 @@ async def pioneer(interaction: discord.Interaction, pioneerid: Optional[str] = N
                             f'Opensea - https://opensea.io/assets/ethereum/0x70000299ee8910ccacd97b1bb560e' \
                             f'34f49c9e4f7/{pioneerid}'
         embed.set_image(url=picture)
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7R Token burn info")
@@ -465,7 +459,6 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{"{:0,.0f}".format(float(amount))} (${"{:0,.0f}".format(burndollar)})\n' \
             f'{percent}% of Supply\n\n' \
             f'[Etherscan]({items.ethertoken}{items.x7rca}?a={items.dead})\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         amount = api.get_token_balance(items.dead, "bsc", items.x7rca)
         percent = round(((amount / items.supply) * 100), 6)
@@ -474,7 +467,6 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{"{:,}".format(amount)}' \
             f'{percent}% of Supply\n\n' \
             f'[BSCscan]({items.bsctoken}{items.x7rca}?a={items.dead})\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         amount = api.get_token_balance(items.dead, "arb", items.x7rca)
         percent = round(((amount / items.supply) * 100), 6)
@@ -483,7 +475,6 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{"{:,}".format(amount)}' \
             f'{percent}% of Supply\n\n' \
             f'[Arbiscan]({items.arbtoken}{items.x7rca}?a={items.dead})\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         amount = api.get_token_balance(items.dead, "opti", items.x7rca)
         percent = round(((amount / items.supply) * 100), 6)
@@ -492,7 +483,6 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{"{:,}".format(amount)}\n' \
             f'{percent}% of Supply\n\n' \
             f'[Optimism.Etherscan]({items.optitoken}{items.x7rca}?a={items.dead})\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         amount = api.get_token_balance(items.dead, "poly", items.x7rca)
         percent = round(((amount / items.supply) * 100), 6)
@@ -501,7 +491,7 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'{"{:,}".format(amount)}\n' \
             f'{percent}% of Supply\n\n' \
             f'[Polygonscan]({items.polytoken}{items.x7rca}?a={items.dead})\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
+    await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="Roadmap Info")
@@ -562,6 +552,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'bsc':
         bscpool = api.get_native_balance(items.lpreserveca, "bsc")
         bscpooldollar = float(bscpool) * float(api.get_native_price("bnb")) / 1 ** 18
@@ -571,6 +562,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'poly':
         polypool = api.get_native_balance(items.lpreserveca, "poly")
         polypooldollar = float(polypool) * float(api.get_native_price("matic")) / 1 ** 18
@@ -580,6 +572,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'arb':
         arbpool = api.get_native_balance(items.lpreserveca, "arb")
         arbpooldollar = float(arbpool) * float(api.get_native_price("eth")) / 1 ** 18
@@ -589,6 +582,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == 'opti':
         optipool = api.get_native_balance(items.lpreserveca, "opti")
         optipooldollar = float(optipool) * float(api.get_native_price("eth")) / 1 ** 18
@@ -598,7 +592,7 @@ async def pool(interaction: discord.Interaction, chain: app_commands.Choice[str]
             f'[X7 Lending Pool Reserve Contract]({items.optiaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.optiaddress}{items.x7dca})\n\n' \
             f'{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Token tax info")
@@ -630,6 +624,7 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max)\n' \
                             '[Magister](https://opensea.io/collection/x7-magister)\n' \
                             f'[Pioneer](https://opensea.io/collection/x7-pioneer)\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         embed.description = '**X7 Finance Opensea links (BSC)**\n\n' \
                             '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-binance)\n' \
@@ -637,6 +632,7 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-binance)\n' \
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-binance)\n' \
                             f'[Magister](https://opensea.io/collection/x7-magister-binance)\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         embed.description = '**X7 Finance Opensea links (POLYGON)**\n\n' \
                             '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-polygon)\n' \
@@ -644,6 +640,7 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-polygon)\n' \
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-polygon)\n' \
                             f'[Magister](https://opensea.io/collection/x7-magister-polygon)\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         embed.description = '**X7 Finance Opensea links (ARB)**\n\n' \
                             '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-arbitrum)\n' \
@@ -651,6 +648,7 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-arbitrum)\n' \
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-arbitrum)\n' \
                             f'[Magister](https://opensea.io/collection/x7-magister-arbitrum)\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         embed.description = '**X7 Finance Opensea links (OPTI)**\n\n' \
                             '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-optimism)\n' \
@@ -658,12 +656,11 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi-optimism)\n' \
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max-optimism)\n' \
                             f'[Magister](https://opensea.io/collection/x7-magister-optimism)\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Xchange DEX info")
 async def swap(interaction: discord.Interaction):
-
     embed.description = f'**X7 Finance Xchange Info**\n\nhttps://app.x7.finance/#/swap\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
@@ -680,13 +677,14 @@ async def spaces(interaction: discord.Interaction):
     minutes = divmod(hours[1], 60)
     if duration < timedelta(0):
         embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     else:
         embed.description =\
             f'Next X7 Finance Twitter space is:\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
             f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
             f'[Click here]({variables.spaceslink}) to set a reminder!' \
             f'\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="Make a joke")
@@ -793,6 +791,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[X7 Lending Pool Reserve Contract]({items.etheraddress}{items.lpreserveca})\n'\
             f'[X7D Contract]({items.etheraddress}{items.x7dca})\n\n'\
             f'`{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         supply = api.get_native_balance(items.x7dca, "bnb")
         x7ddollar = float(supply) * float(api.get_native_price("bnb")) / 1 ** 18
@@ -811,6 +810,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[X7 Lending Pool Reserve Contract]({items.bscaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.bscaddress}{items.x7dca})\n\n' \
             f'`{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         supply = api.get_native_balance(items.x7dca, "poly")
         x7ddollar = float(supply) * float(api.get_native_price("matic")) / 1 ** 18
@@ -829,6 +829,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[X7 Lending Pool Reserve Contract]({items.polyaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.polyaddress}{items.x7dca})\n\n' \
             f'`{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         supply = api.get_native_balance(items.lpreserveca, "arb")
         x7ddollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
@@ -847,6 +848,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[X7 Lending Pool Reserve Contract]({items.arbaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.arbaddress}{items.x7dca})\n\n' \
             f'`{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         supply = api.get_native_balance(items.x7dca, "opti")
         x7ddollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
@@ -865,7 +867,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'[X7 Lending Pool Reserve Contract]({items.optiaddress}{items.lpreserveca})\n' \
             f'[X7D Contract]({items.optiaddress}{items.x7dca})\n\n' \
             f'`{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Loan Term Info")
@@ -892,6 +894,7 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             'process by which new loan terms may be invented, provided they implement the proper interface.\n\n' \
             f'use `/loans ill001 - ill003` for more details on individual loan contrats\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if terms.value == "x7ill001":
         embed.description =\
             f'{items.ill001name}\n\n' \
@@ -902,6 +905,7 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             f'[Arbitrum]({items.arbaddress}{items.ill001ca})\n' \
             f'[Optimism]({items.etheraddress}{items.ill001ca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if terms.value == "x7ill002":
         embed.description = \
             f'{items.ill002name}\n\n' \
@@ -912,6 +916,7 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             f'[Arbitrum]({items.arbaddress}{items.ill002ca})\n' \
             f'[Optimism]({items.etheraddress}{items.ill002ca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if terms.value == "x7ill003":
         embed.description = \
             f'{items.ill003name}\n\n' \
@@ -922,7 +927,7 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             f'[Arbitrum]({items.arbaddress}{items.ill003ca})\n' \
             f'[Optimism]({items.etheraddress}{items.ill003ca})\n\n' \
             f'{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="Latest X7 Finance Twitter Post")
@@ -984,6 +989,8 @@ async def giveaway(interaction: discord.Interaction):
         embed.description =\
             f'X7 Finance Giveaway is now closed\n\nPlease check back for more details' \
             f'\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+
     else:
         embed.description =\
             f'*{variables.giveawaytitle}*\n\n' \
@@ -992,7 +999,7 @@ async def giveaway(interaction: discord.Interaction):
             f'{variables.giveawayinfo}' \
             f'\n\n{api.get_quote()}' \
             % (days[0], hours[0], minutes[0], seconds[0])
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Multichain Rollout")
@@ -1131,6 +1138,7 @@ async def gas(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
             f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         gasdata = api.get_gas("bsc")
         embed.description = \
@@ -1140,6 +1148,7 @@ async def gas(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
             f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         gasdata = api.get_gas("poly")
         embed.description = \
@@ -1149,7 +1158,7 @@ async def gas(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Average: {gasdata["result"]["ProposeGasPrice"]} Gwei\n' \
             f'High: {gasdata["result"]["FastGasPrice"]} Gwei\n\n' \
             f'{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="Wei conversion")
 @app_commands.describe(eth='amount to convert')
@@ -1678,22 +1687,21 @@ async def mcap(interaction: discord.Interaction, view: app_commands.Choice[str])
     x7105cap = (price["x7105"]["usd"]) * items.supply
     conscap = x7101cap + x7102cap + x7103cap + x7104cap + x7105cap
     totalcap = x7rcap + x7daocap + x7101cap + x7102cap + x7103cap + x7104cap + x7105cap
-    if view.value == "text":
-        embed.description = \
-            f'**X7 Finance Market Cap Info (ETH)**\n\n' \
-            f'X7R:          ${"{:0,.0f}".format(x7rcap)}\n' \
-            f'X7DAO:     ${"{:0,.0f}".format(x7daocap)}\n' \
-            f'X7101:       ${"{:0,.0f}".format(x7101cap)}\n' \
-            f'X7102:       ${"{:0,.0f}".format(x7102cap)}\n' \
-            f'X7103:       ${"{:0,.0f}".format(x7103cap)}\n' \
-            f'X7104:       ${"{:0,.0f}".format(x7104cap)}\n' \
-            f'X7105:       ${"{:0,.0f}".format(x7105cap)}\n\n' \
-            f'Constellations Combined: ' \
-            f'${"{:0,.0f}".format(x7101cap + x7102cap + x7103cap + x7104cap + x7105cap)}\n' \
-            f'Total Token Marketcap:\n' \
-            f'    ${"{:0,.0f}".format(totalcap)}' \
-            f'\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
+    embed.description = \
+        f'**X7 Finance Market Cap Info (ETH)**\n\n' \
+        f'X7R:          ${"{:0,.0f}".format(x7rcap)}\n' \
+        f'X7DAO:     ${"{:0,.0f}".format(x7daocap)}\n' \
+        f'X7101:       ${"{:0,.0f}".format(x7101cap)}\n' \
+        f'X7102:       ${"{:0,.0f}".format(x7102cap)}\n' \
+        f'X7103:       ${"{:0,.0f}".format(x7103cap)}\n' \
+        f'X7104:       ${"{:0,.0f}".format(x7104cap)}\n' \
+        f'X7105:       ${"{:0,.0f}".format(x7105cap)}\n\n' \
+        f'Constellations Combined: ' \
+        f'${"{:0,.0f}".format(x7101cap + x7102cap + x7103cap + x7104cap + x7105cap)}\n' \
+        f'Total Token Marketcap:\n' \
+        f'    ${"{:0,.0f}".format(totalcap)}' \
+        f'\n\n{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="X7 Treasury Info")
 @app_commands.choices(chain=[
@@ -1728,6 +1736,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
             f'Total: (${"{:0,.0f}".format(comtotal)})\n\n' \
             f'[Treasury Splitter Contract]({items.etheraddress}{items.tsplitterca})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         deveth = api.get_native_balance(items.devmultibsc, "bsc")
         cometh = api.get_native_balance(items.commultibsc, "bsc")
@@ -1738,6 +1747,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
             f'Developer Wallet:\n{deveth[:4]}BNB (${"{:0,.0f}".format(devdollar)})\n\n' \
             f'Community Wallet:\n{cometh[:4]}BNB (${"{:0,.0f}".format(comdollar)})\n\n' \
             f'[Treasury Splitter Contract]({items.bscaddress}{items.tsplitterca})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         deveth = api.get_native_balance(items.devmultiarb, "arb")
         cometh = api.get_native_balance(items.devmultiarb, "arb")
@@ -1748,6 +1758,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
             f'Developer Wallet:\n{deveth[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
             f'Community Wallet:\n{cometh[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n\n' \
             f'[Treasury Splitter Contract]({items.arbaddress}{items.tsplitterca})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         deveth = api.get_native_balance(items.devmultiopti, "opti")
         cometh = api.get_native_balance(items.commultiopti, "opti")
@@ -1758,6 +1769,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
             f'Developer Wallet:\n{deveth[:4]}ETH (${"{:0,.0f}".format(devdollar)})\n\n' \
             f'Community Wallet:\n{cometh[:4]}ETH (${"{:0,.0f}".format(comdollar)})\n\n' \
             f'[Treasury Splitter Contract]({items.optiaddress}{items.tsplitterca})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         deveth = api.get_native_balance(items.devmultipoly, "poly")
         cometh = api.get_native_balance(items.commultipoly, "poly")
@@ -1768,7 +1780,7 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
             f'Developer Wallet:\n{deveth[:4]}MATIC (${"{:0,.0f}".format(devdollar)})\n\n' \
             f'Community Wallet:\n{cometh[:4]}MATIC (${"{:0,.0f}".format(comdollar)})\n\n' \
             f'[Treasury Splitter Contract]({items.polyaddress}{items.tsplitterca})\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Token price info")
@@ -1924,6 +1936,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f' (${"{:0,.0f}".format(constellationswethdollar)})\n' \
             f'Total Liquidity (${"{:0,.0f}".format(constellationswethdollar+constellationstokendollar)})\n\n' \
             f'{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         x7ramount = api.get_native_balance(items.x7rliq, "bsc")
         x7daoamount = api.get_native_balance(items.daoliq, "bsc")
@@ -1936,6 +1949,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f'X7R:\n{x7ramount} BNB (${"{:0,.0f}".format(x7rdollar)})\n\n' \
             f'X7DAO:\n{x7daoamount} BNB (${"{:0,.0f}".format(x7daodollar)})\n\n' \
             f'X7100:\n{x7consamount} BNB (${"{:0,.0f}".format(x7consdollar)})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         x7ramount = api.get_native_balance(items.x7rliq, "arb")
         x7daoamount = api.get_native_balance(items.daoliq, "arb")
@@ -1948,6 +1962,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f'X7R:\n{x7ramount} ETH (${"{:0,.0f}".format(x7rdollar)})\n\n' \
             f'X7DAO:\n{x7daoamount} ETH (${"{:0,.0f}".format(x7daodollar)})\n\n' \
             f'X7100:\n{x7consamount} ETH (${"{:0,.0f}".format(x7consdollar)})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
         x7ramount = api.get_native_balance(items.x7rliq, "opti")
         x7daoamount = api.get_native_balance(items.daoliq, "opti")
@@ -1960,6 +1975,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f'X7R:\n{x7ramount} ETH (${"{:0,.0f}".format(x7rdollar)})\n\n' \
             f'X7DAO:\n{x7daoamount} ETH (${"{:0,.0f}".format(x7daodollar)})\n\n' \
             f'X7100:\n{x7consamount} ETH (${"{:0,.0f}".format(x7consdollar)})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         x7ramount = api.get_native_balance(items.x7rliq, "poly")
         x7daoamount = api.get_native_balance(items.daoliq, "poly")
@@ -1972,7 +1988,7 @@ async def liquidity(interaction: discord.Interaction, chain: app_commands.Choice
             f'X7R:\n{x7ramount} MATIC (${"{:0,.0f}".format(x7rdollar)})\n\n' \
             f'X7DAO:\n{x7daoamount} MATIC (${"{:0,.0f}".format(x7daodollar)})\n\n' \
             f'X7100:\n{x7consamount} MATIC (${"{:0,.0f}".format(x7consdollar)})\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 # DISCORD COMMANDS
