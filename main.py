@@ -1086,54 +1086,38 @@ async def dashboard(interaction: discord.Interaction):
     app_commands.Choice(name="Polygon", value="poly"),
     app_commands.Choice(name="Arbitrum", value="arb"),
     ])
-async def magisters(interaction: discord.Interaction):
+async def magisters(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     if chain.value == "eth":
         response = api.get_nft(items.magisterca, "eth")
+        magisters = list(map(lambda x: x['owner_of'], response["result"]))
+        address = '\n\n'.join(map(str, magisters))
         embed.description = \
             '**X7 Finance Magister Holders (ETH)**\n\n' \
-            f'[Magister 0]({items.etheraddress}{response["result"][0]["owner_of"]})\n' \
-            f'[Magister 1]({items.etheraddress}{response["result"][1]["owner_of"]})\n' \
-            f'[Magister 2]({items.etheraddress}{response["result"][2]["owner_of"]})\n' \
-            f'[Magister 3]({items.etheraddress}{response["result"][3]["owner_of"]})\n' \
-            f'[Magister 4]({items.etheraddress}{response["result"][4]["owner_of"]})\n' \
-            f'[Magister 5]({items.etheraddress}{response["result"][5]["owner_of"]})\n' \
-            f'[Magister 6]({items.etheraddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+            f'`{address}`\n\n{api.get_quote()}\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         response = api.get_nft(items.magisterca, "bsc")
+        magisters = list(map(lambda x: x['owner_of'], response["result"]))
+        address = '\n\n'.join(map(str, magisters))
         embed.description = \
             '**X7 Finance Magister Holders (BSC)**\n\n' \
-            f'[Magister 0]({items.bscaddress}{response["result"][0]["owner_of"]})\n' \
-            f'[Magister 1]({items.bscaddress}{response["result"][1]["owner_of"]})\n' \
-            f'[Magister 2]({items.bscaddress}{response["result"][2]["owner_of"]})\n' \
-            f'[Magister 3]({items.bscaddress}{response["result"][3]["owner_of"]})\n' \
-            f'[Magister 4]({items.bscaddress}{response["result"][4]["owner_of"]})\n' \
-            f'[Magister 5]({items.bscaddress}{response["result"][5]["owner_of"]})\n' \
-            f'[Magister 6]({items.bscaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+            f'`{address}`\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
         response = api.get_nft(items.magisterca, "arbitrum")
+        magisters = list(map(lambda x: x['owner_of'], response["result"]))
+        address = '\n\n'.join(map(str, magisters))
         embed.description = \
             '**X7 Finance Magister Holders (ARB)**\n\n' \
-            f'[Magister 0]({items.arbaddress}{response["result"][0]["owner_of"]})\n' \
-            f'[Magister 1]({items.arbaddress}{response["result"][1]["owner_of"]})\n' \
-            f'[Magister 2]({items.arbaddress}{response["result"][2]["owner_of"]})\n' \
-            f'[Magister 3]({items.arbaddress}{response["result"][3]["owner_of"]})\n' \
-            f'[Magister 4]({items.arbaddress}{response["result"][4]["owner_of"]})\n' \
-            f'[Magister 5]({items.arbaddress}{response["result"][5]["owner_of"]})\n' \
-            f'[Magister 6]({items.arbaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+            f'`{address}`\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
         response = api.get_nft(items.magisterca, "polygon")
+        magisters = list(map(lambda x: x['owner_of'], response["result"]))
+        address = '\n\n'.join(map(str, magisters))
         embed.description = \
             '**X7 Finance Magister Holders (POLYGON)**\n\n' \
-            f'[Magister 0]({items.polyaddress}{response["result"][0]["owner_of"]})\n' \
-            f'[Magister 1]({items.polyaddress}{response["result"][1]["owner_of"]})\n' \
-            f'[Magister 2]({items.polyaddress}{response["result"][2]["owner_of"]})\n' \
-            f'[Magister 3]({items.polyaddress}{response["result"][3]["owner_of"]})\n' \
-            f'[Magister 4]({items.polyaddress}{response["result"][4]["owner_of"]})\n' \
-            f'[Magister 5]({items.polyaddress}{response["result"][5]["owner_of"]})\n' \
-            f'[Magister 6]({items.polyaddress}{response["result"][6]["owner_of"]})\n\n{api.get_quote()}'
+            f'`{address}`\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
 
