@@ -892,7 +892,7 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             'Lending Pool as “available” loan terms for new loans. The DAO will be able to add or remove these term ' \
             'contracts.\n\nLoan term contracts may be created by any interested third party, enabling a market ' \
             'process by which new loan terms may be invented, provided they implement the proper interface.\n\n' \
-            f'use `/loans ill001 - ill003` for more details on individual loan contrats\n\n' \
+            f'use `/loans ill001 - ill003` for more details on individual loan contracts\n\n' \
             f'{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if terms.value == "x7ill001":
@@ -1093,7 +1093,7 @@ async def magisters(interaction: discord.Interaction, chain: app_commands.Choice
         address = '\n\n'.join(map(str, magisters))
         embed.description = \
             '**X7 Finance Magister Holders (ETH)**\n\n' \
-            f'`{address}`\n\n{api.get_quote()}\n\n{api.get_quote()}'
+            f'`{address}`\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
         response = api.get_nft(items.magisterca, "bsc")
@@ -1118,6 +1118,75 @@ async def magisters(interaction: discord.Interaction, chain: app_commands.Choice
         embed.description = \
             '**X7 Finance Magister Holders (POLYGON)**\n\n' \
             f'`{address}`\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Signers")
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    ])
+async def signers(interaction: discord.Interaction, chain: app_commands.Choice[str]):
+    if chain.value == "eth":
+        devresponse = api.get_signers(items.devmultieth)
+        comresponse = api.get_signers(items.commultieth)
+        devlist = devresponse["owners"]
+        devaddress = '\n\n'.join(map(str, devlist))
+        comlist = comresponse["owners"]
+        comaddress = '\n\n'.join(map(str, comlist))
+        embed.description = \
+            f'**X7 Finance Multi-Sig Singers (ETH)**\n' \
+            'Use `/signers [chain-name]` or other chains\n\n' \
+            f'**Developer**\n{devaddress}\n\n**Community**\n{comaddress}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        devresponse = api.get_signers(items.devmultipoly)
+        comresponse = api.get_signers(items.commultipoly)
+        devlist = devresponse["owners"]
+        devaddress = '\n\n'.join(map(str, devlist))
+        comlist = comresponse["owners"]
+        comaddress = '\n\n'.join(map(str, comlist))
+        embed.description = \
+            f'**X7 Finance Multi-Sig Singers (POLYGON)**\n' \
+            'Use `/signers [chain-name]` or other chains\n\n' \
+            f'**Developer**\n{devaddress}\n\n**Community**\n{comaddress}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        devresponse = api.get_signers(items.devmultibsc)
+        comresponse = api.get_signers(items.commultibsc)
+        devlist = devresponse["owners"]
+        devaddress = '\n\n'.join(map(str, devlist))
+        comlist = comresponse["owners"]
+        comaddress = '\n\n'.join(map(str, comlist))
+        embed.description = \
+            f'**X7 Finance Multi-Sig Singers (BSC)**\n' \
+            'Use `/signers [chain-name]` or other chains\n\n' \
+            f'**Developer**\n{devaddress}\n\n**(Community**\n{comaddress}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        devresponse = api.get_signers(items.devmultiarb)
+        comresponse = api.get_signers(items.commultiarb)
+        devlist = devresponse["owners"]
+        devaddress = '\n\n'.join(map(str, devlist))
+        comlist = comresponse["owners"]
+        comaddress = '\n\n'.join(map(str, comlist))
+        embed.description = \
+            f'**X7 Finance Multi-Sig Singers (ARB)**\n' \
+            'Use `/signers [chain-name]` or other chains\n\n' \
+            f'**Developer**\n{devaddress}\n\n**Community**\n{comaddress}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "opti":
+        devresponse = api.get_signers(items.devmultiopti)
+        comresponse = api.get_signers(items.commultiopti)
+        devlist = devresponse["owners"]
+        devaddress = '\n\n'.join(map(str, devlist))
+        comlist = comresponse["owners"]
+        comaddress = '\n\n'.join(map(str, comlist))
+        embed.description = \
+            f'**X7 Finance Multi-Sig Singers (OPTI)**\n' \
+            'Use `/signers [chain-name]` or other chains\n\n' \
+            f'*Developer**\n{devaddress}\n\n**Community**\n{comaddress}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -1165,7 +1234,7 @@ async def voting(interaction: discord.Interaction):
     embed.description = \
         '**Proposals and Voting**\n\nVoting will occur in multiple phases, each of which has either a minimum or ' \
         'maximum time phase duration.\n\n*Phase 1: Quorum-seeking*\nX7DAO token holders will be able to stake ' \
-        'their tokens as X7sDAO, a non-transferrable staked version of X7DAO.\n\nA quorum is reached when more ' \
+        'their tokens as X7sDAO, a non-transferable staked version of X7DAO.\n\nA quorum is reached when more ' \
         'than 50% of circulating X7DAO has been staked as X7sDAO.\n\nOnce a quorum is reached and a minimum ' \
         'quorum-seeking time period has passed, the X7sDAO tokens are temporarily locked (and no more X7DAO tokens ' \
         'may be staked until the next Quorum seeking period) and the governance process moves to the next phase\n\n' \
@@ -1560,7 +1629,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
-            f'**X7103 (OPTMISM) Info**\n\n' \
+            f'**X7103 (OPTIMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7103ca}`\n\n' \
             f'[Optimistic.etherscan]({items.optitoken}{items.x7103ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7103pairopti})\n' \
@@ -1679,7 +1748,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
-            f'**X7105 (AOPTIMISM) Info**\n\n' \
+            f'**X7105 (OPTIMISM) Info**\n\n' \
             f'Contract Address:\n`{items.x7105ca}`\n\n' \
             f'[Optimistic.etherscan]({items.optitoken}{items.x7105ca})\n' \
             f'[Chart]({items.dextoolsopti}{items.x7105pairopti})\n' \
@@ -1761,7 +1830,7 @@ async def mcap(interaction: discord.Interaction, view: app_commands.Choice[str])
         f'X7105:       ${"{:0,.0f}".format(x7105cap)}\n\n' \
         f'Constellations Combined: ' \
         f'${"{:0,.0f}".format(x7101cap + x7102cap + x7103cap + x7104cap + x7105cap)}\n' \
-        f'Total Token Marketcap:\n' \
+        f'Total Token Market-cap:\n' \
         f'    ${"{:0,.0f}".format(totalcap)}' \
         f'\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)

@@ -197,3 +197,9 @@ def get_native_balance(wallet, chain):
         amountraw = float(data["result"][0]["balance"])
         amount = str(amountraw / 10 ** 18)
         return amount
+
+def get_signers(wallet):
+    url = f'https://safe-transaction-mainnet.safe.global/api/v1/safes/{wallet}/'
+    response = requests.get(url)
+    result = response.json()
+    return result
