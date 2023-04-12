@@ -396,8 +396,8 @@ async def buyevenly(interaction: discord.Interaction):
 
 
 @client.tree.command(description='X7 Pioneer NFT info')
-@app_commands.rename(pioneerid='pioneer-id')
-@app_commands.describe(pioneerid='Show Pioneer NFT #')
+@app_commands.rename(pioneer_id='pioneer-id')
+@app_commands.describe(pioneer_id='Show Pioneer NFT #')
 async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = None):
     if not pioneer_id:
         data = api.get_os_nft("/x7-pioneer")
@@ -972,7 +972,7 @@ async def discount(interaction: discord.Interaction):
 
 
 @client.tree.command(description="X7 Multichain Rollout")
-async def snapshot(interaction: discord.Interaction):
+async def airdrop(interaction: discord.Interaction):
     embed.description = \
         f'**X7 Finance NFT Information**\n\nThe rollout of the Ecosystem Contracts on BNB Smart Chain, Polygon ' \
         f'(MATIC), Arbitrum, and Optimism has begun.\n\n' \
@@ -1158,6 +1158,35 @@ async def signers(interaction: discord.Interaction, chain: app_commands.Choice[s
             f'*Developer Signers**\n`{dev_address}`\n\n**Community Signers**\n`{com_address}`\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
+@client.tree.command(description="X7 Finance Launch Info")
+async def launch(interaction: discord.Interaction):
+    launch_raw = datetime(2022, 8, 13, 14, 10, 17)
+    migration_raw = datetime(2022, 9, 25, 5, 10, 11)
+    launch = launch_raw.astimezone(pytz.utc)
+    migration = migration_raw.astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
+    launch_duration = now - launch
+    launch_duration_in_s = launch_duration.total_seconds()
+    launch_days = divmod(launch_duration_in_s, 86400)
+    launch_hours = divmod(launch_days[1], 3600)
+    launch_minutes = divmod(launch_hours[1], 60)
+    migration_duration = now - migration
+    migration_duration_in_s = migration_duration.total_seconds()
+    migration_days = divmod(migration_duration_in_s, 86400)
+    migration_hours = divmod(migration_days[1], 3600)
+    migration_minutes = divmod(migration_hours[1], 60)
+    embed.description = \
+        f'**X7 Finance Launch Info**\n\nX7M105 Stealth Launch\n{launch.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n' \
+        f'{int(launch_days[0])} days, {int(launch_hours[0])} hours and {int(launch_minutes[0])} minutes ago\n\n' \
+        f'V2 Migration\n{migration.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n' \
+        f'{int(migration_days[0])} days, {int(migration_hours[0])} hours and ' \
+        f'{int(migration_minutes[0])} minutes ago\n\n' \
+        f'[X7M105 Launch TX](https://etherscan.io/tx/' \
+        f'0x11ff5b6a860170eaac5b33930680bf79dbf0656292cac039805dbcf34e8abdbf)\n' \
+        f'[Migration Go Live TX](https://etherscan.io/tx/' \
+        f'0x13e8ed59bcf97c5948837c8069f1d61e3b0f817d6912015427e468a77056fe41)\n\n' \
+        f'{api.get_quote()}'
+    await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="X7 Finance Deployer Info")
 async def deployer(interaction: discord.Interaction):
@@ -1198,7 +1227,7 @@ async def today(interaction: discord.Interaction):
         f'`On this day in {today["year"]}:\n\n{today["text"]}`',
     await interaction.response.send_message(file=thumb, embed=embed)
 
-@client.tree.command(description="X7 Finance Voting Infi=o")
+@client.tree.command(description="X7 Finance Voting Info")
 async def voting(interaction: discord.Interaction):
     embed.description = \
         '**Proposals and Voting**\n\nVoting will occur in multiple phases, each of which has either a minimum or ' \
