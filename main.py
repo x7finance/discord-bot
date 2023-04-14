@@ -401,27 +401,30 @@ async def buyevenly(interaction: discord.Interaction):
 async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = None):
     if not pioneer_id:
         data = api.get_os_nft("/x7-pioneer")
+        data = api.get_os_nft("/x7-pioneer")
         floor = (data["collection"]["stats"]["floor_price"])
+        floor_dollar = floor * float(api.get_native_price("eth")) / 1 ** 18
+        floor_dollar = floor * float(api.get_native_price("eth")) / 1 ** 18
         traits = (data["collection"]["traits"]["Transfer Lock Status"]["unlocked"])
         cap = round(data["collection"]["stats"]["market_cap"], 2)
+        cap_dollar = cap * float(api.get_native_price("eth")) / 1 ** 18
         sales = (data["collection"]["stats"]["total_sales"])
         owners = (data["collection"]["stats"]["num_owners"])
-        avg_price = round(data["collection"]["stats"]["average_price"], 2)
+        price = round(data["collection"]["stats"]["average_price"], 2)
+        price_dollar = price * float(api.get_native_price("eth")) / 1 ** 18
         volume = round(data["collection"]["stats"]["total_volume"], 2)
+        volume_dollar = volume * float(api.get_native_price("eth")) / 1 ** 18
         pioneer_pool = api.get_native_balance(items.pioneer_ca, "eth")
         total_dollar = float(pioneer_pool) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
-            f'**X7 Pioneer NFT Info**\n\nFloor Price: {floor} ETH (including locked pioneers)\n' \
-            f'Average Price: {avg_price} ETH\n' \
-            f'Market Cap: {cap} ETH\n' \
-            f'Total Volume: {volume} ETH\n' \
-            f'Total Sales: {sales}\n' \
+            f'X7 Pioneer NFT Info\n\nFloor Price: {floor} ETH (${"{:0,.0f}".format(floor_dollar)})\n' \
+            f'Average Price: {price} ETH (${"{:0,.0f}".format(price_dollar)})\n' \
+            f'Market Cap: {cap} ETH (${"{:0,.0f}".format(cap_dollar)})\n' \
+            f'Total Volume: {volume} ETH (${"{:0,.0f}".format(volume_dollar)})\n' \
             f'Number of Owners: {owners}\n' \
-            f'Pioneers Unlocked: {traits}\n' \
+            f'Pioneers Unlocked: {traits}\n\n' \
             f'Pioneer Pool: {pioneer_pool[:3]} ETH (${"{:0,.0f}".format(total_dollar)})\n\n' \
-            f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-            f'[Opensea](https://opensea.io/collection/x7-pioneer)\n\n' \
-            f'{api.get_quote()}\n\n'
+            f'{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     else:
         baseurl = "https://api.opensea.io/api/v1/asset/"
