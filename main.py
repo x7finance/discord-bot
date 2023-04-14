@@ -1314,6 +1314,49 @@ async def alumni(interaction: discord.Interaction):
         f'{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
+@client.tree.command(description="X7 Finance Uniswap supply Info")
+async def supply(interaction: discord.Interaction):
+    prices = api.get_cg_price("x7r, x7dao, x7101, x7102, x7103, x7104, x7105")
+    x7r = api.get_token_balance(items.x7r_pair_eth, "eth", items.x7r_ca)
+    x7dao = api.get_token_balance(items.x7dao_pair_eth, "eth", items.x7dao_ca)
+    x7101 = api.get_token_balance(items.x7101_pair_eth, "eth", items.x7101_ca)
+    x7102 = api.get_token_balance(items.x7102_pair_eth, "eth", items.x7102_ca)
+    x7103 = api.get_token_balance(items.x7103_pair_eth, "eth", items.x7103_ca)
+    x7104 = api.get_token_balance(items.x7104_pair_eth, "eth", items.x7104_ca)
+    x7105 = api.get_token_balance(items.x7105_pair_eth, "eth", items.x7105_ca)
+    x7r_dollar = x7r * prices["x7r"]["usd"]
+    x7dao_dollar = x7dao * prices["x7dao"]["usd"]
+    x7101_dollar = x7101 * prices["x7101"]["usd"]
+    x7102_dollar = x7102 * prices["x7102"]["usd"]
+    x7103_dollar = x7103 * prices["x7103"]["usd"]
+    x7104_dollar = x7104 * prices["x7104"]["usd"]
+    x7105_dollar = x7105 * prices["x7105"]["usd"]
+    x7r_percent = round(x7r / items.supply * 100, 2)
+    x7dao_percent = round(x7dao / items.supply * 100, 2)
+    x7101_percent = round(x7101 / items.supply * 100, 2)
+    x7102_percent = round(x7102 / items.supply * 100, 2)
+    x7103_percent = round(x7103 / items.supply * 100, 2)
+    x7104_percent = round(x7104 / items.supply * 100, 2)
+    x7105_percent = round(x7105 / items.supply * 100, 2)
+    embed.description = \
+        f'**X7 Finance Uniswap Supply**\n\n' \
+        f'**X7R**\n' \
+        f'{"{:0,.0f}".format(x7r)} X7R (${"{:0,.0f}".format(x7r_dollar)}) {x7r_percent}%\n\n' \
+        f'**X7DAO**\n' \
+        f'{"{:0,.0f}".format(x7dao)} X7DAO (${"{:0,.0f}".format(x7dao_dollar)}) {x7dao_percent}%\n\n' \
+        f'**X7101**\n' \
+        f'{"{:0,.0f}".format(x7101)} X7101 (${"{:0,.0f}".format(x7101_dollar)}) {x7101_percent}%\n\n' \
+        f'**X7102**\n' \
+        f'{"{:0,.0f}".format(x7102)} X7102 (${"{:0,.0f}".format(x7102_dollar)}) {x7102_percent}%\n\n' \
+        f'**X7103**\n' \
+        f'{"{:0,.0f}".format(x7103)} X7103 (${"{:0,.0f}".format(x7103_dollar)}) {x7103_percent}%\n\n' \
+        f'**X7104**\n' \
+        f'{"{:0,.0f}".format(x7104)} X7104 (${"{:0,.0f}".format(x7104_dollar)}) {x7104_percent}%\n\n' \
+        f'**X7105**\n' \
+        f'{"{:0,.0f}".format(x7105)} X7105 (${"{:0,.0f}".format(x7105_dollar)}) {x7105_percent}%\n\n' \
+        f'{api.get_quote()}\n\n'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
 # CG COMMANDS
 @client.tree.command(description="X7DAO Info")
 @app_commands.choices(chain=[
