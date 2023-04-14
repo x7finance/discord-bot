@@ -770,12 +770,12 @@ async def fg(interaction: discord.Interaction):
     ])
 async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str]):
     if chain.value == "eth":
-        supply = api.get_native_balance(items.x7d_ca, "eth")
+        supply = api.get_native_balance(items.lpool_reserve_ca, "eth")
         holders = api.get_holders(items.x7d_ca)
         x7d_dollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
             '**X7D Info (ETH)**\n\n' \
-            f'Supply: {supply[:4]}ETH (${"{:0,.0f}".format(x7d_dollar)})\n' \
+            f'Supply: {supply[:5]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'Holders: {holders}\n\n' \
             f'To receive X7D:\n\n' \
             '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
@@ -791,11 +791,11 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'`{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "bsc":
-        supply = api.get_native_balance(items.x7d_ca, "bnb")
+        supply = api.get_native_balance(items.lpool_reserve_ca, "bnb")
         x7d_dollar = float(supply) * float(api.get_native_price("bnb")) / 1 ** 18
         embed.description = \
             '**X7D Info (BSC)**\n\n' \
-            f'Supply: {supply[:4]}ETH (${"{:0,.0f}".format(x7d_dollar)})\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'To receive X7D:\n\n' \
             '1. Send BNB (Not Swap) to the Lending Pool Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
@@ -810,11 +810,11 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'`{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
-        supply = api.get_native_balance(items.x7d_ca, "poly")
+        supply = api.get_native_balance(items.lpool_reserve_ca, "poly")
         x7d_dollar = float(supply) * float(api.get_native_price("matic")) / 1 ** 18
         embed.description = \
             '**X7D Info (POLYGON)**\n\n' \
-            f'Supply: {supply[:4]}ETH (${"{:0,.0f}".format(x7d_dollar)})\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'To receive X7D:\n\n' \
             '1. Send MATIC (Not Swap) to the Lending Pool Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
@@ -833,7 +833,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
         x7d_dollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
             '**X7D Info (ETH)**\n\n' \
-            f'Supply: {supply[:4]}ETH (${"{:0,.0f}".format(x7d_dollar)})\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'To receive X7D:\n\n' \
             '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
@@ -848,11 +848,11 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'`{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
-        supply = api.get_native_balance(items.x7d_ca, "opti")
+        supply = api.get_native_balance(items.lpool_reserve_ca, "opti")
         x7d_dollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
             '**X7D Info (OPTIMISM)**\n\n' \
-            f'Supply: {supply[:4]}ETH (${"{:0,.0f}".format(x7d_dollar)})\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'To receive X7D:\n\n' \
             '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
             '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
@@ -1010,14 +1010,14 @@ async def time(interaction: discord.Interaction):
     dubai = datetime.now(dubai_raw)
     dubai_time = dubai.strftime("%I:%M %p")
     embed.description = \
-        f'UTC: {datetime.now().strftime("%A %B %d %Y")}\n' \
-        f'{datetime.now().strftime("%I:%M %p")}\n\n' \
-        f'PST: {west_coast_time}\n' \
-        f'EST: {east_coast_time}\n' \
-        f'UK: {london_time}\n' \
-        f'EU: {berlin_time}\n' \
-        f'Dubai: {dubai_time}\n' \
-        f'Tokyo: {tokyo_time}\n'
+        f'{datetime.now().strftime("%A %B %d %Y")}\n' \
+        f'{datetime.now().strftime("%I:%M %p")} - UTC\n\n' \
+        f'{west_coast_time}\n - PST' \
+        f'{east_coast_time}\n - EST' \
+        f'{london_time}\n - GMT' \
+        f'{berlin_time}\n - CET' \
+        f'{dubai_time}\n - GST' \
+        f'{tokyo_time}\n - JST'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
@@ -1161,7 +1161,7 @@ async def signers(interaction: discord.Interaction, chain: app_commands.Choice[s
 @client.tree.command(description="X7 Finance Launch Info")
 async def launch(interaction: discord.Interaction):
     launch_raw = datetime(2022, 8, 13, 14, 10, 17)
-    migration_raw = datetime(2022, 9, 25, 5, 10, 11)
+    migration_raw = datetime(2022, 9, 25, 5, 00, 11)
     launch = launch_raw.astimezone(pytz.utc)
     migration = migration_raw.astimezone(pytz.utc)
     now = datetime.now(timezone.utc)
