@@ -1194,7 +1194,7 @@ async def launch(interaction: discord.Interaction):
 @client.tree.command(description="X7 Finance Deployer Info")
 async def deployer(interaction: discord.Interaction):
     deployer = api.get_tx(items.deployer, "eth")
-    dev = api.get_tx(items.dev_multi_eth, "eth")
+
     date = deployer["result"][0]["block_timestamp"].split("-")
     year = int(date[0])
     month = int(date[1])
@@ -1204,22 +1204,20 @@ async def deployer(interaction: discord.Interaction):
     duration = now - then
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
-    dev_date = dev["result"][0]["block_timestamp"].split("-")
-    dev_year = int(dev_date[0])
-    dev_month = int(dev_date[1])
-    dev_day = int(dev_date[2][:2])
-    dev_then = datetime(dev_year, dev_month, dev_day)
-    dev_duration = now - dev_then
-    dev_duration_in_s = dev_duration.total_seconds()
-    dev_days = divmod(dev_duration_in_s, 86400)
-    embed.description = \
-        '**X7 Finance DAO Founders**\n\n' \
-        '[Deployer Wallet](https://etherscan.io/address/0x7000a09c425abf5173ff458df1370c25d1c58105)\n' \
-        f'Last TX -  {int(days[0])} days ago:\n' \
-        f'https://etherscan.io/tx/{deployer["result"][0]["hash"]}\n\n' \
-        f'[Developer Operations Wallet](https://etherscan.io/address/0x5CF4288Bf373BBe17f76948E39Baf33B9f6ac2e0)\n' \
-        f'Last TX -  {int(dev_days[0])} days ago:\n' \
-        f'https://etherscan.io/tx/{dev["result"][0]["hash"]}\n\n{api.get_quote()}'
+    if deployer["result"][0]['to_address'] == "0x000000000000000000000000000000000000dEaD" or \
+            deployer["result"][0]['to_address'] == items.deployer:
+        message = bytes.fromhex(api.get_tx(items.deployer, "eth")["result"][0]["input"][2:]).decode('utf-8')
+        embed.description = \
+            '**X7 Finance DAO Founders**\n\n' \
+            f'Deployer Wallet last TX -  {int(days[0])} days ago:\n\n' \
+            f'`{message}`' \
+            f'{items.ether_tx}{deployer["result"][0]["hash"]}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    else:
+        embed.description = \
+            '*X7 Finance DAO Founders*\n\n' \
+            f'Deployer Wallet last TX -  {int(days[0])} days ago:\n\n' \
+            f'{items.ether_tx}{deployer["result"][0]["hash"]}\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="On this day in history")
