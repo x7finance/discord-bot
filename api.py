@@ -4,6 +4,7 @@ import keys
 import requests
 import random
 from datetime import datetime
+import nfts
 
 def get_tx(address, chain):
     result = evm_api.transaction.get_wallet_transactions(
@@ -81,12 +82,29 @@ def get_holders(token):
     amount = data["totalSupply"]
     return amount
 
-def get_holders_nft(nft, chain):
+def get_nft_holder_count(nft, chain):
     url = 'https://api.blockspan.com/v1/collections/contract/' + nft + chain
     response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
     data = response.json()
     amount = data["total_tokens"]
     return amount
+
+def get_nft_price(nft, chain):
+    if chain == "eth":
+        return nfts.eco_price_eth, nfts.liq_price_eth, nfts.borrow_price_eth, nfts.dex_price_eth, \
+            nfts.magister_price_eth
+    if chain == "bsc":
+        return nfts.eco_price_bsc, nfts.liq_price_bsc, nfts.borrow_price_bsc, nfts.dex_price_bsc, \
+            nfts.magister_price_bsc
+    if chain == "poly":
+        return nfts.eco_price_poly, nfts.liq_price_poly, nfts.borrow_price_poly, nfts.dex_price_poly, \
+            nfts.magister_price_poly
+    if chain == "opti":
+        return nfts.eco_price_opti, nfts.liq_price_opti, nfts.borrow_price_opti, nfts.dex_price_opti, \
+            nfts.magister_price_opti
+    if chain == "arb":
+        return nfts.eco_price_arb, nfts.liq_price_arb, nfts.borrow_price_arb, nfts.dex_price_arb, \
+            nfts.magister_price_arb
 
 def get_native_price(token):
     if token == "eth":
