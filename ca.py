@@ -15,7 +15,6 @@ borrow = '0x7000D5d7707Bf86b317deC635e459E47b9aBD4F7'
 magister = '0x7dA0bb55E4097FC2d78a1822105057F36C5F360d'
 
 # SMART CA
-ca_directory = 'https://medium.com/@mikemurpher/x7-finance-contracts-directory-fe3a9fee7b3c'
 lpool_reserve = '0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000'
 treasury_splitter = '0x70006B785AA87821331a974C3d5af81CdE5BB999'
 x7100_liq_hub = '0x7102407afa5d6581AAb694FEB03fEB0e7Cf69ebb'
@@ -111,6 +110,3 @@ ill003 = "0x74001c747b6cc9091ee63bc9424dff633fbac617"
 # OTHER
 dead = '0x000000000000000000000000000000000000dEaD'
 supply = 100000000
-
-
-

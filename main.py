@@ -9,12 +9,13 @@ import pytz
 from discord import *
 from typing import *
 import random
-import variables
+import times
 import api
 import text
 import url
 import loans
 import nfts
+import tax
 
 class PersitentViewBot(commands.Bot):
     def __init__(self):
@@ -192,12 +193,14 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'**X7 Finance NFT Information (ETH)**\n\n' \
             f'[**Ecosystem Maxi**]({url.ether_token}{ca.eco})\n{nfts.eco_price_eth}\n' \
             f'Available - {500-int(api.get_nft_holder_count(ca.eco, "?chain=eth-main"))}\n'\
-            f'> 25% discount on X7100 tax\n' \
-            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'> {tax.eco_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.eco_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.eco_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({url.ether_token}{ca.liq})\n{nfts.liq_price_eth}\n' \
             f'Available - {250-int(api.get_nft_holder_count(ca.liq, "?chain=eth-main"))}\n' \
-            f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
-            f'> 15 % discount on X7DAO tax\n\n' \
+            f'> {tax.liq_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.liq_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.liq_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({url.ether_token}{ca.dex})\n{nfts.dex_price_eth}\n' \
             f'Available - {150-int(api.get_nft_holder_count(ca.dex, "?chain=eth-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
@@ -206,8 +209,8 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({url.ether_token}{ca.magister})\n{nfts.magister_price_eth}\n' \
             f'Available - {49 - int(api.get_nft_holder_count(ca.magister, "?chain=eth-main"))}\n'\
-            f'> 25% discount on X7100 tax\n' \
-            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'> {tax.magister_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.magister_discount_x7r}% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'[**Pioneer**]({url.ether_token}{ca.pioneer})\n' \
             f' > 6% of profits that come into the X7 Treasury Splitter are now being allocated to the reward ' \
             f'pool. Each X7 Pioneer NFT grants you a proportional share of this pool\n\n' \
@@ -217,18 +220,20 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
         embed.description = \
             f'**X7 Finance NFT Information (BSC)**\n\n' \
             f'[**Ecosystem Maxi**]({url.bsc_token}{ca.eco})\n{nfts.eco_price_bsc}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'> {tax.eco_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.eco_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.eco_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({url.bsc_token}{ca.liq})\n{nfts.liq_price_bsc}\n' \
-            f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
-            f'> 15 % discount on X7DAO tax\n\n' \
+            f'> {tax.liq_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.liq_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.liq_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({url.bsc_token}{ca.dex})\n{nfts.dex_price_bsc}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
             f'[**Borrowing Maxi**]({url.bsc_token}{ca.borrow})\n{nfts.borrow_price_bsc}\n' \
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({url.bsc_token}{ca.magister})\n{nfts.magister_price_bsc}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'> {tax.magister_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.magister_discount_x7r}% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "poly":
@@ -236,12 +241,14 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'**X7 Finance NFT Information (POLYGON)**\n\n' \
             f'[**Ecosystem Maxi**]({url.poly_token}{ca.eco})\n{nfts.eco_price_poly}\n' \
             f'Available - {500-int(api.get_nft_holder_count(ca.eco, "?chain=poly-main"))}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'> {tax.eco_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.eco_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.eco_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({url.poly_token}{ca.liq})\n{nfts.liq_price_poly}\n' \
             f'Available - {250-int(api.get_nft_holder_count(ca.liq, "?chain=poly-main"))}\n' \
-            f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
-            f'> 15 % discount on X7DAO tax\n\n' \
+            f'> {tax.liq_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.liq_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.liq_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({url.poly_token}{ca.dex})\n{nfts.dex_price_poly}\n' \
             f'Available - {150-int(api.get_nft_holder_count(ca.dex, "?chain=poly-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
@@ -250,8 +257,8 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({url.poly_token}{ca.magister})\n{nfts.magister_price_poly}\n'\
             f'Available - {49-int(api.get_nft_holder_count(ca.magister, "?chain=poly-main"))}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'> {tax.magister_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.magister_discount_x7r}% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "arb":
@@ -259,12 +266,14 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'**X7 Finance NFT Information (ARBITRUM)**\n\n' \
             f'[**Ecosystem Maxi**]({url.arb_token}{ca.eco})\n{nfts.eco_price_arb}\n' \
             f'Available - {500-int(api.get_nft_holder_count(ca.eco, "?chain=arbitrum"))}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'> {tax.eco_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.eco_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.eco_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({url.arb_token}{ca.liq})\n{nfts.liq_price_arb}\n' \
             f'Available - {250-int(api.get_nft_holder_count(ca.liq, "?chain=arbitrum"))}\n' \
-            f'> 50 % discount on X7100tax\n> 25 % discount on X7R tax\n' \
-            f'> 15 % discount on X7DAO tax\n\n' \
+            f'> {tax.liq_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.liq_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.liq_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({url.arb_token}{ca.dex})\n{nfts.dex_price_arb}\n' \
             f'Available - {150-int(api.get_nft_holder_count(ca.dex, "?chain=arbitrum"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
@@ -273,8 +282,8 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({url.arb_token}{ca.magister})\n{nfts.magister_price_arb}\n'\
             f'Available - {49-int(api.get_nft_holder_count(ca.magister, "?chain=arbitrum"))}\n' \
-            f'> 25% discount on X7100 tax\n' \
-            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'> {tax.magister_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.magister_discount_x7r}% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     if chain.value == "opti":
@@ -282,12 +291,14 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'**X7 Finance NFT Information (OPTIMUM)**\n\n' \
             f'[**Ecosystem Maxi**]({url.opti_token}{ca.eco})\n{nfts.eco_price_opti}\n' \
             f'Available - {500-int(api.get_nft_holder_count(ca.eco, "?chain=optimism-main"))}\n' \
-            f'> 25% discount on x7100 tax\n' \
-            f'> 10% discount on X7R tax\n> 10% discount on X7DAO tax\n\n' \
+            f'> {tax.eco_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.eco_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.eco_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**Liquidity Maxi**]({url.opti_token}{ca.liq})\n{nfts.liq_price_opti}\n' \
             f'Available - {250-int(api.get_nft_holder_count(ca.liq, "?chain=optimism-main"))}\n' \
-            f'> 50 % discount on x7100tax\n> 25 % discount on X7R tax\n' \
-            f'> 15 % discount on X7DAO tax\n\n' \
+            f'> {tax.liq_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.liq_discount_x7r}% discount on X7R tax\n' \
+            f'> {tax.liq_discount_x7dao}% discount on X7DAO tax\n\n' \
             f'[**DEX Maxi**]({url.opti_token}{ca.dex})\n{nfts.dex_price_opti}\n' \
             f'Available - {150-int(api.get_nft_holder_count(ca.dex, "?chain=optimism-main"))}\n' \
             f'> LP Fee Discounts while trading on X7 DEX\n\n' \
@@ -296,8 +307,8 @@ async def nft(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'> Fee discounts for borrowing funds for ILO on X7 DEX\n\n' \
             f'[**Magister**]({url.opti_token}{ca.magister})\n{nfts.magister_price_opti}\n' \
             f'Available - {49-int(api.get_nft_holder_count(ca.magister, "?chain=optimism-main"))}\n' \
-            f'> 25% discount on x7100 tax\n' \
-            f'> 25% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
+            f'> {tax.magister_discount_x7100}% discount on X7100 tax\n' \
+            f'> {tax.magister_discount_x7r}% discount on X7R tax\n> No discount on X7DAO tax\n\n' \
             f'https://www.x7finance.org/nfts/\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
@@ -307,17 +318,45 @@ async def wp(interaction: discord.Interaction):
     embed.description = \
         '**X7 Finance Whitepaper Links**\n\n' \
         f'{random.choice(text.quotes)}\n\n' \
-        '[Full WP](https://x7.finance/whitepaper)\n' \
-        '[Short WP](https://x7community.space/wp-short.pdf)'
+        f'[Full WP]({url.wp_link})\n' \
+        f'[Short WP]({url.short_wp_link}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Buy links")
-async def buy(interaction: discord.Interaction):
-    embed.description = '**X7 Finance buy links**\n\nUse ``/x7token-name`` for all other details\n\n' \
-                        f'[X7R - Rewards Token]({url.xchange_buy}{ca.x7r})\n' \
-                        f'[X7DAO - Governance Token]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+@app_commands.choices(chain=[
+    app_commands.Choice(name="Ethereum", value="eth"),
+    app_commands.Choice(name="Binance", value="bsc"),
+    app_commands.Choice(name="Polygon", value="poly"),
+    app_commands.Choice(name="Arbitrum", value="arb"),
+    app_commands.Choice(name="Optimism", value="opti"),
+    ])
+async def buy(interaction: discord.Interaction, chain: app_commands.Choice[str]):
+    if chain.value == "eth":
+        embed.description = '**X7 Finance buy links (ETH)**\n\nUse ``/x7token-name`` for all other details\n\n' \
+                        f'[X7R - Rewards Token]({url.xchange_buy_eth}{ca.x7r})\n' \
+                        f'[X7DAO - Governance Token]({url.xchange_buy_eth}{ca.x7dao})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "bsc":
+        embed.description = '**X7 Finance buy links (BSC)**\n\nUse ``/x7token-name`` for all other details\n\n' \
+                        f'[X7R - Rewards Token]({url.xchange_buy_bsc}{ca.x7r})\n' \
+                        f'[X7DAO - Governance Token]({url.xchange_buy_bsc}{ca.x7dao})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "poly":
+        embed.description = '**X7 Finance buy links (POLYGON)**\n\nUse ``/x7token-name`` for all other details\n\n' \
+                        f'[X7R - Rewards Token]({url.xchange_buy_poly}{ca.x7r})\n' \
+                        f'[X7DAO - Governance Token]({url.xchange_buy_poly}{ca.x7dao})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "arb":
+        embed.description = '**X7 Finance buy links (ARB)**\n\nUse ``/x7token-name`` for all other details\n\n' \
+                        f'[X7R - Rewards Token]({url.xchange_buy_arb}{ca.x7r})\n' \
+                        f'[X7DAO - Governance Token]({url.xchange_buy_arb}{ca.x7dao})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    if chain.value == "opti":
+        embed.description = '**X7 Finance buy links (OPTI)**\n\nUse ``/x7token-name`` for all other details\n\n' \
+                        f'[X7R - Rewards Token]({url.xchange_buy_opti}{ca.x7r})\n' \
+                        f'[X7DAO - Governance Token]({url.xchange_buy_opti}{ca.x7dao})\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
 
 
 @client.tree.command(description="X7 Finance Chart links")
@@ -672,7 +711,7 @@ async def swap(interaction: discord.Interaction):
 
 @client.tree.command(description="X7 Finance Twitter Spaces Info")
 async def spaces(interaction: discord.Interaction):
-    then = variables.spaces_time.astimezone(pytz.utc)
+    then = times.spaces_time.astimezone(pytz.utc)
     now = datetime.now(timezone.utc)
     duration = then - now
     duration_in_s = duration.total_seconds()
@@ -686,7 +725,7 @@ async def spaces(interaction: discord.Interaction):
         embed.description =\
             f'Next X7 Finance Twitter space is:\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
             f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
-            f'[Click here]({variables.spaces_link}) to set a reminder!' \
+            f'[Click here]({times.spaces_link}) to set a reminder!' \
             f'\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
 
@@ -1390,7 +1429,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7dao}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7dao})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7dao_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7dao})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
@@ -1398,7 +1437,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7dao}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7dao})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7dao_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7dao})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
@@ -1406,7 +1445,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7dao}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7dao})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7dao_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7dao})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
@@ -1414,7 +1453,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7dao}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7dao})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7dao_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7dao})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
@@ -1422,7 +1461,7 @@ async def x7dao(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7dao}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7dao})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7dao_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7dao})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7dao})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 
@@ -1464,7 +1503,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Contract Address:\n`{ca.x7r}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7r})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7r_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7r})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7r})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
@@ -1472,7 +1511,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Contract Address:\n`{ca.x7r}\n\n`' \
             f'[BSCscan]({url.bsc_token}{ca.x7r})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7r_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7r})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7r})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
@@ -1480,7 +1519,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Contract Address:\n`{ca.x7r}\n\n`' \
             f'[Polygonscan]({url.poly_token}{ca.x7r})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7r_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7r})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7r})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
@@ -1488,7 +1527,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Contract Address:\n`{ca.x7r}\n\n`' \
             f'[Arbiscan]({url.arb_token}{ca.x7r})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7r_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7r})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7r})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
@@ -1496,7 +1535,7 @@ async def x7r(interaction: discord.Interaction, chain: app_commands.Choice[str])
             f'Contract Address:\n`{ca.x7r}\n\n`' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7r})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7r_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7r})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7r})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 @client.tree.command(description='X7101 Info')
@@ -1524,7 +1563,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7101}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7101})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7101_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7101})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7101})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
@@ -1532,7 +1571,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7101}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7101})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7101_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7101})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7101})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
@@ -1540,7 +1579,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7101}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7101})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7101_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7101})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7101})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
@@ -1548,7 +1587,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7101}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7101})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7101_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7101})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7101})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
@@ -1556,7 +1595,7 @@ async def x7101(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7101}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7101})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7101_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7101})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7101})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 @client.tree.command(description='X7102 Info')
@@ -1583,7 +1622,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7102}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7102})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7102_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7102})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7102})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
@@ -1591,7 +1630,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7102}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7102})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7102_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7102})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7102})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
@@ -1599,7 +1638,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7102}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7102})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7102_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7102})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7102})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
@@ -1607,7 +1646,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7102}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7102})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7102_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7102})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7102})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
@@ -1615,7 +1654,7 @@ async def x7102(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7102}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7102})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7102_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7102})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7102})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 
@@ -1644,7 +1683,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7103}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7103})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7103_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7103})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7103})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
@@ -1652,7 +1691,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7103}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7103})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7103_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7103})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7103})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
@@ -1660,7 +1699,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7103}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7103})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7103_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7103})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7103})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
@@ -1668,7 +1707,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7103}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7103})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7103_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7103})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7103})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
@@ -1676,7 +1715,7 @@ async def x7103(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7103}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7103})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7103_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7103})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7103})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 @client.tree.command(description='X7104 Info')
@@ -1703,7 +1742,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7104}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7104})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7104_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7104})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7104})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description =\
@@ -1711,7 +1750,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7104}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7104})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7104_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7104})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7104})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description =\
@@ -1719,7 +1758,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7104}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7104})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7104_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7104})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7104})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description =\
@@ -1727,7 +1766,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7104}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7104})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7104_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7104})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7104})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description =\
@@ -1735,7 +1774,7 @@ async def x7104(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7104}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7104})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7104_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7104})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7104})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 
@@ -1763,7 +1802,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7105}`\n\n' \
             f'[Etherscan]({url.ether_token}{ca.x7105})\n' \
             f'[Chart]({url.dex_tools_eth}{ca.x7105_pair_eth})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7105})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_eth}{ca.x7105})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "bsc":
         embed.description = \
@@ -1771,7 +1810,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7105}`\n\n' \
             f'[BSCscan]({url.bsc_token}{ca.x7105})\n' \
             f'[Chart]({url.dex_tools_bsc}{ca.x7105_pair_bsc})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7105})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_bsc}{ca.x7105})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "poly":
         embed.description = \
@@ -1779,7 +1818,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7105}`\n\n' \
             f'[Polygonscan]({url.poly_token}{ca.x7105})\n' \
             f'[Chart]({url.dex_tools_poly}{ca.x7105_pair_poly})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7105})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_poly}{ca.x7105})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "arb":
         embed.description = \
@@ -1787,7 +1826,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7105}`\n\n' \
             f'[Arbiscan]({url.arb_token}{ca.x7105})\n' \
             f'[Chart]({url.dex_tools_arb}{ca.x7105_pair_arb})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7105})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_arb}{ca.x7105})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
     if chain.value == "opti":
         embed.description = \
@@ -1795,7 +1834,7 @@ async def x7105(interaction: discord.Interaction, chain: app_commands.Choice[str
             f'Contract Address:\n`{ca.x7105}`\n\n' \
             f'[Optimistic.etherscan]({url.opti_token}{ca.x7105})\n' \
             f'[Chart]({url.dex_tools_opti}{ca.x7105_pair_opti})\n' \
-            f'[Buy]({url.xchange_buy}{ca.x7105})\n\n{api.get_quote()}'
+            f'[Buy]({url.xchange_buy_opti}{ca.x7105})\n\n{api.get_quote()}'
         await interaction.response.send_message(embed=embed, file=thumb)
 
 @client.tree.command(description='Constellation Info')

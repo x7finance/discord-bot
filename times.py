@@ -1,5 +1,5 @@
 from datetime import datetime
-# VARIABLES
+# TIMES
 
 # SPACES                Y   M   D   H   M  S
 spaces_time = datetime(2023, 3, 28, 19, 00, 00)
@@ -10,7 +10,3 @@ auto_time_wp = 24
 
 # RAFFLE            Y   M   D   H   M  S
 raffle = datetime(2023, 3, 28, 12, 00, 00)
-
-
-# COMMANDS
-modsonly = "You do not have permission to do this. #trustnoone"

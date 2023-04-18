@@ -3,6 +3,8 @@ twitter_replies = ["Raid!", "LFG", "Send it!", "Twitter raid!", "Like and Retwee
                    "Send it!", "If Phlux says it, You do it!", "Phlux it up!", "Full Send!", "Hit it Hard!",
                    "Insert inspirational raid quote here!", "Let them know!", "RAIIIIIIIIIID", "Tweet Twoooo"]
 
+mods_only = "You do not have permission to do this. #trustnoone"
+
 quotes = [
     "Ethos\n\nX7’s founding team believes that capital should be available to those with great ideas and that the "
     "unflinching reliability of code and distributed consensus can provide capital while eliminating significant "
