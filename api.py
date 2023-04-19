@@ -6,28 +6,11 @@ import random
 from datetime import datetime
 import nfts
 
-def get_tx(address, chain):
-    result = evm_api.transaction.get_wallet_transactions(
-        api_key=keys.moralis, params={"address": address, "chain": chain})
-    return result
 
-def get_quote():
-    response = requests.get('https://type.fit/api/quotes')
-    data = response.json()
-    quote_raw = (random.choice(data))
-    quote = quote_raw["text"] + quote_raw["author"]
-    quote = f'`"{quote_raw["text"]}"\n\n-{quote_raw["author"]}`'
-    return quote
-
-# noinspection PyTypeChecker
-def get_liquidity(pair):
-    amount = evm_api.defi.get_pair_reserves(api_key=keys.moralis, params={"chain": "eth", "pair_address": pair})
-    return amount
-
-# noinspection PyTypeChecker
-def get_nft(nft, chain):
-    result = evm_api.nft.get_nft_owners(
-        api_key=keys.moralis, params={"chain": chain, "format": "decimal", "address": nft})
+def get_signers(wallet):
+    url = f'https://safe-transaction-mainnet.safe.global/api/v1/safes/{wallet}/'
+    response = requests.get(url)
+    result = response.json()
     return result
 
 def get_cg_search(token):
@@ -41,6 +24,22 @@ def get_cg_price(token):
     cg = coingecko.get_price(ids=token, vs_currencies='usd',
                              include_24hr_change='true', include_24hr_vol='true')
     return cg
+
+# noinspection PyTypeChecker
+def get_nft_holder_list(nft, chain):
+    result = evm_api.nft.get_nft_owners(
+        api_key=keys.moralis, params={"chain": chain, "format": "decimal", "address": nft})
+    return result
+
+# noinspection PyTypeChecker
+def get_liquidity(pair):
+    amount = evm_api.defi.get_pair_reserves(api_key=keys.moralis, params={"chain": "eth", "pair_address": pair})
+    return amount
+
+def get_tx(address, chain):
+    result = evm_api.transaction.get_wallet_transactions(
+        api_key=keys.moralis, params={"address": address, "chain": chain})
+    return result
 
 def get_today():
     current_day = str(datetime.now().day)
@@ -79,8 +78,16 @@ def get_holders(token):
     url = 'https://api.ethplorer.io/getTokenInfo/' + token + keys.ethplorer
     response = requests.get(url)
     data = response.json()
-    amount = data["totalSupply"]
+    amount = data["holdersCount"]
     return amount
+
+def get_quote():
+    response = requests.get('https://type.fit/api/quotes')
+    data = response.json()
+    quote_raw = (random.choice(data))
+    quote = quote_raw["text"] + quote_raw["author"]
+    quote = f'`"{quote_raw["text"]}"\n\n-{quote_raw["author"]}`'
+    return quote
 
 def get_nft_holder_count(nft, chain):
     url = 'https://api.blockspan.com/v1/collections/contract/' + nft + chain
@@ -105,26 +112,6 @@ def get_nft_price(nft, chain):
     if chain == "arb":
         return nfts.eco_price_arb, nfts.liq_price_arb, nfts.borrow_price_arb, nfts.dex_price_arb, \
             nfts.magister_price_arb
-
-def get_native_price(token):
-    if token == "eth":
-        url = 'https://api.etherscan.io/api?module=stats&action=ethprice&' + keys.ether
-        response = requests.get(url)
-        data = response.json()
-        value = float(data["result"]["ethusd"])
-        return value
-    if token == "bnb":
-        url = 'https://api.bscscan.com/api?module=stats&action=bnbprice&' + keys.bsc
-        response = requests.get(url)
-        data = response.json()
-        value = float(data["result"]["ethusd"])
-        return value
-    if token == "matic":
-        url = 'https://api.polygonscan.com/api?module=stats&action=maticprice&' + keys.poly
-        response = requests.get(url)
-        data = response.json()
-        value = float(data["result"]["maticusd"])
-        return value
 
 def get_token_balance(wallet, chain, token):
     if chain == "eth":
@@ -215,8 +202,22 @@ def get_native_balance(wallet, chain):
         amount = str(amount_raw / 10 ** 18)
         return amount
 
-def get_signers(wallet):
-    url = f'https://safe-transaction-mainnet.safe.global/api/v1/safes/{wallet}/'
-    response = requests.get(url)
-    result = response.json()
-    return result
+def get_native_price(token):
+    if token == "eth":
+        url = 'https://api.etherscan.io/api?module=stats&action=ethprice&' + keys.ether
+        response = requests.get(url)
+        data = response.json()
+        value = float(data["result"]["ethusd"])
+        return value
+    if token == "bnb":
+        url = 'https://api.bscscan.com/api?module=stats&action=bnbprice&' + keys.bsc
+        response = requests.get(url)
+        data = response.json()
+        value = float(data["result"]["ethusd"])
+        return value
+    if token == "matic":
+        url = 'https://api.polygonscan.com/api?module=stats&action=maticprice&' + keys.poly
+        response = requests.get(url)
+        data = response.json()
+        value = float(data["result"]["maticusd"])
+        return value
