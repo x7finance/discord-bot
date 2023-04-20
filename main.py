@@ -1519,11 +1519,11 @@ async def alumni(interaction: discord.Interaction):
 
 @client.tree.command(description="X7 Finance Uniswap supply Info")
 async def supply(interaction: discord.Interaction):
+    await interaction.response.defer()
     embed = discord.Embed(colour=7419530)
     embed.set_footer(text="Trust no one, Trust code. Long live Defi")
     embed.set_thumbnail(url='attachment://X7whitelogo.png')
     thumb = discord.File('X7whitelogo.png')
-    await interaction.response.defer()
     prices = api.get_cg_price("x7r, x7dao, x7101, x7102, x7103, x7104, x7105")
     x7r = api.get_token_balance(ca.x7r_pair_eth, "eth", ca.x7r)
     x7dao = api.get_token_balance(ca.x7dao_pair_eth, "eth", ca.x7dao)
@@ -1563,6 +1563,58 @@ async def supply(interaction: discord.Interaction):
         f'**X7105**\n' \
         f'{"{:0,.0f}".format(x7105)} X7105 (${"{:0,.0f}".format(x7105_dollar)}) {x7105_percent}%\n\n' \
         f'{api.get_quote()}\n\n'
+    await interaction.followup.send(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Finance ATH Info")
+async def ath(interaction: discord.Interaction):
+    await interaction.response.defer()
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
+    thumb = discord.File('X7whitelogo.png')
+    x7r_ath = api.get_ath("x7r")
+    x7dao_ath = api.get_ath("x7dao")
+    x7101_ath = api.get_ath("x7101")
+    x7102_ath = api.get_ath("x7102")
+    x7103_ath = api.get_ath("x7103")
+    x7104_ath = api.get_ath("x7104")
+    x7105_ath = api.get_ath("x7105")
+    embed.description = \
+        f'**X7 Finance ATH Info**\n\n' \
+        f'X7R - ${x7r_ath} (${"{:0,.0f}".format(x7r_ath * ca.supply)})\n' \
+        f'X7DAO - ${x7dao_ath} (${"{:0,.0f}".format(x7dao_ath * ca.supply)})\n' \
+        f'X7101 - ${x7101_ath} (${"{:0,.0f}".format(x7101_ath * ca.supply)})\n' \
+        f'X7102 - ${x7102_ath} (${"{:0,.0f}".format(x7102_ath * ca.supply)})\n' \
+        f'X7103 - ${x7103_ath} (${"{:0,.0f}".format(x7103_ath * ca.supply)})\n' \
+        f'X7104 - ${x7104_ath} (${"{:0,.0f}".format(x7104_ath * ca.supply)})\n' \
+        f'X7105 - ${x7105_ath} (${"{:0,.0f}".format(x7105_ath * ca.supply)})\n\n' \
+        f'{api.get_quote()}'
+    await interaction.followup.send(file=thumb, embed=embed)
+
+@client.tree.command(description="X7 Finance Countdown")
+async def countdown(interaction: discord.Interaction):
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
+    thumb = discord.File('X7whitelogo.png')
+    then = times.countdown.astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
+    duration = then - now
+    duration_in_s = duration.total_seconds()
+    days = divmod(duration_in_s, 86400)
+    hours = divmod(days[1], 3600)
+    minutes = divmod(hours[1], 60)
+    if duration < timedelta(0):
+        embed.description = \
+            f'**X7 Finance Countdown**\n\nNo countdown set, Please check back for more details' \
+            f'\n\n{api.get_quote()}'
+    else:
+        embed.description = \
+            f'**X7 Finance Countdown:**\n\n' \
+            f'{times.countdown_title}\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
+            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
+            f'{times.countdown_desc}' \
+            f'\n\n{api.get_quote()}'
     await interaction.followup.send(file=thumb, embed=embed)
 
 # CG COMMANDS

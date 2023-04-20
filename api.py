@@ -81,6 +81,15 @@ def get_holders(token):
     amount = data["holdersCount"]
     return amount
 
+def get_ath(token):
+    url = f"https://api.coingecko.com/api/v3/coins/{token}?localization=false&tickers=false&market_data=" \
+          "true&community_data=false&developer_data=false&sparkline=false"
+    response = requests.get(url)
+    data = response.json()
+    value = data["market_data"]
+    ath = value["ath"]["usd"]
+    return ath
+
 def get_quote():
     response = requests.get('https://type.fit/api/quotes')
     data = response.json()
