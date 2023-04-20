@@ -802,7 +802,7 @@ async def spaces(interaction: discord.Interaction):
         embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{api.get_quote()}'
         await interaction.response.send_message(file=thumb, embed=embed)
     else:
-        embed.description =\
+        embed.description = \
             f'Next X7 Finance Twitter space is:\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
             f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
             f'[Click here]({times.spaces_link}) to set a reminder!' \
@@ -1615,7 +1615,7 @@ async def countdown(interaction: discord.Interaction):
             f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
             f'{times.countdown_desc}' \
             f'\n\n{api.get_quote()}'
-    await interaction.followup.send(file=thumb, embed=embed)
+    await interaction.response.send_message(file=thumb, embed=embed)
 
 # CG COMMANDS
 @client.tree.command(description="X7DAO Info")
