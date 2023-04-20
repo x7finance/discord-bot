@@ -90,6 +90,25 @@ def get_ath(token):
     ath = value["ath"]["usd"]
     return ath
 
+
+def get_ath_change(token):
+    url = f"https://api.coingecko.com/api/v3/coins/{token}?localization=false&tickers=false&market_data=" \
+          "true&community_data=false&developer_data=false&sparkline=false"
+    response = requests.get(url)
+    data = response.json()
+    value = data["market_data"]
+    change = value["ath_change_percentage"]["usd"]
+    return change
+
+def get_ath_date(token):
+    url = f"https://api.coingecko.com/api/v3/coins/{token}?localization=false&tickers=false&market_data=" \
+          "true&community_data=false&developer_data=false&sparkline=false"
+    response = requests.get(url)
+    data = response.json()
+    value = data["market_data"]
+    date = value["ath_date"]["usd"]
+    return date
+
 def get_quote():
     response = requests.get('https://type.fit/api/quotes')
     data = response.json()
