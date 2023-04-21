@@ -1562,6 +1562,41 @@ async def countdown(interaction: discord.Interaction):
             f'\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
+@client.tree.command(description="X7 Finance Snapshot Voting")
+async def snapshot(interaction: discord.Interaction):
+    snapshot = api.get_snapshot()
+    end = datetime.utcfromtimestamp(snapshot["data"]["proposals"][0]["end"]).strftime('%Y-%m-%d %H:%M:%S')
+    start = datetime.utcfromtimestamp(snapshot["data"]["proposals"][0]["start"]).strftime('%Y-%m-%d %H:%M:%S')
+    then = datetime.utcfromtimestamp(snapshot["data"]["proposals"][0]["end"])
+    now = datetime.utcnow()
+    duration = then - now
+    duration_in_s = duration.total_seconds()
+    days = divmod(duration_in_s, 86400)
+    hours = divmod(days[1], 3600)
+    minutes = divmod(hours[1], 60)
+    print(snapshot)
+    if duration < timedelta(0):
+        countdown = "Vote Closed"
+        caption = "View"
+    else:
+        countdown = f'Vote Closing in: {int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n'
+        caption = "Vote"
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
+    thumb = discord.File('X7whitelogo.png')
+    embed.description = \
+        f'**X7 Finance Community Snapshot**\n\n' \
+        f'Latest Proposal:\n\n' \
+        f'{snapshot["data"]["proposals"][0]["title"]} by - ' \
+        f'{snapshot["data"]["proposals"][0]["author"][-5:]}\n\n' \
+        f'Voting Start: {start} UTC\n' \
+        f'Voting End:   {end} UTC\n\n' \
+        f'{countdown}\n\n' \
+        f'[{caption} Here]({url.snapshot}/proposal/{snapshot["data"]["proposals"][0]["id"]})'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
+
 # CG COMMANDS
 @client.tree.command(description="X7DAO Info")
 @app_commands.choices(chain=[

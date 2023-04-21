@@ -54,6 +54,7 @@ short_wp_link = 'https://x7community.space/wp-short.pdf'
 dac = 'http://shorturl.at/ehnr9'
 github = 'https://github.com/x7finance/'
 ca_directory = 'https://medium.com/@mikemurpher/x7-finance-contracts-directory-fe3a9fee7b3c'
+snapshot = "https://snapshot.org/#/x7community.eth"
 
 # OPENSEA
 os_eco = "https://opensea.io/collection/x7-ecosystem-maxi"
