@@ -1363,8 +1363,8 @@ async def deployer(interaction: discord.Interaction):
     duration = now - then
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
-    if deployer["result"][0]['to_address'] == "0x000000000000000000000000000000000000dEaD" or \
-            deployer["result"][0]['to_address'] == ca.deployer:
+    to_address = deployer["result"][0]['to_address']
+    if str(to_address).lower() == "0x000000000000000000000000000000000000dead":
         message = bytes.fromhex(api.get_tx(ca.deployer, "eth")["result"][0]["input"][2:]).decode('utf-8')
         embed.description = \
             '**X7 Finance DAO Founders**\n\n' \
@@ -1592,7 +1592,12 @@ async def snapshot(interaction: discord.Interaction):
         f'{snapshot["data"]["proposals"][0]["author"][-5:]}\n\n' \
         f'Voting Start: {start} UTC\n' \
         f'Voting End:   {end} UTC\n\n' \
-        f'{countdown}\n\n' \
+        f'{snapshot["data"]["proposals"][0]["choices"][0]} - ' \
+        f'{"{:0,.0f}".format(snapshot["data"]["proposals"][0]["scores"][0])} DAO Votes\n' \
+        f'{snapshot["data"]["proposals"][0]["choices"][1]} - ' \
+        f'{"{:0,.0f}".format(snapshot["data"]["proposals"][0]["scores"][1])} DAO Votes\n\n' \
+        f'{"{:0,.0f}".format(snapshot["data"]["proposals"][0]["scores_total"])} Total DAO Votes\n\n' \
+        f'{countdown}\n\n{api.get_quote()}' \
         f'[{caption} Here]({url.snapshot}/proposal/{snapshot["data"]["proposals"][0]["id"]})'
     await interaction.response.send_message(file=thumb, embed=embed)
 

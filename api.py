@@ -253,7 +253,8 @@ def get_native_price(token):
 def get_snapshot():
     url = 'https://hub.snapshot.org/graphql'
     query = {"query": "query { proposals ( first: 1, skip: 0, where: { space_in: [\"X7COMMUNITY.eth\"]}, "
-                      "orderBy: \"created\", orderDirection: desc ) { id title start end snapshot state author }}"}
+                      "orderBy: \"created\", orderDirection: desc ) { id title start end snapshot state choices "
+                      "scores scores_total author }}"}
     response = requests.get(url, query)
     data = response.json()
     return data
