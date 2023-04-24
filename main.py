@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-import tweepy
 import ca
 import keys
 import requests
@@ -16,6 +15,8 @@ import url
 import loans
 import nfts
 import tax
+from dateutil import parser
+
 
 # START
 class PersitentViewBot(commands.Bot):
@@ -769,30 +770,6 @@ async def swap(interaction: discord.Interaction):
     embed.description = f'**X7 Finance Xchange Info**\n\nhttps://app.x7.finance/#/swap\n\n{api.get_quote()}'
     await interaction.response.send_message(file=thumb, embed=embed)
 
-@client.tree.command(description="X7 Finance Twitter Spaces Info")
-async def spaces(interaction: discord.Interaction):
-    embed = discord.Embed(colour=7419530)
-    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-    embed.set_thumbnail(url='attachment://X7whitelogo.png')
-    thumb = discord.File('X7whitelogo.png')
-    then = times.spaces_time.astimezone(pytz.utc)
-    now = datetime.now(timezone.utc)
-    duration = then - now
-    duration_in_s = duration.total_seconds()
-    days = divmod(duration_in_s, 86400)
-    hours = divmod(days[1], 3600)
-    minutes = divmod(hours[1], 60)
-    if duration < timedelta(0):
-        embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
-    else:
-        embed.description = \
-            f'Next X7 Finance Twitter space is:\n\n{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
-            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
-            f'[Click here]({times.spaces_link}) to set a reminder!' \
-            f'\n\n{api.get_quote()}'
-        await interaction.response.send_message(file=thumb, embed=embed)
-
 @client.tree.command(description="Make a joke")
 async def joke(interaction: discord.Interaction):
     embed = discord.Embed(colour=7419530)
@@ -1042,22 +1019,6 @@ async def loans(interaction: discord.Interaction, terms: app_commands.Choice[str
             f'[Arbitrum]({url.arb_address}{ca.ill003})\n' \
             f'[Optimism]({url.ether_address}{ca.ill003})\n\n' \
             f'{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
-
-@client.tree.command(description="Latest X7 Finance Twitter Post")
-async def twitter(interaction: discord.Interaction):
-    embed = discord.Embed(colour=7419530)
-    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
-    embed.set_thumbnail(url='attachment://X7whitelogo.png')
-    thumb = discord.File('X7whitelogo.png')
-    auth = tweepy.OAuthHandler(keys.twitterapi, keys.secret)
-    auth.set_access_token(keys.access, keys.accesssecret)
-    username = '@x7_finance'
-    tweepy_client = tweepy.API(auth)
-    tweet = tweepy_client.user_timeline(screen_name=username, count=1)
-    embed.description = \
-        f'**Latest X7 Finance Tweet**\n\n{tweet[0].text}\n\n' \
-        f'{random.choice(text.twitter_replies)}\n'
     await interaction.response.send_message(file=thumb, embed=embed)
 
 @client.tree.command(description="X7 Finance Discount Info")
@@ -1600,7 +1561,6 @@ async def snapshot(interaction: discord.Interaction):
         f'{countdown}\n\n{api.get_quote()}' \
         f'[{caption} Here]({url.snapshot}/proposal/{snapshot["data"]["proposals"][0]["id"]})'
     await interaction.response.send_message(file=thumb, embed=embed)
-
 
 # CG COMMANDS
 @client.tree.command(description="X7DAO Info")
@@ -2484,6 +2444,52 @@ async def ath(interaction: discord.Interaction):
         f'{api.get_quote()}'
     await interaction.followup.send(file=thumb, embed=embed)
 
+# TWITTER COMMANDS
+@client.tree.command(description="X7 Finance Twitter Spaces Info")
+async def spaces(interaction: discord.Interaction):
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
+    thumb = discord.File('X7whitelogo.png')
+    response = api.twitter_bearer.get_spaces(user_ids=1561721566689386496)
+    data = str(response[0])
+    start = data.index('=')
+    end = data.index(' ', start)
+    space_id = data[start + 1:end]
+    space = api.get_space(space_id)
+    then = parser.parse(space["scheduled_start"]).astimezone(pytz.utc)
+    now = datetime.now(timezone.utc)
+    duration = then - now
+    duration_in_s = duration.total_seconds()
+    days = divmod(duration_in_s, 86400)
+    hours = divmod(days[1], 3600)
+    minutes = divmod(hours[1], 60)
+    if duration < timedelta(0):
+        embed.description = f'X7 Finance Twitter space\n\nPlease check back for more details\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+    else:
+        embed.description = \
+            f'Next X7 Finance Twitter space:\n\n' \
+            f'{space["title"]}\n\n' \
+            f'{then.strftime("%A %B %d %Y %I:%M %p")} (UTC)\n\n' \
+            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes\n\n' \
+            f'[Click here](https://twitter.com/i/spaces/{space_id}) to set a reminder!' \
+            f'\n\n{api.get_quote()}'
+        await interaction.response.send_message(file=thumb, embed=embed)
+
+@client.tree.command(description="Latest X7 Finance Twitter Post")
+async def twitter(interaction: discord.Interaction):
+    embed = discord.Embed(colour=7419530)
+    embed.set_footer(text="Trust no one, Trust code. Long live Defi")
+    embed.set_thumbnail(url='attachment://X7whitelogo.png')
+    thumb = discord.File('X7whitelogo.png')
+    username = '@x7_finance'
+    tweet = api.twitter.user_timeline(screen_name=username, count=1)
+    embed.description = \
+        f'**Latest X7 Finance Tweet**\n\n{tweet[0].text}\n\n' \
+        f'{random.choice(text.twitter_replies)}\n'
+    await interaction.response.send_message(file=thumb, embed=embed)
+
 # DISCORD COMMANDS
 @client.tree.command(description="Report user to moderators")
 async def report(interaction: discord.Interaction, username: str, reason: str):
@@ -2571,5 +2577,6 @@ async def on_message(new_message):
     if new_message.content == 'Trust no one':
         await new_message.channel.send('trust code!')
     await client.process_commands(new_message)
+
 
 client.run(keys.DISCORD_TOKEN)

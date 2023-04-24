@@ -5,6 +5,7 @@ import requests
 import random
 from datetime import datetime
 import nfts
+import tweepy
 
 
 def get_signers(wallet):
@@ -81,6 +82,16 @@ def get_holders(token):
     amount = data["holdersCount"]
     return amount
 
+def get_token_name(token):
+    url = 'https://api.ethplorer.io/getTokenInfo/' + token + keys.ethplorer
+    response = requests.get(url)
+    data = response.json()
+    if "name" not in data:
+        return "Unknown Token Name"
+    else:
+        name = data["name"]
+        return name
+
 def get_ath(token):
     url = f"https://api.coingecko.com/api/v3/coins/{token}?localization=false&tickers=false&market_data=" \
           "true&community_data=false&developer_data=false&sparkline=false"
@@ -89,7 +100,6 @@ def get_ath(token):
     value = data["market_data"]
     ath = value["ath"]["usd"]
     return ath
-
 
 def get_ath_change(token):
     url = f"https://api.coingecko.com/api/v3/coins/{token}?localization=false&tickers=false&market_data=" \
@@ -258,3 +268,24 @@ def get_snapshot():
     response = requests.get(url, query)
     data = response.json()
     return data
+
+def get_abi(contract):
+    url = f"https://api.etherscan.io/api?module=contract&action=getsourcecode&address=" + contract + keys.ether
+    response = requests.get(url)
+    data = response.json()
+    result = data["result"][0]["ABI"]
+    return result
+
+
+# TWITTER
+auth = tweepy.OAuthHandler(keys.twitterapi, keys.secret)
+auth.set_access_token(keys.access, keys.accesssecret)
+twitter = tweepy.API(auth)
+twitter_bearer = tweepy.Client(keys.bearer)
+
+def get_space(space_id):
+    url = f"https://api.twitter.com/2/spaces/{space_id}?space.fields=scheduled_start,title"
+    headers = {"Authorization": "Bearer {}".format(keys.bearer), "User-Agent": "v2SpacesLookupPython"}
+    responses = requests.request("GET", url, headers=headers)
+    result = responses.json()
+    return result["data"]
