@@ -1,10 +1,162 @@
+# TEXT
+import times
+multi_sig = '*Community Multi-sig Weekly Update - 4.21.2023*\n\n' \
+            '`Multi-sig team reporting for duty! The community leaders have been hard at work building out formal ' \
+            'reporting structures, roles, and responsibilities behind the scenes. Over the past few months, ' \
+            'we have compartmentalized the mod team at large into discrete groups. These groups are:\n\n' \
+            '-Sales (headed by @gazuga )\n' \
+            '-Community Socials (headed by Phlux)\n' \
+            '-Marketing (headed by @cryptod0c /Rob)\n' \
+            '-Technology (headed by @Adz1DoubleD )\n\n' \
+            'Additionally, each mod is aligned with a specific vertical. For example, @MikeMurpher is in the ' \
+            '"Technology" division. In addition to clearly delineating roles and responsibilities, we have ' \
+            'allocated a monthly budget for each division leader to use as they see fit. Each budget ranges ' \
+            'from $500 - 2,000, although budgets are not received in advance and are consumed throughout the ' \
+            'month as needed. Therefore, many budgets are not used entirely. Our budgeting has been based on the ' \
+            'average amount of trading volume funneling through to the multi-sig and we have adequate runway to ' \
+            'support our operations. Additionally, any excess Eth has been minted for X7D until it ' \
+            'needs to be redeemed and used elsewhere.\n\n' \
+            'Each division leader could provide a robust update just for themselves, and going forward we will ' \
+            'try to share more detail around the projects that each person is working on. Some of these ' \
+            'projects are self-evident, like the giveaways and promotions run by Phlux or the Snapshot.org voting ' \
+            'set up by Adz. Others are less apparent, like the dozens and dozens of private TG chats juggled ' \
+            'behind the scenes by Mark.\n\n' \
+            'We are excited to bring a new level of formality to our work and are honored and humbled to continue ' \
+            'building the most badass community in DeFi!`'
+mods_only = "You do not have permission to do this. #trustnoone"
+mods = '@robthebank44 @Adz1doubleD @CoastCorn @cryptod0c @Phlux @SlumdOg_shillionaire2022 @DallasX7 ' \
+       '@gazuga @Gavalars @MikeMurpher @KBCrypto11\n\nMODS ASSEMBLE!'
+commands = '/about - Welcome to X7 Finance\n' \
+           '/ecosystem - Token Overview\n' \
+           '/links - Official Links\n' \
+           '/dashboard - X7 Finance community dashboard\n' \
+           '/twitter - Latest X7 Finance tweet\n' \
+           '/swap - Xchange DEX Info\n' \
+           '/roadmap - Whats coming next\n' \
+           '/website - Official Website\n' \
+           '/x7r - X7R Info\n' \
+           '/x7dao - X7DAO Info\n' \
+           '/x7d  - X7Deposit Info\n' \
+           '/x7101 - X7101 Info\n' \
+           '/x7102 - X7102 Info\n' \
+           '/x7103 - X7103 Info\n' \
+           '/x7104 - X7104 Info\n' \
+           '/x7105 - X7105 \n' \
+           '/constellations - X7 Constellation Info\n' \
+           '/buyevenly - A Guide to buying constellation series evenly\n' \
+           '/contract - Token Contract Addresses\n' \
+           '/chart - Chart Links\n' \
+           '/price - [any-token]  CG Price Info\n' \
+           '/buy - Buy Links\n' \
+           '/wp - Whitepaper\n' \
+           '/tax - Token Tax and Slippage Info\n' \
+           '/mcap - Market Cap Info\n' \
+           '/liquidity - Liquidity Info\n' \
+           '/treasury - Treasury Details\n' \
+           '/pool - Lending Pool Info\n' \
+           '/magisters - Track Magister Holders\n' \
+           '/signers - List of X7 Signer Wallets\n' \
+           '/loans - Loan Term Info\n' \
+           '/burn - X7R Burn \n' \
+           '/holders - Token Holder Info\n' \
+           '/airdrop - Airdrop/Snapshot Info\n' \
+           '/nft - NFT Details\n' \
+           '/opensea - Opensea Links\n' \
+           '/pioneer -  [token-id] Pioneer NFT Stats\n' \
+           '/discount - discount committee NFT Info\n' \
+           '/smart - Smart Contract Details\n' \
+           '/faq - X7 Finance FAQs\n' \
+           '/deployer  - X7 Finance Deployer Info\n' \
+           '/community  - X7 Community Info\n' \
+           '/withdraw  - How to withdraw X7D\n' \
+           '/giveaway - Giveaway Details\n' \
+           '/spaces  - Twitter Space Info\n' \
+           '/gas - Gas Info\n' \
+           '/wei - amount convert to ETH\n' \
+           '/fg - Market fg Info\n' \
+           '/time - World Time Info\n' \
+           '/search - [keyword] Search the web\n' \
+           '/joke - Tell a joke\n' \
+           '/quote - Inspirational quote\n' \
+           '/today - On this day in history\n' \
+           '/say - Text to speech\n' \
+           '/channels - List of X7 Finance Community TG Channels\n' \
+           '/announcements - X7 Finance Announcements TG Channel\n' \
+           '/media - TG Stickers and Emojis\n' \
+           '/bobby - Bobby BuyBot Channels\n' \
+           '/alumni - X7 Finance Alumni\n'
+delay = "To ensure our code is trusted and that the release is flawless, X7\'s " \
+        'Leveraged DEX trading will not begin until we have published third party ' \
+        'security audits. In the meantime, our Stochastic Topological Offensive ' \
+        'Penetration, Probing, and Exploitation Researcher, STOPPER, has been ' \
+        'executing millions of transactions on our private test network to ensure ' \
+        'no edge case is missed.\n\n' \
+        '`A delayed game is eventually good, a bad game is bad forever.\n\n' \
+        '- Shigeru Miyamoto`'
+patience = '`Patience is bitter, but its fruit is sweet.\n\n- Aristotle`'
+rob = '`Rob The Bank (an outstanding community member and marketer)`\n\n`-X7 DAO founders`'
+admin_commands = 'To be run in main chat\n\n' \
+                '/settings - Open the setting menu\n' \
+                '/setup - Setup the portal\n' \
+                '/difficulty - Set the CAPTCHA difficulty\n' \
+                '/antiflood - (Dis)Enable anti-flood mode\n' \
+                '/lock all - mutes chat\n' \
+                '/unlock all - unmute chat\n' \
+                '/start_auto [name-one-word] [time-in-minutes] [message] \n' \
+                '/stop_auto [name]\n' \
+                '/view_auto\n\n' \
+                f'wp quote will trigger every {times.wp_time} hour\n'
+ecosystem = '*X7 Finance Ecosystem*\n\n• *X7R*\nX7\'s original launched token. Hodl as a percentage of all ' \
+        'transaction fees are used to buy and burn tokens, reducing total supply of available tokens.\n\n' \
+        '• *X7DAO*\nHolders of X7DAO tokens will be able to vote on fee rates, loan terms, funding terms, ' \
+        'tradable token tax terms, distribution of capital flows and any additional settings on and off chain. ' \
+        'This includes the establishment of committees and other foundational efforts off chain.\n\n' \
+        '• *X7100 Constellation (X7101 - X7105)*\n' \
+        'A novel - eventually price consistent collection of five tokens. These act as the backstop to the ' \
+        'Lending Pool. The X7100 series of tokens are burned on every transaction. While continually raising its ' \
+        'floor price - it also provides further opportunities to mint new X7Deposit tokens.\n\n' \
+        '• *X7 NFTs*\nNFTs within the ecosystem will be used to provide opportunities for staking, lending, ' \
+        'discounts, rewards, access to higher governance privileges & much more.\n\n' \
+        '• *X7Deposit*\nWith insurance of the investor at heart - individuals and ' \
+        'institutions will hold these tokens ' \
+        'just as they would underwrite treasury bills and other stable assets. Holders of X7D will be able to ' \
+        'mint a time-based interest-bearing NFT. X7D is always exchangeable with Ethereum at a 1-to-1 ratio.\n' \
+        'The X7 Finance protocol will only permit minting of new X7 Deposit tokens when on-chain reserves permit.'
+about = '*Welcome to X7 Finance*\n\nX7 is an ecosystem of innovative smart contracts that provide those with ' \
+        'visionary ideas access to leveraged seed capital (e.g. Initial Liquidity Offerings, or ILOs) without ' \
+        'lenders incurring the risk of losing the principal. This invention has massive implications not just ' \
+        'for our users, but for all of DeFi \n\n' \
+        '• At its core, leveraged ILOs means anyone with a good idea can raise 10-1000X the amount of Eth in ' \
+        'their wallet to launch projects on XChange, our world-class DEX.\n\n' \
+        '• Over time, the network effect of product launches will result in billions of dollars in trading ' \
+        'volume on our Decentralized Exchange.\n\n' \
+        '• The protocol will extend to other use case including but not limited to lending/borrowing, leveraged ' \
+        'trading, liquidity locks, & more.\n\n' \
+        '• A novel DAO governance structure + IPFS website ensures complete decentralization and ' \
+        'censorship-resistance. #LongLiveDefi\n\n' \
+        '• Our Telegram and Twitter are community-run, in the spirit of decentralization\n\n' \
+        '• We will consider this project a success once it captures at least 1% of the $100b daily trading ' \
+        'volume on Eth.\n\n' \
+        '• There are many innovative technical and governance applications in this platform so we encourage you ' \
+        'to dig and hop on this rocket ship!\n\n' \
+        'As the first Initial Leveraged Liquidity DEX to launch Developers will be able to borrow initial liquidity ' \
+        'to launch with for a small fee. This means projects ' \
+        'can launch with more liquidity and will be very attractive for investors at the beginning.\n\n• The ' \
+        'amount you will be able to borrow, depends on how much your capital is. The more you have, the more ' \
+        'you will be able to borrow from the Lending Pool.\n\n• This is like a decentralized Bank on the ' \
+        'Blockchain. Borrowing money for new projects without a risk, that profits everyone.\n\n• Everyone will be ' \
+        'able to loan to the Lending Pool. Lock your ETH in the Lending Pool for 1 month RISK FREE and gain a ' \
+        'specific %  as reward on top of that when ' \
+        'claiming that back (Just for example). This in turn makes the Lending Pool more liquid and helps with' \
+        ' its growth and success.\n\n• All profit from the DEX, goes back into the ecosystem (Tokens, Lending ' \
+        f'Pool, Future Development etc.). Pumping your bag!\n\n' \
+        f'`"X7’s founding team believes that capital should be available to those with great ideas and that the ' \
+        'unflinching reliability of code and distributed consensus can provide capital while eliminating ' \
+        'significant downside risk."\n\n- X7DAO Founding Team`'
 twitter_replies = ["Raid!", "LFG", "Send it!", "Twitter raid!", "Like and Retweet!", "GO GO GO!", "X7 Force!",
                    "Raid it Fam!", 'Blow it up!', "Full force!", "Light it up!", "Shill time!", "Smash it!", "Slap it!",
                    "Send it!", "If Phlux says it, You do it!", "Phlux it up!", "Full Send!", "Hit it Hard!",
                    "Insert inspirational raid quote here!", "Let them know!", "RAIIIIIIIIIID", "Tweet Twoooo"]
-
-mods_only = "You do not have permission to do this. #trustnoone"
-
 quotes = [
     "Ethos\n\nX7’s founding team believes that capital should be available to those with great ideas and that the "
     "unflinching reliability of code and distributed consensus can provide capital while eliminating significant "
@@ -349,3 +501,12 @@ quotes = [
     " configurable or alternative automated marketing making capabilities\n● Non-native token (ETH, BNB, etc.) "
     "initial liquidity loans\n",
     ]
+ws1 = 0.85
+ws2 = 0.20
+ws3 = 0.75
+ws4 = 0.15
+ws5 = 0.00
+ws6 = 0.00
+ws7 = 0.80
+ws8 = 0.45
+ws9 = 0.75

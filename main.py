@@ -17,7 +17,6 @@ import nfts
 import tax
 from dateutil import parser
 
-
 # START
 class PersitentViewBot(commands.Bot):
     def __init__(self):
@@ -473,7 +472,8 @@ async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = 
                             f'Pioneers Unlocked: {traits}\n\n' \
                             f'Pioneer Pool: {pioneer_pool[:3]} ETH (${"{:0,.0f}".format(total_dollar)})\n\n' \
                             f'[Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-                            f'[Opensea](https://opensea.io/collection/x7-pioneer) \n\n' \
+                            f'[Blur Marketplace](https://blur.io/collection/x7-pioneer?traits=%7B%22' \
+                            f'Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D) \n\n' \
                             f'{api.get_quote()}'
     else:
         baseurl = "https://api.opensea.io/api/v1/asset/"
@@ -487,8 +487,8 @@ async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = 
         embed.description = f'**X7 Pioneer {pioneer_id} NFT info**\n\n' \
                             f'Transfer Lock Status: {status}\n\n' \
                             f'[Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-                            f'[Opensea](https://opensea.io/assets/ethereum/0x70000299ee8910ccacd97b1bb560e34f49c9e' \
-                            f'4f7/{pioneer_id})'
+                            f'[Opensea](https://blur.io/collection/x7-pioneer?traits=%7B%22' \
+                            f'Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D)'
         embed.set_image(url=picture)
     await interaction.followup.send(file=thumb, embed=embed)
 
@@ -551,46 +551,22 @@ async def burn(interaction: discord.Interaction, chain: app_commands.Choice[str]
 
 @client.tree.command(description="Roadmap Info")
 async def roadmap(interaction: discord.Interaction):
+    await interaction.response.defer()
     embed = discord.Embed(colour=7419530)
     embed.set_footer(text="Trust no one, Trust code. Long live Defi")
     embed.set_thumbnail(url='attachment://X7whitelogo.png')
     thumb = discord.File('X7whitelogo.png')
-    embed.description = f'**X7 Finance Roadmap**\n\n' \
-                        f'Devs are making incremental final progress against all ecosystem deliverables, we expect ' \
-                        f'the following order of delivery:\n\n' \
-                        f'1. Whitepaper ✅\n' \
-                        f'2. Pioneer NFT & Reward Pool ✅\n' \
-                        f'3. DEX and Leveraged Initial Liquidity:\n' \
-                        f'3.1. X7D token contract ✅\n' \
-                        f'3.2. A gnosis multi-sig wallet that will be used to manage the X7D token ownership' \
-                        f' prior to DAO control turnover ✅\n' \
-                        f'3.3. Lending pool reserve contract ✅\n' \
-                        f'3.4. v1 lending pool contract ✅\n' \
-                        f'3.5. First three Loan Term NFT contracts ✅\n' \
-                        f'3.6. Lending Pool Discount Authority contract ✅\n' \
-                        f'3.7. XchangeFactory and XchangePair contracts ✅\n' \
-                        f'3.8. V1 XchangeRouter ✅\n' \
-                        f'3.9. V1 XchangeOmniRouter, ✅\n' \
-                        f'4. Lender dApp 🔄\n' \
-                        f'5. X7D minting ✅\n' \
-                        f'6. X7D staking 🔄\n' \
-                        f'7. X7D dApp 🔄\n' \
-                        f'8. Governance contracts 🔄\n' \
-                        f'9. Governance dApp 🔄\n' \
-                        f'X. Initial DAO control turnover 🔄\n\n' \
-                        f'In addition to the above development milestones, the following additional deliveries ' \
-                        f'can be expected:\n\n' \
-                        f'**Marketing Materials:**\n' \
-                        f'> Investor deck / summary\n' \
-                        f'> Prettified ecosystem diagrams and explanations\n\n' \
-                        f'**Development Tooling and Documentation:**\n' \
-                        f'> Technical design document for all smart contracts\n' \
-                        f'> Smart contract trust diagram\n' \
-                        f'> Technical User Guide for DAO interactions\n' \
-                        f'> Integration Guide for third party integrations\n' \
-                        f'> Open sourced SDKs for smart contract interactions\n' \
-                        f'> Open sourced testing and development tooling\n\n{api.get_quote()}'
-    await interaction.response.send_message(file=thumb, embed=embed)
+    embed.description = f'**X7 Finance Work Stream Status**\n\n' \
+                        f'WS 1 WS1: Omni routing (multi dex routing "library" code) - {text.ws1*100}% \n\n' \
+                        f'WS2: Omni routing (UI) - {text.ws2*100}% \n\n' \
+                        f'WS3: Borrowing UI - {text.ws3*100}% \n\n' \
+                        f'WS4: Lending and Liquidation UI - {text.ws4*100}% \n\n' \
+                        f'WS5: DAO smart contracts - {text.ws5*100}% \n\n' \
+                        f'WS6: X7 DAO UI - {text.ws6*100}%\n\n' \
+                        f'WS7: Marketing "Pitch Deck" - {text.ws7*100}%\n\n' \
+                        f'WS8: Decentralization in hosting - {text.ws8*100}%\n\n' \
+                        f'WS9: Developer Tools and Example Smart Contracts - {text.ws9*100}%\n\n{api.get_quote()}'
+    await interaction.followup.send(file=thumb, embed=embed)
 
 @client.tree.command(description="X7 Finance Lending Pool info")
 @app_commands.choices(chain=[
@@ -729,8 +705,7 @@ async def opensea(interaction: discord.Interaction, chain: app_commands.Choice[s
                             '[Liquidity Maxi](https://opensea.io/collection/x7-liquidity-maxi)\n' \
                             '[DEX Maxi](https://opensea.io/collection/x7-dex-maxi)\n' \
                             '[Borrowing Maxi](https://opensea.io/collection/x7-borrowing-max)\n' \
-                            '[Magister](https://opensea.io/collection/x7-magister)\n' \
-                            f'[Pioneer](https://opensea.io/collection/x7-pioneer)\n\n{api.get_quote()}'
+                            '[Magister](https://opensea.io/collection/x7-magister)\n\n{api.get_quote()}'
     if chain.value == "bsc":
         embed.description = '**X7 Finance Opensea links (BSC)**\n\n' \
                             '[Ecosystem Maxi](https://opensea.io/collection/x7-ecosystem-maxi-binance)\n' \
@@ -1316,20 +1291,27 @@ async def deployer(interaction: discord.Interaction):
     thumb = discord.File('X7whitelogo.png')
     deployer = api.get_tx(ca.deployer, "eth")
     date = deployer["result"][0]["block_timestamp"].split("-")
+    time = deployer["result"][0]["block_timestamp"].split(":")
     year = int(date[0])
     month = int(date[1])
     day = int(date[2][:2])
+    hour = int(time[0][-2:])
+    minute = int(time[1])
+    then = datetime(year, month, day, hour, minute)
     then = datetime(year, month, day)
     now = datetime.now()
     duration = now - then
     duration_in_s = duration.total_seconds()
     days = divmod(duration_in_s, 86400)
+    hours = divmod(days[1], 3600)
+    minutes = divmod(hours[1], 60)
     to_address = deployer["result"][0]['to_address']
     if str(to_address).lower() == "0x000000000000000000000000000000000000dead":
         message = bytes.fromhex(api.get_tx(ca.deployer, "eth")["result"][0]["input"][2:]).decode('utf-8')
         embed.description = \
             '**X7 Finance DAO Founders**\n\n' \
-            f'Deployer Wallet last TX -  {int(days[0])} days ago:\n\n' \
+            f'Deployer Wallet last TX' \
+            f'{int(days[0])} days, {int(hours[0])} hours and {int(minutes[0])} minutes ago:\n\n' \
             f'`{message}`' \
             f'{url.ether_tx}{deployer["result"][0]["hash"]}'
     else:
@@ -2152,18 +2134,19 @@ async def treasury(interaction: discord.Interaction, chain: app_commands.Choice[
         pioneer_dollar = float(pioneer_eth) * float(api.get_native_price("eth")) / 1 ** 18
         com_x7r = api.get_token_balance(ca.com_multi_eth, "eth", ca.x7r)
         com_x7r_price = com_x7r * api.get_cg_price("x7r")["x7r"]["usd"]
+        com_x7dao = api.get_token_balance(ca.com_multi_eth, "eth", ca.x7dao)
+        com_x7dao_price = com_x7dao * api.get_cg_price("x7dao")["x7dao"]["usd"]
         com_x7d = api.get_token_balance(ca.com_multi_eth, "eth", ca.x7d)
         com_x7d_price = com_x7d * api.get_native_price("eth")
         com_total = com_x7r_price + com_dollar + com_x7d_price
         embed.description = \
             f'**X7 Finance Treasury Info (ETH)**\n\n' \
             f'Pioneer Pool:\n{pioneer_eth[:4]}ETH (${"{:0,.0f}".format(pioneer_dollar)})\n\n' \
-            f'[Developer Wallet:]({url.ether_address}{ca.dev_multi_eth})\n' \
-            f'{dev_eth[:4]}ETH (${"{:0,.0f}".format(dev_dollar)})\n\n' \
-            f'[Community Wallet:]({url.ether_address}{ca.com_multi_eth})\n' \
-            f'{com_eth[:4]}ETH (${"{:0,.0f}".format(com_dollar)})\n' \
-            f'{com_x7r} X7R (${"{:0,.0f}".format(com_x7r_price)})\n' \
+            f'Developer Wallet:\n{dev_eth[:4]}ETH (${"{:0,.0f}".format(dev_dollar)})\n\n' \
+            f'Community Wallet:\n{com_eth[:4]}ETH (${"{:0,.0f}".format(com_dollar)})\n' \
             f'{com_x7d} X7D (${"{:0,.0f}".format(com_x7d_price)})\n' \
+            f'{"{:0,.0f}".format(com_x7r)} X7R (${"{:0,.0f}".format(com_x7r_price)})\n' \
+            f'{"{:0,.0f}".format(com_x7dao)} X7DAO (${"{:0,.0f}".format(com_x7dao_price)})\n' \
             f'Total: (${"{:0,.0f}".format(com_total)})\n\n' \
             f'[Treasury Splitter Contract]({url.ether_address}{ca.treasury_splitter})\n\n' \
             f'{api.get_quote()}'
