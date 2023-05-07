@@ -501,10 +501,10 @@ quotes = [
     " configurable or alternative automated marketing making capabilities\n● Non-native token (ETH, BNB, etc.) "
     "initial liquidity loans\n",
     ]
-ws1 = 0.85
+ws1 = 0.90
 ws2 = 0.20
 ws3 = 0.75
-ws4 = 0.15
+ws4 = 0.40
 ws5 = 0.00
 ws6 = 0.00
 ws7 = 0.80

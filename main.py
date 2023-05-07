@@ -557,7 +557,7 @@ async def roadmap(interaction: discord.Interaction):
     embed.set_thumbnail(url='attachment://X7whitelogo.png')
     thumb = discord.File('X7whitelogo.png')
     embed.description = f'**X7 Finance Work Stream Status**\n\n' \
-                        f'WS 1 WS1: Omni routing (multi dex routing "library" code) - {text.ws1*100}% \n\n' \
+                        f'WS1: Omni routing (multi dex routing "library" code) - {text.ws1*100}% \n\n' \
                         f'WS2: Omni routing (UI) - {text.ws2*100}% \n\n' \
                         f'WS3: Borrowing UI - {text.ws3*100}% \n\n' \
                         f'WS4: Lending and Liquidation UI - {text.ws4*100}% \n\n' \
