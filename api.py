@@ -276,6 +276,7 @@ def get_abi(contract):
     result = data["result"][0]["ABI"]
     return result
 
+
 # TWITTER
 auth = tweepy.OAuthHandler(keys.twitterapi, keys.secret)
 auth.set_access_token(keys.access, keys.accesssecret)

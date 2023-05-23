@@ -851,15 +851,7 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
             '**X7D Info (ETH)**\n\n' \
             f'Supply: {supply[:5]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
             f'Holders: {holders}\n\n' \
-            f'To receive X7D:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Reserve Contract:\n' \
-            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
-            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
-            'Note:\n' \
-            'Do not interact directly with the X7D contract\n' \
-            'Do not send from CEX\n\n' \
+            f'[X7D Funding Dashboard](https://beta.x7.finance/#/fund)\n'\
             f'[X7 Lending Pool Reserve Contract]({url.ether_address}{ca.lpool_reserve})\n'\
             f'[X7D Contract]({url.ether_address}{ca.x7d})\n\n'\
             f'`{api.get_quote()}'
@@ -868,16 +860,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
         x7d_dollar = float(supply) * float(api.get_native_price("bnb")) / 1 ** 18
         embed.description = \
             '**X7D Info (BSC)**\n\n' \
-            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
-            f'To receive X7D:\n\n' \
-            '1. Send BNB (Not Swap) to the Lending Pool Contract:\n' \
-            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
-            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-            'You will receive X7D in your wallet which has a 1:1 price X7D:BNB\n\n' \
-            'Note:\n' \
-            'Do not interact directly with the X7D contract\n' \
-            'Do not send from CEX\n\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n\n' \
+            f'[X7D Funding Dashboard](https://beta.x7.finance/#/fund)\n'\
             f'[X7 Lending Pool Reserve Contract]({url.bsc_address}{ca.lpool_reserve})\n' \
             f'[X7D Contract]({url.bsc_address}{ca.x7d})\n\n' \
             f'`{api.get_quote()}'
@@ -886,16 +870,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
         x7d_dollar = float(supply) * float(api.get_native_price("matic")) / 1 ** 18
         embed.description = \
             '**X7D Info (POLYGON)**\n\n' \
-            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
-            f'To receive X7D:\n\n' \
-            '1. Send MATIC (Not Swap) to the Lending Pool Contract:\n' \
-            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
-            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-            'You will receive X7D in your wallet which has a 1:1 price X7D:MATIC\n\n' \
-            'Note:\n' \
-            'Do not interact directly with the X7D contract\n' \
-            'Do not send from CEX\n\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n\n' \
+            f'[X7D Funding Dashboard](https://beta.x7.finance/#/fund)\n'\
             f'[X7 Lending Pool Reserve Contract]({url.poly_address}{ca.lpool_reserve})\n' \
             f'[X7D Contract]({url.poly_address}{ca.x7d})\n\n' \
             f'`{api.get_quote()}'
@@ -904,16 +880,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
         x7d_dollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
             '**X7D Info (ETH)**\n\n' \
-            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
-            f'To receive X7D:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
-            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
-            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
-            'Note:\n' \
-            'Do not interact directly with the X7D contract\n' \
-            'Do not send from CEX\n\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n\n' \
+            f'[X7D Funding Dashboard](https://beta.x7.finance/#/fund)\n'\
             f'[X7 Lending Pool Reserve Contract]({url.arb_address}{ca.lpool_reserve})\n' \
             f'[X7D Contract]({url.arb_address}{ca.x7d})\n\n' \
             f'`{api.get_quote()}'
@@ -922,16 +890,8 @@ async def x7d(interaction: discord.Interaction, chain: app_commands.Choice[str])
         x7d_dollar = float(supply) * float(api.get_native_price("eth")) / 1 ** 18
         embed.description = \
             '**X7D Info (OPTIMISM)**\n\n' \
-            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n' \
-            f'To receive X7D:\n\n' \
-            '1. Send ETH (Not Swap) to the Lending Pool Contract:\n' \
-            '`0x7Ca54e9Aa3128bF15f764fa0f0f93e72b5267000`\n\n' \
-            '2. Import the X7D contract address to your custom tokens in your wallet to see your tokens:\n' \
-            '`0x7D000a1B9439740692F8942A296E1810955F5000`\n\n' \
-            'You will receive X7D in your wallet which has a 1:1 price X7D:ETH\n\n' \
-            'Note:\n' \
-            'Do not interact directly with the X7D contract\n' \
-            'Do not send from CEX\n\n' \
+            f'Supply: {supply[:4]} X7D (${"{:0,.0f}".format(x7d_dollar)})\n\n' \
+            f'[X7D Funding Dashboard](https://beta.x7.finance/#/fund)\n'\
             f'[X7 Lending Pool Reserve Contract]({url.opti_address}{ca.lpool_reserve})\n' \
             f'[X7D Contract]({url.opti_address}{ca.x7d})\n\n' \
             f'`{api.get_quote()}'
