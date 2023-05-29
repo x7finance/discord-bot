@@ -450,8 +450,7 @@ async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = 
     thumb = discord.File('X7whitelogo.png')
     if not pioneer_id:
         data = api.get_os_nft("/x7-pioneer")
-        floor = (data["collection"]["stats"]["floor_price"])
-        floor_dollar = floor * float(api.get_native_price("eth")) / 1 ** 18
+        floor = api.get_nft_floor(ca.pioneer, "?chain=eth-main")
         floor_dollar = floor * float(api.get_native_price("eth")) / 1 ** 18
         traits = data["collection"]["traits"]["Transfer Lock Status"]["unlocked"]
         cap = round(data["collection"]["stats"]["market_cap"], 2)
@@ -471,9 +470,12 @@ async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = 
                             f'Number of Owners: {owners}\n' \
                             f'Pioneers Unlocked: {traits}\n\n' \
                             f'Pioneer Pool: {pioneer_pool[:3]} ETH (${"{:0,.0f}".format(total_dollar)})\n\n' \
-                            f'[Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-                            f'[Blur Marketplace](https://blur.io/collection/x7-pioneer?traits=%7B%22' \
-                            f'Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D) \n\n' \
+                            f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
+                            f'[LooksRare](https://looksrare.org/collections/{ca.pioneer}?filters=%7B%22attributes' \
+                            f'%22%3A%5B%7B%22traitType%22%3A%22Transfer+Lock+Status%22%2C%22values' \
+                            f'%22%3A%5B%22Unlocked%22%5D%7D%5D%7D)\n' \
+                            f'[Blur.io](https://blur.io/collection/x7-pioneer' \
+                            f'?traits=%7B%22Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D) \n\n' \
                             f'{api.get_quote()}'
     else:
         baseurl = "https://api.opensea.io/api/v1/asset/"
@@ -486,9 +488,12 @@ async def pioneer(interaction: discord.Interaction, pioneer_id: Optional[str] = 
         picture = single_data["image_url"]
         embed.description = f'**X7 Pioneer {pioneer_id} NFT info**\n\n' \
                             f'Transfer Lock Status: {status}\n\n' \
-                            f'[Dashboard](https://x7.finance/x/nft/pioneer)\n' \
-                            f'[Opensea](https://blur.io/collection/x7-pioneer?traits=%7B%22' \
-                            f'Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D)'
+                            f'[X7 Pioneer Dashboard](https://x7.finance/x/nft/pioneer)\n' \
+                            f'[LooksRare](https://looksrare.org/collections/{ca.pioneer}?filters=%7B%22attributes' \
+                            f'%22%3A%5B%7B%22traitType%22%3A%22Transfer+Lock+Status%22%2C%22values' \
+                            f'%22%3A%5B%22Unlocked%22%5D%7D%5D%7D)\n' \
+                            f'[Blur.io](https://blur.io/collection/x7-pioneer' \
+                            f'?traits=%7B%22Transfer%20Lock%20Status%22%3A%5B%22Unlocked%22%5D%7D)'
         embed.set_image(url=picture)
     await interaction.followup.send(file=thumb, embed=embed)
 

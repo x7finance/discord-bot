@@ -151,6 +151,12 @@ def get_nft_price(nft, chain):
         return nfts.eco_price_arb, nfts.liq_price_arb, nfts.borrow_price_arb, nfts.dex_price_arb, \
             nfts.magister_price_arb
 
+def get_nft_floor(nft, chain):
+    url = 'https://api.blockspan.com/v1/collections/contract/' + nft + chain
+    response = requests.get(url, headers={"accept": "application/json", "X-API-KEY": keys.blockspan})
+    data = response.json()
+    return data["exchange_data"][0]["stats"]["floor_price"]
+
 def get_token_balance(wallet, chain, token):
     if chain == "eth":
         url = 'https://api.etherscan.io/' \
